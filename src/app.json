@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/course/main",
+    "pages/profile/main",
+    
+    "pages/teachers/main",
+    "pages/students/main",
+    "pages/stu_detail/main",
+    "pages/tech_detail/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "明星家教",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar":{
+    "color":"#777777",
+    "selectedColor":"#4192f7",
+    "backgroundColor":"#fafafa",
+    "borderStyle":"white",
+    "list":[{
+      "pagePath":"pages/index/main",
+      "text":"首页",
+      "iconPath":"static/img/home0.png",
+      "selectedIconPath":"static/img/home1.png"
+
+    },{
+      "pagePath":"pages/teachers/main",
+      "text":"找老师",
+      "iconPath":"static/img/teacher00.png",
+      "selectedIconPath":"static/img/teacher01.png"
+    },{
+      "pagePath":"pages/students/main",
+      "text":"找学生",
+      "iconPath":"static/img/stu10.png",
+      "selectedIconPath":"static/img/stu11.png"
+    },{
+      "pagePath":"pages/profile/main",
+      "text":"我的",
+      "iconPath":"static/img/profile00.png",
+      "selectedIconPath":"static/img/profile01.png"
+    }]
+  }
+}
+

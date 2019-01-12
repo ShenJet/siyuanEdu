@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/teachers/main",
+    "pages/students/main",
+    "pages/profile/main"
+    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "思元家教",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar":{
+    "color":"#777777",
+    "selectedColor":"#4192f7",
+    "backgroundColor":"#fafafa",
+    "borderStyle":"white",
+    "list":[{
+      "pagePath":"pages/index/main",
+      "text":"首页"
+    },{
+      "pagePath":"pages/teachers/main",
+      "text":"找老师"
+    },{
+      "pagePath":"pages/students/main",
+      "text":"找学生"
+    },{
+      "pagePath":"pages/profile/main",
+      "text":"我的"
+    }]
+  }
+}

@@ -34,7 +34,7 @@ module.exports = async (ctx, next) => {
                     code:"ZUTUAN_GOODSCOUNT_LIMITED",
                     data:null,
                     success:false,
-                    msg:"商品数量超限，请适当删除旧商品"
+                    msg:"最多发布10个商品，请适当删除旧商品"
                 }
             }
             // <=10的话：更新goodslist字段，并向帮主商品表插入新商品
@@ -48,6 +48,7 @@ module.exports = async (ctx, next) => {
             await mysql('t_product_zutuan').insert({
                 _id,
                 ...params,
+                openid,
                 uploadUser:openid,
                 origin:'bangzhu',
                 uploaderRole:'bangzhu',
@@ -81,6 +82,7 @@ module.exports = async (ctx, next) => {
                 await mysql('t_product_zutuan').insert({
                     _id,
                     ...params,
+                    openid,
                     uploadUser: openid,
                     origin:'user',
                     uploaderRole:'user',

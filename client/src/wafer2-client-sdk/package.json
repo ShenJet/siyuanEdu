@@ -1,0 +1,18 @@
+{
+  "name": "wafer2-client-sdk",
+  "version": "2.1.0",
+  "description": "Wafer client SDK",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tencentyun/wafer2-client-sdk.git"
+  },
+  "author": "CFETeam",
+  "license": "MIT",
+  "__npminstall_done": "Mon Dec 17 2018 09:41:04 GMT+0800 (中国标准时间)",
+  "_from": "wafer2-client-sdk@2.1.0",
+  "_resolved": "http://registry.npm.taobao.org/wafer2-client-sdk/download/wafer2-client-sdk-2.1.0.tgz"
+}

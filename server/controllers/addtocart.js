@@ -43,7 +43,7 @@ module.exports = async (ctx, next) => {
                 }
                 console.log('goodsinfo:', goodsinfo);
                 
-                if(!goodsinfo || goodsinfo.expired == 1 || parseInt(goodsinfo.remaining) <= 0){
+                if(!goodsinfo || goodsinfo.expired == 1 || parseInt(goodsinfo.stock) <= 0){
                     console.log('expired为1 或 remaining小于1');
                     // 无此商品
                     return ctx.body = {
@@ -66,10 +66,14 @@ module.exports = async (ctx, next) => {
             let cartinfo = await mysql('cart').first().where({openid})
             console.log('cartinfo:',cartinfo);
             if(cartinfo){
-                var cartgoods = JSON.parse(cartinfo.cartgoods) //格式化json串
+                // 如果已存在相关信息，进行更新
+                // var cartgoods = JSON.parse(cartinfo.cartgoods) //格式化json串
+                var platformgoods = JSON.parse(cartinfo.platformgoods) || [] //格式化json串
+                var bangzhugoods = JSON.parse(cartinfo.bangzhugoods) || [] //格式化json串
+                var usergoods = JSON.parse(cartinfo.usergoods) || [] //格式化json串
                 if(origin === 'platform'){
-                    for(let i=0,l=cartgoods.platform.length;i<l;i++){
-                        if(cartgoods.platform[i].goodsid == goodsid){
+                    for(let i=0,l=platformgoods.length; i<l; i++){
+                        if(platformgoods[i].goodsid == goodsid){
                             return ctx.body = {
                                 code:0,
                                 success:false,
@@ -79,53 +83,51 @@ module.exports = async (ctx, next) => {
                         }
                     }
                     // 如果没有：
-                    cartgoods.platform.unshift( goodsinfo )
+                    platformgoods.unshift( goodsinfo )
                 }else if(origin === 'bangzhu'){
-                    for(let index in cartgoods.bangzhu) {
-                        console.log( index );
-                        let arr = cartgoods.bangzhu[index]
-                        for(let i=0,l=arr.length;i<l;i++){
-                            if(arr[i].goodsid == goodsid){
-                                return ctx.body = {
-                                    code:0,
-                                    success:false,
-                                    data:{},
-                                    msg:"添加成功" // 其实该商品已经在购物车
-                                }
-                            }
-                        }
-                   
-                   }
-                   // 如果没有：
-                   if(goodsinfo.uploadUser in cartgoods.bangzhu){
-                    cartgoods.bangzhu[goodsinfo.uploadUser].push(goodsinfo)
-                   }else{
-                    cartgoods.bangzhu[goodsinfo.uploadUser] = [goodsinfo]
-                   }
-                }else{
-                    for(let index in cartgoods.user) {
-                        console.log( index );
-                        let arr = cartgoods.user[index]
-                        for(let i=0,l=arr.length;i<l;i++){
-                            if(arr[i].goodsid == goodsid){
-                                return ctx.body = {
-                                    code:0,
-                                    success:false,
-                                    data:{},
-                                    msg:"添加成功" // 其实该商品已经在购物车
-                                }
+                    for(let i=0,l=bangzhugoods.length;i<l;i++){
+                        if(bangzhugoods[i].goodsid == goodsid){
+                            return ctx.body = {
+                                code:0,
+                                success:false,
+                                data:{},
+                                msg:"添加成功" // 其实该商品已经在购物车
                             }
                         }
                     }
                     // 如果没有：
-                   if(goodsinfo.uploadUser in cartgoods.user){
-                    cartgoods.user[goodsinfo.uploadUser].push(goodsinfo)
-                   }else{
-                    cartgoods.user[goodsinfo.uploadUser] = [goodsinfo]
-                   }
+                    bangzhugoods.unshift(goodsinfo)
+                }else if(origin === 'user'){
+                    for(let i=0,l=usergoods.length;i<l;i++){
+                        if(usergoods[i].goodsid == goodsid){
+                            return ctx.body = {
+                                code:0,
+                                success:false,
+                                data:{},
+                                msg:"添加成功" // 其实该商品已经在购物车
+                            }
+                        }
+                    }
+                    // 如果没有：
+                    usergoods.unshift(goodsinfo)
+                }else{
+                    return ctx.body = {
+                        code:"CART_GOODS_ORIGIN_ERROR",
+                        success:false,
+                        data:{},
+                        msg:"商品信息错误" // 其实该商品已经在购物车
+                    }
                 }
-                let string = JSON.stringify(cartgoods)
-                await mysql('cart').update({timestamp, _time, cartgoods: string}).limit(1).where({openid})
+                let platformgoods_str = JSON.stringify(platformgoods)
+                let bangzhugoods_str = JSON.stringify(bangzhugoods)
+                let usergoods_str = JSON.stringify(usergoods)
+                await mysql('cart').update({
+                    timestamp, 
+                    _time, 
+                    platformgoods: platformgoods_str, 
+                    bangzhugoods: bangzhugoods_str, 
+                    usergoods: usergoods_str, 
+                }).limit(1).where({openid})
                 return ctx.body = {
                     code: 1,
                     success: true,

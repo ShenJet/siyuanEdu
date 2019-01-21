@@ -3,6 +3,7 @@
     "pages/index/main",
     "pages/course/main",
     "pages/profile/main",
+    "pages/my/main",
     
     "pages/teachers/main",
     "pages/students/main",
@@ -11,9 +12,9 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "明星家教",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#377BF0",
+    "navigationBarTitleText": "思元家教",
+    "navigationBarTextStyle": "white"
   },
   "tabBar":{
     "color":"#777777",
@@ -25,7 +26,6 @@
       "text":"首页",
       "iconPath":"static/img/home0.png",
       "selectedIconPath":"static/img/home1.png"
-
     },{
       "pagePath":"pages/teachers/main",
       "text":"找老师",
@@ -37,7 +37,7 @@
       "iconPath":"static/img/stu10.png",
       "selectedIconPath":"static/img/stu11.png"
     },{
-      "pagePath":"pages/profile/main",
+      "pagePath":"pages/my/main",
       "text":"我的",
       "iconPath":"static/img/profile00.png",
       "selectedIconPath":"static/img/profile01.png"

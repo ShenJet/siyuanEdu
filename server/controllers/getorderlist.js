@@ -31,11 +31,14 @@ console.log(ctx.state.$wxInfo);
     // STEP3 查询+返回
     try {
         if(status=='all'){
-            var res = await mysql('orders').select().where({ openid }).orderBy('id', 'desc') ;
-            
+            var res = await mysql('orders').select('orderid','ordergoods','total_fee','status','_createtime','_endtime','receipt','beizhu').where({ openid }).whereNot('deleted', '1').orderBy('id', 'desc') ;
         }else{
-            var res = await mysql('orders').select().where({ status, openid }).orderBy('id', 'desc');
+            var res = await mysql('orders').select('orderid','ordergoods','total_fee','status','_createtime','_endtime','receipt','beizhu').where({ status, openid }).whereNot('deleted', '1').orderBy('id', 'desc');
         }
+        res.map(function(v,i){
+            v.receipt = JSON.parse(v.receipt)
+            v.ordergoods = JSON.parse(v.ordergoods)
+        })
         ctx.body = {
             code:1,
             success:true,

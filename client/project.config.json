@@ -9,8 +9,8 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wxda280d030d52369e",
-	"projectname": "%E6%98%8E%E6%98%9F%E6%95%99%E8%82%B2",
+	"appid": "wxcad3341551190ad3",
+	"projectname": "思元家教",
 	"libVersion": "1.9.5",
 	"condition": {
 		"search": {

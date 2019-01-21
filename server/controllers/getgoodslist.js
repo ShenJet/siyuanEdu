@@ -4,7 +4,7 @@ const { mysql } = qcloud
 
 module.exports = async (ctx, next) => {
     // let goodsid = 
-    let res = await mysql('t_product').select();
+    let res = await mysql('t_product').select().where({expired: '0'}).orderBy('id', 'desc');
     console.log(res);
     res.map(function(v, i){
         v.urls = v.urls ? JSON.parse(v.urls):[]

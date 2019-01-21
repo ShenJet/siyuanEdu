@@ -1,16 +1,59 @@
 <script>
-export default {
-  created () {
-    // // 调用API从本地缓存中获取数据
-    // const logs = wx.getStorageSync('logs') || []
-    // logs.unshift(Date.now())
-    // wx.setStorageSync('logs', logs)
+import qc from 'wafer2-client-sdk'
+import config from '@/config'
 
-    // console.log('app created and cache logs by setStorageSync')
+export default {
+  data:function(){
+    return {
+      appdata:"66666",
+      logged:false,
+      authmodalshowL:false
+    }
+  },
+  
+  methods:{
+    
+    
+  },
+  
+  onLaunch(){
+    // console.log('app onlunch');
+    qc.setLoginUrl(config.service.loginUrl);  
+  },
+  onShow(obj){
+    let shareTicket = obj.shareTicket || ''
+    // console.log('shareTicket:',shareTicket);
+    if(!shareTicket)return ;
+    
+    wx.getShareInfo({
+      shareTicket,
+      timeout: 1000,
+      success(res){
+        // console.log(res);
+      } ,
+      fail(err){
+
+      } ,
+      complete(){
+
+      } ,
+    }) 
+  },
+  onError(err){
+    // console.log('app onerror:', err);
   }
 }
 </script>
 
 <style>
+.container {
+  height: 100%;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; */
+  
+  box-sizing: border-box;
+}
 
 </style>

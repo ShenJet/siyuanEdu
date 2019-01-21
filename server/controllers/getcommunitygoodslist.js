@@ -5,7 +5,7 @@ const { mysql } = qcloud
 module.exports = async (ctx, next) => {
     let communityid = ctx.query.communityid
     try {
-        let res = await mysql('t_product_zutuan').select().where({communityid});
+        let res = await mysql('t_product_zutuan').select().where({communityid, hasdelete: 0});
         console.log(res);
         res.map(function(v, i){
             v.urls = v.urls ? JSON.parse(v.urls):[]

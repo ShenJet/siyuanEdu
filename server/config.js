@@ -2,12 +2,12 @@
 // [rootPathname, useQcloudLogin, cos, serverHost, tunnelServerUrl, tunnelSignatureKey, qcloudAppId, qcloudSecretId, qcloudSecretKey, wxMessageToken].
 const CONF = {
     serverHost: 'localhost',
-    port: '8899',
+    port: '8898',
     rootPathname: '',
     // 微信小程序 App ID
-    appId: 'wx88152eef614c3441',
+    appId: 'wxcad3341551190ad3',
     // 微信小程序 App Secret
-    appSecret: '37971006ed3baa814e0de260131788cd',
+    appSecret: 'b366275aaec4372d61fdd7c20e0a8ed2',
     // 加密token
     wxMessageToken: 'tech997.com',
     // 是否使用腾讯云代理登录小程序
@@ -26,7 +26,7 @@ const CONF = {
      */
     mysql: {
         host: 'localhost',
-        db: 'pwb',
+        db: 'siyuan',
         port: 3306,
         user: 'root',
         pass: 'root',
@@ -45,11 +45,11 @@ const CONF = {
     },
     // 支付配置项
     payconf:{
-         appid :     'wx88152eef614c3441',
-         appsecret : '37971006ed3baa814e0de260131788cd',
+         appid :     'wxcad3341551190ad3',
+         appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
          mchid :     '1515387251',  //商户号
          mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
-         wxurl :     'http://www.tech997.cn:8899/weapp/getnotification', // 下单后的通知地址
+         wxurl :     'http://www.tech997.cn:8898/weapp/getnotification', // 下单后的通知地址
     },
 
     // 微信登录态有效期

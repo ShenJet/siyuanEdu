@@ -5,13 +5,19 @@ module.exports = async (ctx, next) => {
     let openid = ctx.state.$wxInfo.userinfo.openId ;
     
     try {
-        let cartinfo = await mysql('cart').select().where({openid})
-        if(cartinfo.length == 1){
-            let list = JSON.parse(cartinfo[0].cartgoods)
+        let cartinfo = await mysql('cart').first().where({openid})
+        if(cartinfo){
+            let platformgoods = JSON.parse(cartinfo.platformgoods)||[]
+            let bangzhugoods = JSON.parse(cartinfo.bangzhugoods)||[]
+            let usergoods = JSON.parse(cartinfo.usergoods)||[]
             return ctx.body = {
                 code:1,
                 success:true,
-                data:list,
+                data:{
+                    platformgoods,
+                    bangzhugoods,
+                    usergoods
+                },
                 msg:'查询购物车信息成功'
             }
         }else{
@@ -20,8 +26,8 @@ module.exports = async (ctx, next) => {
                 success:false,
                 data:{
                     platform:[],
-                    bangzhu:{},
-                    user:{}
+                    bangzhu:[],
+                    user:[]
                 },
                 msg:'购物车暂无商品'
             }

@@ -5,7 +5,7 @@ const { mysql } = qcloud
 module.exports = async (ctx, next) => {
     let openid = ctx.query.openid
     try {
-        let res = await mysql('t_product_zutuan').select().where({uploadUser: openid});
+        let res = await mysql('t_product_zutuan').select().where({uploadUser: openid, hasdelete: 0});
         console.log(res);
         res.map(function(v, i){
             v.urls = v.urls ? JSON.parse(v.urls):[]

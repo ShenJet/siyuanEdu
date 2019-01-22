@@ -1,10 +1,11 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/applyteacher/main",
+    "pages/applystudent/main",
     "pages/course/main",
     "pages/profile/main",
     "pages/my/main",
-    
     "pages/teachers/main",
     "pages/students/main",
     "pages/stu_detail/main",

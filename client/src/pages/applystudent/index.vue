@@ -115,13 +115,13 @@
 
 <script>
 import qc from 'wafer2-client-sdk'
+import conf from '@/config'
 
 import checkscope from "@/wxapis/check_scope";
 import authorize from "@/wxapis/authorize";
 import openSetting from "@/wxapis/openSetting";
 import modal from "@/wxapis/modal";
 
-import conf from '@/config'
 import mpSwitch from 'mpvue-weui/src/switch';
 import mpCitypicker from 'mpvue-weui/src/city-picker';
 import mpUploader from '@/components/mpuploader.vue';

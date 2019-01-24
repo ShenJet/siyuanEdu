@@ -63,7 +63,9 @@
           </div>
           <div v-if="goodsdetail.origin!='platform'">组团时间 :{{goodsdetail._start+'~'+goodsdetail._end}}</div>
           <div>发货/提货时间 :{{goodsdetail.deliveryTime || '商家未注明'}}</div>
-          <!-- <div>可购区域 :<span>{{goodsdetail.targetArea_name || '商家未注明'}}</span> </div> -->
+          <div>可购区域 :
+            <span v-for='(m,k) in goodsdetail.targetArea_name' :key="k"> {{ m.name }} </span>
+          </div>
           <div class="tips"></div>
           <div>是否包邮 :{{goodsdetail.shipping?'包邮':'不包邮'}}</div>
       </div>
@@ -231,6 +233,7 @@ export default {
           goodsinfo.detailImg.map(function(v,i){
             goodsinfo.dtimgs.push(v.url)
           })
+          goodsinfo.targetArea_name = JSON.parse(goodsinfo.targetArea_name || '[]') 
           self.goodsdetail = goodsinfo
         },
         fail(){

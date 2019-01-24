@@ -237,7 +237,7 @@ swiper{
     // background: pink;
     padding: 14rpx 0;
     border-radius: 12rpx;
-    box-shadow: 1px 1px 2px 2px rgb(151, 151, 151);
+    box-shadow: 1px 1px 2px 2px rgb(206, 206, 206);
     .l{
       img{
         width: 110rpx;

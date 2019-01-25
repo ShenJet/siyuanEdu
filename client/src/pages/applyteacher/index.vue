@@ -1,13 +1,13 @@
 <template>
   <div class="">
-    <slogan type='bangzhu'></slogan>
+    <!-- <slogan type='bangzhu'></slogan> -->
     <div class="container">
       <form report-submit=true @submit="formSubmit">
     <div class="item line">
       <span class="l">*</span>
       <span class="m">真实姓名：</span>
       <span class="r">
-        <input type="text" name='name' v-model="form.name" placeholder="请输入姓名" confirm-type='next' maxlength='4' focus=true>
+        <input type="text" name='name' v-model="form.name" placeholder="请输入姓名" confirm-type='next' focus=true>
       </span>
     </div>
     <div class="item line">
@@ -17,34 +17,98 @@
         <input type="number" name='phone' v-model="form.phone" placeholder="请输入手机号" confirm-type='next' maxlength='11'>
       </span>
     </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">性别：</span>
+      <span class="r">
+        <!-- <input type="number" name='sex' v-model="form.sex" confirm-type='next' maxlength='11'> -->
+        <radio-group @click="sexchange">
+          <radio value='1' color='#377BF0'>男老师</radio>
+          <span style="display:inline-block;width:40rpx;"></span>
+          <radio value='2' color='#377BF0'>女老师</radio>
+        </radio-group>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">目前身份：</span>
+      <span class="r">
+        <picker mode='selector' name='role' :range='rolearr' @change='rolechange'>{{role || '点击选择身份'}}</picker>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">最高学历：</span>
+      <span class="r">
+        <picker mode='selector' name='xueli' :range='xueliarr' @change='xuelichange'>{{xueli || '点击选择学历'}}</picker>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">毕业院校：</span>
+      <span class="r">
+        <input type="text" name='school' v-model="school" placeholder="可填写在读院校" confirm-type='next'>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">所学专业：</span>
+      <span class="r">
+        <input type="text" name='major' v-model="major" placeholder="所学专业" confirm-type='next'>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">毕业年份：</span>
+      <span class="r">
+        <picker mode='date' name='graduateyear' value='2008' fields='year' start='1990' end='2030' @change='graduateyearchange'>{{graduateyear || '点击选择毕业年份'}}</picker>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授科目：</span>
+      <span class="r">
+        <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择教授科目'}}</picker>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授方式：</span>
+      <span class="r">
+        <checkbox-group name='teachtype' @change='teachtypechange'>
+          <checkbox color='#377BF0' value='学生上老师家'>学生上老师家</checkbox>
+          <checkbox color='#377BF0' value='老师上学生家'>老师上学生家</checkbox>
+          <checkbox color='#377BF0' value='远程教学'>远程教学</checkbox>
+        </checkbox-group>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教学经验：</span>
+      <span class="r" style="display:flex;flex-direction:row;">
+        <input type="number" value="1" name='teachyear' >年
+      </span>
+    </div>
     <div class="item block place">
       <span class="l">*</span>
-      <span class="m">帮主地盘：</span>
+      <span class="m">常住地点：</span>
       <div class="r">
         <!-- <div><button hover-class='btnhover'>选择城市</button></div> -->
         <div>
-          <!-- <input type="text" name='citylabel' disabled placeholder="点击选择你的小区" @click='showcitypicker' v-model="citylabel"> -->
-          <input type="text" name='citylabel' disabled placeholder="点击选择你的小区位置" @click='chooselocation' v-model="form.citylabel">
-
+          <span @click='chooselocation'>{{ form.citylabel || '点击选择你的小区位置' }}</span>
+          <input type="text" name='citylabel' disabled v-model="form.citylabel" hidden>
           <input type="text" name='code' disabled v-model="form.code" hidden>
         </div>
-        <div>
-          <textarea name="community" id="" placeholder="详细地址(如九龙仓1区3幢201室,中海七区5幢601室...)" v-model="form.community" confirm-type='next'></textarea>
+        <div class="community">
+          小区：<input type="text" name="community" id="" placeholder="小区名" v-model="form.community" confirm-type='next'>
         </div>
       </div>
     </div>
     <div class="item line">
       <span class="l">*</span>
-      <span class="m">是否能全职：</span>
+      <span class="m">教授区域：</span>
       <span class="r">
-        <switch name='fulltime' v-model="form.fulltime" ></switch>
-      </span>
-    </div>
-    <div class="item line">
-      <span class="l">*</span>
-      <span class="m">目前职业：</span>
-      <span class="r">
-        <input type="text" name='job' v-model="form.currentjob" placeholder="请输入职业" confirm-type='next' maxlength='10'>
+        <picker mode='region' name='teacharea' @change='teachareachange'>{{teacharea || '点击选择可教授区域'}}</picker>
       </span>
     </div>
     <div class="item line">
@@ -70,19 +134,11 @@
           <input type="text" name='idcard2' disabled v-model="imgurls['2']" hidden>
       </div>
     </div>
-    <div class="item block">
-      <span class="l">*</span>
-      <span class="m">手持身份证<br>半身照：</span>
-      <div class="r">
-        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail2" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' :which='3'></mp-uploader>
-        <input type="text" name='idcard3' disabled v-model="imgurls['3']" hidden>
-      </div>
-    </div>
     <div class="textarea">
       <span class="l">*</span>
-      <span class="m">申请说明：</span>
+      <span class="m">备注说明：</span>
       <span class="r">
-        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="说说你作为帮主的优势..."></textarea>
+        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="备注说明..." />
       </span>
     </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
@@ -123,12 +179,21 @@ export default {
   data() {
     return {
       userInfo: {},
-      location: "尚未获取定位",
+      xueliarr:['大专','本科','硕士','博士'],
+      xueli:'',
+      graduateyear:'',
+      rolearr:['专职小学老师','专职初中老师','专职高中老师','专职艺术老师','在读学生','其他'],
+      role:'',
+      school:'',
+      major:'',
+      course:'',
+      coursese:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
+      teacharea:'',
       form:{
         name:'',
         phone:'',
-        fulltime:true,
-        currentjob:'',
+        // fulltime:true,
+        // currentjob:'',
         idno:'',
         idcardurl1:'',
         idcardurl2:'',
@@ -148,11 +213,10 @@ export default {
       piccount:1,
       showtip:true,
       maxlength:1,
-      // 上传的三张照片
+      // 上传的2张照片
       imgurls:{
         1:'',
-        2:'',
-        3:''
+        2:''
       }
 
     };
@@ -161,6 +225,34 @@ export default {
     mpSwitch,mpUploader,mpCitypicker,slogan
   },
   methods: {
+    xuelichange(e){
+      console.log(e.mp.detail);
+      
+      this.xueli = this.xueliarr[e.mp.detail.value]
+    },
+    rolechange(e){
+      console.log(e.mp.detail);
+      this.role = this.rolearr[e.mp.detail.value]
+    },
+    graduateyearchange(e){
+      console.log(e.mp.detail);
+      
+      this.graduateyear = e.mp.detail.value
+    },
+    coursechange(e){
+      console.log(e.mp.detail);
+      this.course = this.coursese[0][e.mp.detail.value[0]]+this.coursese[1][e.mp.detail.value[1]]
+      console.log(this.course);
+      
+    },
+    teachtypechange(e){
+      console.log(e.mp.detail.value);
+      
+    },
+    teachareachange(e){
+      console.log(e.mp.detail.value);
+      this.teacharea = e.mp.detail.value.join('-')
+    },
     // 显示繁忙提示
     showBusy : text => wx.showToast({
     title: text,
@@ -503,18 +595,21 @@ $maincolor: #377BF0;
         border: 1px solid #ccc;
         border-radius: 5px;
       }
-      textarea{
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        height: 130rpx;
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 12rpx;
+      .community{
+        margin-top: 10rpx;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        input{
+          width: 320rpx;
+        }
       }
     }
   }
   .textarea{
     font-size: 32rpx;
+    // height: ;
     .l{
       display: inline-block;
       color: $maincolor;

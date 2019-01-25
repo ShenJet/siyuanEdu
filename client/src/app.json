@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/index/main",
     "pages/applyteacher/main",
+    "pages/index/main",
     "pages/applystudent/main",
     "pages/course/main",
     "pages/profile/main",

@@ -1,6 +1,9 @@
 <template>
   <div class="">
     <!-- <slogan type='bangzhu'></slogan> -->
+    <div class="toptip">
+      请准确填写资料，方便平台为您匹配订单
+    </div>
     <div class="container">
       <form report-submit=true @submit="formSubmit">
     <div class="item line">
@@ -22,10 +25,10 @@
       <span class="m">性别：</span>
       <span class="r">
         <!-- <input type="number" name='sex' v-model="form.sex" confirm-type='next' maxlength='11'> -->
-        <radio-group @click="sexchange">
-          <radio value='1' color='#377BF0'>男老师</radio>
+        <radio-group name='sex' @click="sexchange">
+          <radio value='男' color='#377BF0'>男老师</radio>
           <span style="display:inline-block;width:40rpx;"></span>
-          <radio value='2' color='#377BF0'>女老师</radio>
+          <radio value='女' color='#377BF0'>女老师</radio>
         </radio-group>
       </span>
     </div>
@@ -33,14 +36,14 @@
       <span class="l">*</span>
       <span class="m">目前身份：</span>
       <span class="r">
-        <picker mode='selector' name='role' :range='rolearr' @change='rolechange'>{{role || '点击选择身份'}}</picker>
+        <picker mode='selector' name='role' :range='rolearr' :value='role' @change='rolechange'>{{role || '点击选择身份'}}</picker>
       </span>
     </div>
     <div class="item line">
       <span class="l">*</span>
       <span class="m">最高学历：</span>
       <span class="r">
-        <picker mode='selector' name='xueli' :range='xueliarr' @change='xuelichange'>{{xueli || '点击选择学历'}}</picker>
+        <picker mode='selector' name='xueli' :range='xueliarr' :value='xueli' @change='xuelichange'>{{xueli || '点击选择学历'}}</picker>
       </span>
     </div>
     <div class="item line">
@@ -122,16 +125,16 @@
       <span class="l">*</span>
       <span class="m">身份证正面：</span>
       <div class="r">
-        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail0" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' :which='1'></mp-uploader>
-          <input type="text" name='idcard1' disabled v-model="imgurls['1']" hidden>
+        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail0" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' which='1'></mp-uploader>
+        <input type="text" name='idcard1' disabled v-model="imgurls['1']" hidden>
       </div>
     </div>
     <div class="item block">
       <span class="l">*</span>
       <span class="m">身份证反面：</span>
       <div class="r">
-        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail1" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' :which='2'></mp-uploader>
-          <input type="text" name='idcard2' disabled v-model="imgurls['2']" hidden>
+        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail1" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' which='2'></mp-uploader>
+        <input type="text" name='idcard2' disabled v-model="imgurls['2']" hidden>
       </div>
     </div>
     <div class="textarea">
@@ -182,7 +185,7 @@ export default {
       xueliarr:['大专','本科','硕士','博士'],
       xueli:'',
       graduateyear:'',
-      rolearr:['专职小学老师','专职初中老师','专职高中老师','专职艺术老师','在读学生','其他'],
+      rolearr:['专职小学老师','专职初中老师','专职高中老师','专职艺术老师','在读兼职大学生','其他'],
       role:'',
       school:'',
       major:'',
@@ -241,7 +244,11 @@ export default {
     },
     coursechange(e){
       console.log(e.mp.detail);
-      this.course = this.coursese[0][e.mp.detail.value[0]]+this.coursese[1][e.mp.detail.value[1]]
+      let type = this.coursese[0][e.mp.detail.value[0]]
+      let name = this.coursese[1][e.mp.detail.value[1]]
+      this.course = type + name
+      this.coursetype = type
+      this.coursename = name
       console.log(this.course);
       
     },
@@ -426,6 +433,8 @@ export default {
         name: 'file',
         success: function(res){
           let data = JSON.parse(res.data)
+          console.log('data:');
+          console.log(data);
           
           // console.log(data.data);
           // console.log(data.data.imgUrl);
@@ -448,42 +457,29 @@ export default {
       this.imgurls[which] = ''
     },
     formSubmit(data){
-      
       wx.showLoading({
         title: '提交中...',
-        mask:true,
-        success(){
-
-        },
-        fail(){
-
-        },
-        complete(){
-          
-        }
+        mask:true
       })
       var self = this
-
-
       let {formId, value} = data.mp.detail
-      
       // console.log(value);
-      
       // 数据校验
       for (const key in value) {
         if (value.hasOwnProperty(key)) {
           const element = value[key];
           if(!element.toString().trim()){
+            console.log(key, element);
+            
             return wx.showToast({
-              title: '信息不完整！',
+              title: '信息不完整,请检查遗漏信息',
               mask:true,
               icon:'none',
-              duration:1000
+              duration:1500
             })
           }
         }
       }
-      
       // console.log(formId , value);
       let arr = value.code.split('')     // 110201
       value.provincecode = arr[0]+arr[1] // 11
@@ -497,11 +493,17 @@ export default {
       value.longitude = self.form.longitude
       value.latitude = self.form.latitude
 
+      value.course = this.course
+      value.coursetype = this.coursetype
+      value.coursename = this.coursename
+
+      value.course = this.course
+
       qc.request({
         // login:true,
         method:"POST",
         data:{formId , ...value},
-        url: conf.service.bangzhuapplyUrl,
+        url: conf.service.teacherapplyUrl,
         success(res){
           // console.log(res);
 
@@ -514,12 +516,11 @@ export default {
             icon:'none',
             duration:1400
           })
-          setTimeout(function(){
-            wx.hideToast()
-            wx.switchTab({
-              url:'/pages/index/main'
-            })
-          },1600)
+          // setTimeout(function(){
+          //   wx.switchTab({
+          //     url:'/pages/index/main'
+          //   })
+          // },1600)
         },
         fail(){
           wx.hideLoading()
@@ -545,8 +546,15 @@ export default {
 
 <style scoped lang='scss'>
 $maincolor: #377BF0;
+.toptip{
+  background: #efefef; 
+  padding: 12rpx 0;
+  text-align: center;   
+  font-size: 28rpx;
+}
 .container{
   padding: 0 20rpx 20rpx;
+  
   .item{
     display: flex;
     flex-direction: row;

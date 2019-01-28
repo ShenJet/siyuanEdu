@@ -47,19 +47,23 @@ export default {
   },
   methods: {
     chooseImage(e) {
+      console.log('choose img');
       let _this = this;
       if (!(this.files.length > this.maxLength - 1)) {
+        console.log('choose img 1');
         wx.chooseImage({
           count: _this.count, // 默认9
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
+            console.log('choose img success');
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
             _this.files = _this.files.concat(res.tempFilePaths);
             res.files = _this.files;
             _this.$emit('upLoadSuccess', res, _this.which);
           },
           fail: function (res) {
+            console.log('choose img fail');
             _this.$emit('upLoadFail', res, _this.which);
             // 修改提交记录
           },
@@ -71,7 +75,8 @@ export default {
         wx.showToast({
           title: `最多上传 ${this.maxLength} 张图片`,
           icon: 'none',
-          mask: true
+          mask: true,
+          duration:1500
         });
       }
     },

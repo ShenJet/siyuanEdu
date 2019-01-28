@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App'
 
 // 全局样式
-// import '../static/weui/style/weui.wxss'
+import 'mpvue-weui/src/style/weui.css'
+
 import '../static/iconfont.css'
 
 

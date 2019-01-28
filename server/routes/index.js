@@ -89,10 +89,10 @@ router.get('/gettixianlist', validationMiddleware, controllers.gettixianlist)
 router.get('/tixian', validationMiddleware, controllers.tixian)
 
 // POST !!! 小程序帮主申请
-router.post('/bangzhuapply', validationMiddleware, controllers.bangzhuapply)
+router.post('/teacherapply', validationMiddleware, controllers.applysforteacher)
 
 // POST !!! 小程序供应商、厂商申请
-router.post('/gysapply', validationMiddleware, controllers.gysapply)
+router.post('/studentapply', validationMiddleware, controllers.applysforstudent)
 
 // GET !!! 小程序搜索附近帮主
 router.get('/searchbangzhu', validationMiddleware, controllers.searchbangzhu)

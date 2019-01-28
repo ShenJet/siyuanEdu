@@ -79,8 +79,8 @@ var config = {
         // 删除已发布商品
         deletemyreleaseUrl: `${host}/weapp/deletemyrelease` ,
 
-        // 帮主申请
-        bangzhuapplyUrl: `${host}/weapp/bangzhuapply`,
+        // 老师申请
+        teacherapplyUrl: `${host}/weapp/bangzhuapply`,
 
         // 供应商、厂商申请
         gysapplyUrl: `${host}/weapp/gysapply`,

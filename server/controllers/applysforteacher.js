@@ -6,10 +6,10 @@ module.exports = async (ctx, next) => {
     let openid = ctx.state.$wxInfo.userinfo.openId ;
     console.log('@bangzhuapply  params:',params);
     try{
-        let searchs = await mysql('applysforbz').select().limit(1).where({openid})
+        let searchs = await mysql('applysforteacher').select().limit(1).where({openid})
         if(searchs.length===0){
             // 直接插入
-            await mysql('applysforbz').insert({...params,openid})
+            await mysql('applysforteacher').insert({...params,openid})
             return ctx.body = {
                 code:"BZ_APPLY_SUCCESS",
                 data:{},

@@ -31,14 +31,14 @@ var config = {
         // index - 查询身份信息
         rolecheckUrl: `${host}/weapp/rolecheck`,
 
-        // 获取商品列表
-        goodslistUrl: `${host}/weapp/goodslist`,
+        // 获取老师列表
+        getteacherlistUrl: `${host}/weapp/teacherlist`,
                 
-        // 获取商品详情
-        goodsdetailUrl: `${host}/weapp/goodsdetail`,
+        // 获取老师详情
+        teacherdetailUrl: `${host}/weapp/teacherdetail`,
 
-        // 获取收货地址列表
-        addresslistUrl: `${host}/weapp/addresslist`,
+        // 获取学生列表
+        getstudentlistUrl: `${host}/weapp/studentlist`,
 
         // 收货地址修改
         addresseditUrl: `${host}/weapp/addressedit`,
@@ -80,10 +80,10 @@ var config = {
         deletemyreleaseUrl: `${host}/weapp/deletemyrelease` ,
 
         // 老师申请
-        teacherapplyUrl: `${host}/weapp/bangzhuapply`,
+        teacherapplyUrl: `${host}/weapp/teacherapply`,
 
-        // 供应商、厂商申请
-        gysapplyUrl: `${host}/weapp/gysapply`,
+        // 学生提交资料
+        studentapplyUrl: `${host}/weapp/studentapply`,
         
         // 组团-搜索帮主
         searchbangzhuUrl: `${host}/weapp/searchbangzhu`,

@@ -3,5 +3,5 @@
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "思元家教",
     "backgroundTextStyle": "light",
-    "enablePullDownRefresh": false
+    "enablePullDownRefresh": true
 }

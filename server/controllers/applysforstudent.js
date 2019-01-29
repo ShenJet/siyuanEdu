@@ -4,68 +4,38 @@ const { mysql } = qcloud
 module.exports = async (ctx, next) => {
     let params = ctx.request.body;
     let openid = ctx.state.$wxInfo.userinfo.openId ;
-    console.log('@bgysapply  params:',params);
+    let avatarUrl = ctx.state.$wxInfo.userinfo.avatarUrl ;
+    console.log('@学生提交资料  params:',params);
     try{
-        let searchs = await mysql('applysforstudent').select().where({openid})
-        if(searchs.length===0){
-            // 直接插入
-            await mysql('applysforstudent').insert({...params,openid})
-            return ctx.body = {
-                code:"GYS_APPLY_SUCCESS",
-                data:{},
-                success:true,
-                msg:"申请成功"
-            }
-        }else if(searchs.length===1){
-            // 
-            let search = searchs[0]
-            if(search.status == 1){
+        params.teachtype = JSON.stringify(params.teachtype)
+        // params.teacharea = JSON.stringify(params.teacharea)
+        params.teachday = JSON.stringify(params.teachday)
+        let search = await mysql('applysforstudent').select().where({openid})
+        for (let i = 0, l=search.length; i < l; i++) {
+            const element = search[i];
+            if(element.course == params.course){
                 return ctx.body = {
-                    code:"GYS_APPLY_CHECKING",
-                    data:{},
-                    success:true,
-                    msg:"审核中，请勿重复申请"
-                }
-            }else if(search.status == 2){
-                return ctx.body = {
-                    code:"GYS_APPLY_NONEED_REPEAT",
-                    data:{},
-                    success:true,
-                    msg:"您已申请过，请勿重复申请"
-                }
-            }else if(search.status == 3){
-                return ctx.body = {
-                    code:"GYS_APPLY_REJECTED",
-                    data:{},
-                    success:true,
-                    msg:"有被拒绝的申请，请联系管理员"
-                }
-            }else{
-                console.log('GYS_APPLY_SYSTEM_ERROR1');
-                
-                return ctx.body = {
-                    code:"GYS_APPLY_SYSTEM_ERROR",
+                    code:"STUDENT_COURSE_REPEAT",
                     data:{},
                     success:false,
-                    msg:"系统错误，请联系管理员"
+                    msg:"您已发布过该科目，不可重复发布"
                 }
             }
-        }else{
-            console.log('GYS_APPLY_SYSTEM_ERROR2');
-
-            return ctx.body = {
-                code:"GYS_APPLY_SYSTEM_ERROR",
-                data:{},
-                success:false,
-                msg:"系统错误，请联系管理员"
-            }
+        }
+        // 直接插入
+        await mysql('applysforstudent').insert({...params, openid, avatarUrl})
+        return ctx.body = {
+            code:"STUDENT_APPLY_SUCCESS",
+            data:{},
+            success:true,
+            msg:"发布成功"
         }
     }catch(err){
-        console.log('GYS_APPLY_SYSTEM_ERROR3');
+        console.log('STUDENT_APPLY_SYSTEM_ERROR3');
 
         console.log('err:',err);
         return ctx.body = {
-            code:"GYS_APPLY_SYSTEM_ERROR",
+            code:"STUDENT_APPLY_SYSTEM_ERROR",
             data:{},
             success:false,
             msg:"系统错误，请联系管理员"

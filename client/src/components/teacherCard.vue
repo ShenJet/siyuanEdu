@@ -1,17 +1,123 @@
 <template>
   <div class="card">
-    
+    <div class="i-class i-card" :class="full ? 'i-card-full' : ''">
+      <div class="i-class i-card-header">
+        <div class="i-card-header-content">
+          <img class="i-card-header-thumb" :src="info.avatar" mode="aspectFit" v-if="info.avatar" />
+          {{ info.title }}
+        </div>
+        <div class="i-card-header-extra" @click="teacherdetail">查看详情</div>
+      </div>
+      <div class="i-class i-card-body">
+        xxx
+      </div>
+      <div class="i-class i-card-footer">
+        yyy
+      </div>
+    </div>
   </div>
 </template>
-
 <script>
 export default {
-  props: ['info']
-}
+  props: {
+    info: Object
+  },
+  data:function(){
+    return {
+      full:true,
+    }
+  },
+  methods:{
+    teacherdetail(){
+      this.$emit('teacherdetail')
+    }
+  }
+};
 </script>
 
-<style>
-.card {
-  padding: 10px;
+<style lang='scss' scoped>
+.i-card {
+  margin: 0 16px;
+  font-size: 14px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  border: 1rpx solid #dddee1;
+  border-radius: 5px;
+}
+
+.i-card-full {
+  margin: 0;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+.i-card-header {
+  display: flex;
+  padding: 6px 16px;
+  align-items: center;
+}
+
+.i-card-header-content {
+  flex: 1;
+  text-align: left;
+}
+
+.i-card-header-thumb {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  background-size: cover;
+  vertical-align: middle;
+  border-radius: 12rpx;
+}
+
+.i-card-header-title {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #1c2438;
+}
+
+.i-card-header-extra {
+  flex: 1;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 600;
+  color: #377bf0;
+}
+
+.i-card-body {
+  position: relative;
+  padding: 6px 16px;
+  color: #495060;
+  font-size: 14px;
+}
+
+.i-card-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+  transform-origin: 0 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  border: 0 solid #e9eaec;
+  border-top-width: 1px;
+}
+
+.i-card-footer {
+  position: relative;
+  padding: 6px 16px;
+  color: #80848f;
+  font-size: 12px;
 }
 </style>

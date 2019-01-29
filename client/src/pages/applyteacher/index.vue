@@ -2,7 +2,7 @@
   <div class="">
     <!-- <slogan type='bangzhu'></slogan> -->
     <div class="toptip">
-      请准确填写资料，方便平台为您匹配订单
+      请准确填写资料，方便平台为您匹配学员
     </div>
     <div class="container">
       <form report-submit=true @submit="formSubmit">
@@ -76,12 +76,19 @@
     </div>
     <div class="item line">
       <span class="l">*</span>
+      <span class="m">教授费用：</span>
+      <span class="r price">
+        <input type="number" name="price" placeholder="每课时费用">元/小时
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
       <span class="m">教授方式：</span>
       <span class="r">
         <checkbox-group name='teachtype' @change='teachtypechange'>
           <checkbox color='#377BF0' value='学生上老师家'>学生上老师家</checkbox>
           <checkbox color='#377BF0' value='老师上学生家'>老师上学生家</checkbox>
-          <checkbox color='#377BF0' value='远程教学'>远程教学</checkbox>
+          <checkbox color='#377BF0' value='远程教学'>远程视频教学</checkbox>
         </checkbox-group>
       </span>
     </div>
@@ -98,6 +105,7 @@
       <div class="r">
         <!-- <div><button hover-class='btnhover'>选择城市</button></div> -->
         <div>
+          <span class="iconfont icon-round"></span>
           <span @click='chooselocation'>{{ form.citylabel || '点击选择你的小区位置' }}</span>
           <input type="text" name='citylabel' disabled v-model="form.citylabel" hidden>
           <input type="text" name='code' disabled v-model="form.code" hidden>
@@ -112,6 +120,30 @@
       <span class="m">教授区域：</span>
       <span class="r">
         <picker mode='region' name='teacharea' @change='teachareachange'>{{teacharea || '点击选择可教授区域'}}</picker>
+      </span>
+    </div>
+    <div class="item line daypick">
+      <span class="l">*</span>
+      <span class="m">可教授日：</span>
+      <span class="r">
+        <checkbox-group name='teachday'>
+          <checkbox color='#377BF0' value='星期一'>星期一</checkbox>
+          <checkbox color='#377BF0' value='星期二'>星期二</checkbox>
+          <checkbox color='#377BF0' value='星期三'>星期三</checkbox>
+          <checkbox color='#377BF0' value='星期四'>星期四</checkbox>
+          <checkbox color='#377BF0' value='星期五'>星期五</checkbox>
+          <checkbox color='#377BF0' value='星期六'>星期六</checkbox>
+          <checkbox color='#377BF0' value='星期日'>星期日</checkbox>
+        </checkbox-group>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授时间段：</span>
+      <span class="r  timepick">
+        <picker mode="time" name='teachstarttime' value='19:00' @change='starttimechange'>{{teachstarttime}}</picker>
+        <span>至</span>
+        <picker mode="time" name='teachendtime' value='20:00' @change='endtimechange'>{{teachendtime}}</picker>
       </span>
     </div>
     <div class="item line">
@@ -139,9 +171,9 @@
     </div>
     <div class="textarea">
       <span class="l">*</span>
-      <span class="m">备注说明：</span>
+      <span class="m">个人介绍：</span>
       <span class="r">
-        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="备注说明..." />
+        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="突出优势、经验与强项..." />
       </span>
     </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
@@ -192,6 +224,8 @@ export default {
       course:'',
       coursese:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
       teacharea:'',
+      teachstarttime:"开始时间",
+      teachendtime:"结束时间",
       form:{
         name:'',
         phone:'',
@@ -228,6 +262,14 @@ export default {
     mpSwitch,mpUploader,mpCitypicker,slogan
   },
   methods: {
+    starttimechange(e){
+      console.log(e.mp.detail.value);
+      this.teachstarttime = e.mp.detail.value
+    },
+    endtimechange(e){
+      console.log(e.mp.detail.value);
+      this.teachendtime = e.mp.detail.value
+    },
     xuelichange(e){
       console.log(e.mp.detail);
       
@@ -575,12 +617,30 @@ $maincolor: #377BF0;
     input[type=text]{
       // background-color: pink;
     }
+    .timepick{
+      display: flex;
+      flex-direction: row;
+      span{
+        display: inline-block;
+        padding: 0 12rpx;
+        color: #377BF0;
+      }
+    }
+  }
+  .price{
+    display: flex;
+    flex-direction: row;
   }
   .block{
     .r{
       width: 450rpx;
-      display: felx;
+      // display: felx;
       flex-direction: row;
+    }
+  }
+  .daypick{
+    .m{
+      width: 340rpx;
     }
   }
   .place{

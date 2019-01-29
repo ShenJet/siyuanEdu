@@ -2,21 +2,48 @@
   "pages": [
     "pages/index/main",
     "pages/applyteacher/main",
-    
     "pages/applystudent/main",
     "pages/course/main",
     "pages/profile/main",
     "pages/my/main",
     "pages/teachers/main",
+    "pages/teacherdetail/main",
     "pages/students/main",
+    "pages/studentdetail/main",
     "pages/stu_detail/main",
-    "pages/tech_detail/main"
+    "pages/tech_detail/main",
+    "pages/qqmap/main"
   ],
+  "usingComponents": {
+    "i-button":       "/static/iview/button/index",
+      "i-card":       "/static/iview/card/index",
+      "i-cardstudent":"/static/iview/cardstudent/index",
+      "i-cardteacher":"/static/iview/cardteacher/index",
+      "i-modal":      "/static/iview/modal/index",
+      "i-tab":        "/static/iview/tab/index",
+      "i-tabs":       "/static/iview/tabs/index",
+      "i-grid":       "/static/iview/grid/index",
+      "i-grid-item":  "/static/iview/grid-item/index",
+      "i-grid-icon":  "/static/iview/grid-icon/index",
+      "i-grid-label": "/static/iview/grid-label/index",
+      "i-load-more":  "/static/iview/load-more/index",
+      "i-divider":    "/static/iview/divider/index",
+      "i-checkbox-group": "/static/iview/checkbox-group/index",
+      "i-checkbox": "/static/iview/checkbox/index"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "更方便找到老师或学生"
+    }
+  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#377BF0",
     "navigationBarTitleText": "思元家教",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#377BF0",
+    "backgroundColorBottom": "#eeeeee",
+    "onReachBottomDistance":50
   },
   "tabBar":{
     "color":"#777777",

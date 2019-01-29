@@ -40,13 +40,13 @@ router.get('/message', controllers.message.get)
 router.post('/message', controllers.message.post)
 
 // GET !!! 小程序查询商品列表
-router.get('/goodslist', controllers.getgoodslist)
+router.get('/teacherlist', controllers.getteacherlist)
 
 // GET !!! 小程序查询首页轮播图
 router.get('/swiperlist', controllers.getswiperlist)
 
 // GET !!! 小程序查询商品详情
-router.get('/goodsdetail', validationMiddleware, controllers.getgoodsdetail)
+router.get('/teacherdetail', validationMiddleware, controllers.getteacherdetail)
 
 // GET !!! 小程序查询购物车
 router.get('/cartgoods', validationMiddleware, controllers.getcartgoods)
@@ -88,10 +88,10 @@ router.get('/gettixianlist', validationMiddleware, controllers.gettixianlist)
 // GET !!! 小程序获取可提现的订单
 router.get('/tixian', validationMiddleware, controllers.tixian)
 
-// POST !!! 小程序帮主申请
+// POST !!! 小程序老师申请
 router.post('/teacherapply', validationMiddleware, controllers.applysforteacher)
 
-// POST !!! 小程序供应商、厂商申请
+// POST !!! 小程序学生提交资料
 router.post('/studentapply', validationMiddleware, controllers.applysforstudent)
 
 // GET !!! 小程序搜索附近帮主

@@ -38,19 +38,23 @@
            <span>我是学生</span>
         </div>
         <div class="r">
-           <span @click="ruzhu('student')">完善资料</span>
+           <span @click="ruzhu('student')">发布信息</span>
         </div>
       </div>
     </div>
     <div class="list">
-      <tech-card v-for="(x,i) in teacherlist" :key='i' :info='x'></tech-card>
+      <div class="title">思元名师</div>
+      <teacher-card v-for="(x,i) in teacherlist" :key='i' :info='x' @teacherdetail='teacherdetail(x)'></teacher-card>
     </div>
+    <i-load-more tip="我是有底线的" :loading="false" />
   </div>
 </template>
 <script>
 import qc from 'wafer2-client-sdk'
 import conf from '@/config'
+
 import teacherCard from '@/components/teacherCard'
+
 export default {
   data() {
     return {
@@ -113,52 +117,60 @@ export default {
         icon:'iconfont icon-ziyuan',//icon-qita
         enname:'gengduo',
         color:'#f38433'//'#2A8956'//'#1A6FC8'
-      },]
+      },],
+      teacherlist:[]
     };
   },
-
   components: {
-
+    teacherCard
   },
 
   methods: {
     ruzhu(x){
       let url = `/pages/apply${x}/main`;
-      let self = this
+      wx.navigateTo({ url })
+    },
+    getteacherlist(){
+      var self = this
       wx.showLoading({
-        title: '信息查询中...',
-        mask:true,
+        title:'Loading...'
       })
       qc.request({
-        url: conf.service.rolecheckUrl,
-        data:{},
+        data:{
+          type: 'index'
+        },
+        url: conf.service.getteacherlistUrl,
         success(res){
-          console.log(res);
-          console.log(res.data.data , JSON.stringify(res.data.data) == '{}');
-          wx.setStorage({
-            key:'role',
-            data: {
-              name: res.data.data.name,
-              status: res.data.data.status
-            }
+          self.teacherlist = res.data.data
+          wx.hideLoading()
+          wx.showToast({
+            title:res.data.msg,
+            icon:'none',
+            duration:1400
           })
-          if(res.data.data == null || JSON.stringify(res.data.data) == '{}'){
-            return wx.navigateTo({ url })
-          }
-          if(res.data.data == 'teacher' || res.data.data == 'student'){
-            return wx.showToast({
-              title:res.data.msg,
-              icon:'none',
-              duration:1800
-            })
-          }
+          // setTimeout(function(){
+          //   wx.switchTab({
+          //     url:'/pages/index/main'
+          //   })
+          // },1600)
         },
         fail(){
-          
+          wx.hideLoading()
+          wx.showToast({
+            title:'网络连接失败',
+            icon:'none',
+            duration:1400
+          })
         },
         complete(){
-          wx.hideLoading()
+          wx.stopPullDownRefresh()
         }
+      })
+    },
+    teacherdetail(x){
+      let url = `/pages/teacherdetail/main?openid=${x.openid}`
+      wx.navigateTo({
+        url
       })
     }
   },
@@ -166,6 +178,12 @@ export default {
   created() {
     // 调用应用实例的方法获取全局数据
     // this.getUserInfo()
+  },
+  onLoad(){
+    this.getteacherlist()
+  },
+  onPullDownRefresh(){
+    this.getteacherlist()
   }
 };
 </script>
@@ -260,6 +278,15 @@ swiper{
   }
   .stu{
     margin-left: 30rpx;
+  }
+}
+.list{
+  margin-top: 30rpx;
+  .title{
+    text-align: center;
+    color: $maincolor;
+    font-weight: 600;
+    font-size: 32rpx;
   }
 }
 </style>

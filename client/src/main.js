@@ -4,6 +4,7 @@ import App from './App'
 // 全局样式
 import 'mpvue-weui/src/style/weui.css'
 
+import '../static/iconfont2.css'
 import '../static/iconfont.css'
 
 

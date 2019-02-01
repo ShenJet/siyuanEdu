@@ -37,6 +37,7 @@ module.exports = async (ctx, next) => {
             'teachday',
             'teachstarttime',
             'teachendtime',
+            'comment',
             'applydesc',
             'longitude',
             'latitude',
@@ -44,13 +45,13 @@ module.exports = async (ctx, next) => {
             'viewcount'
         )
         .where({ openid });
-
-        console.log(res);
+        
         if(res){
             res.name = res.name.substring(0,1)+'老师'
             res.teachtype = JSON.parse(res.teachtype)
             res.teacharea = JSON.parse(res.teacharea)
             res.teachday = JSON.parse(res.teachday)
+            res.comment = JSON.parse(res.comment)
             ctx.body = {
                 code:"TEACHER_DETAIL_GET_SUCCESS",
                 success:true,

@@ -46,30 +46,19 @@ const post = async function (ctx, next) {
                 let openid = data["openid"][0]
                 let transaction_id = data["transaction_id"][0]
 
-                let order = await mysql("orders").select().where({orderid, openid})
+                let order = await mysql("orders").first().where({orderid, openid})
                 console.log('------------order------------');
                 console.log(order);
                 console.log('------------order end ------------ ');
-                if(order.length == 1){
-                    let { total_fee, wxpayconfirmed, status, goodsid } = order[0]
+                if(order){
+                    let { total_fee, wxpayconfirmed, status } = order
                     if(wxpayconfirmed || parseInt(status) >= 4 ){
                         // 已收到过通知已确认过
                     }else{
                         if(total_fee == data['total_fee'][0]){
                             // 4.校验通过 金额正确 订单状态修改 
                             await mysql("orders").update({status:4, wxpayconfirmed:1,transaction_id}).where({orderid, openid})
-                            // 把购物车中对应商品删除
-                            let cartinfos = await mysql("cart").select().where({openid})
-                            let cartinfo = cartinfos[0]
-                            let goodsinfo = JSON.parse(cartinfo.cartgoods)
-                            for(let i=0,l=goodsinfo.length;i<l;i++){
-                                if(goodsinfo[i].goodsid == goodsid){
-                                    goodsinfo.splice(i,1);
-                                    break;
-                                }
-                            }
-                            let string = JSON.stringify(goodsinfo)
-                            await mysql("cart").update({cartgoods:string}).where({openid})
+                            
                         }else{
                             // 金额不对
                             console.log('!!!warning!!!金额不对!!!');

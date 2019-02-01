@@ -43,7 +43,9 @@
       </div>
     </div>
     <div class="list">
-      <div class="title">思元名师</div>
+      <div class="title">名师优选
+        <div class="more" @click="toteacherlist">查看更多>></div>
+      </div>
       <teacher-card v-for="(x,i) in teacherlist" :key='i' :info='x' @teacherdetail='teacherdetail(x)'></teacher-card>
     </div>
     <i-load-more tip="我是有底线的" :loading="false" />
@@ -130,6 +132,10 @@ export default {
       let url = `/pages/apply${x}/main`;
       wx.navigateTo({ url })
     },
+    toteacherlist(){
+      let url = `/pages/teachers/main`;
+      wx.switchTab({ url })
+    },
     getteacherlist(){
       var self = this
       wx.showLoading({
@@ -176,8 +182,45 @@ export default {
   },
 
   created() {
-    // 调用应用实例的方法获取全局数据
-    // this.getUserInfo()
+    console.log('index created');
+    var self = this;
+      // 调用登录接口
+    const session = qc.Session.get();
+    console.log('app session：', session);
+    if ( session ){
+      console.log('二次登录@app.vue');
+      // 第二次登录
+      // 或者本地已经有登录态
+      // 可使用本函数更新登录态
+      qc.loginWithCode({
+        success: res => {
+          console.log('app res', res);
+          self.globalData.loginstate = true
+          self.globalData.userInfo = res
+        },
+        fail: err => {
+          // console.error(err);
+          self.globalData.loginstate = false
+          self.globalData.userInfo = {}
+          // self.showModel("登录错误", err.message);
+          // if(this.globalData.loginstate !== true){
+            // 弹窗强制授权
+            // console.log('woyao 弹窗强制授权');
+            wx.showToast({
+              title:"请先登录哦",
+              icon:"none",
+              mask:true,
+              duration:1500,
+              success(){
+                setTimeout(function(){
+                  wx.switchTab({url:"/pages/my/main"})
+                },1500)
+              }
+            })
+          // }
+        }
+      });
+    }
   },
   onLoad(){
     this.getteacherlist()
@@ -287,6 +330,14 @@ swiper{
     color: $maincolor;
     font-weight: 600;
     font-size: 32rpx;
+    position: relative;
+    .more{
+      position: absolute;
+      top: 0;
+      right: 20rpx;
+      color: rgb(173, 173, 173);
+      font-size: 30rpx;
+    }
   }
 }
 </style>

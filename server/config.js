@@ -4,10 +4,15 @@ const CONF = {
     serverHost: 'localhost',
     port: '8898',
     rootPathname: '',
-    // 微信小程序 App ID
+    // 思元微信小程序 App ID
     appId: 'wxcad3341551190ad3',
-    // 微信小程序 App Secret
+    // 思元微信小程序 App Secret
     appSecret: 'b366275aaec4372d61fdd7c20e0a8ed2',
+    // // 御湖湾微信小程序 App ID
+    // appId: 'wx88152eef614c3441',
+    // // 御湖湾微信小程序 App Secret
+    // appSecret: 'b366275aaec4372d61fdd7c20e0a8ed2',
+    
     // 加密token
     wxMessageToken: 'tech997.com',
     // 是否使用腾讯云代理登录小程序
@@ -39,11 +44,12 @@ const CONF = {
          */
         region: 'ap-shanghai',
         // Bucket 名称
-        fileBucket: 'piwubang',
+        fileBucket: 'siyuan',
         // 文件夹
-        uploadFolder: 'testupload'
+        uploadFolder: 'upload'
     },
     // 支付配置项
+    // 御湖湾业主圈：
     payconf:{
          appid :     'wxcad3341551190ad3',
          appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
@@ -51,7 +57,14 @@ const CONF = {
          mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
          wxurl :     'http://www.tech997.cn:8898/weapp/getnotification', // 下单后的通知地址
     },
-
+    // 思元家教：
+    // payconf:{
+    //      appid :     'wxcad3341551190ad3',
+    //      appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
+    //      mchid :     '1515387251',  //商户号
+    //      mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
+    //      wxurl :     'http://www.tech997.cn:8898/weapp/getnotification', // 下单后的通知地址
+    // },
     // 微信登录态有效期
     wxLoginExpires: 7200
     // wxLoginExpires: 15

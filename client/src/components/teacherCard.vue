@@ -4,15 +4,32 @@
       <div class="i-class i-card-header">
         <div class="i-card-header-content">
           <img class="i-card-header-thumb" :src="info.avatar" mode="aspectFit" v-if="info.avatar" />
-          {{ info.title }}
+        </div>
+        <div class="mid">
+          <div class="t">
+            <div class="name">
+              <img src='/static/img/nan.png' mode='aspectFill' v-if="info.sex == '男'" />
+              <img src='/static/img/nv.png' mode='aspectFill' v-if="info.sex == '女'" />
+              {{ info.name }}
+            </div>
+            <div class="coursetype">{{info.coursetype}}</div>
+            <div class="coursename">{{info.coursename}}</div>
+          </div>
+          <div class="m">
+            {{info.role}} {{info.teachyear}}年教龄
+          </div>
+          <div class="b">
+            <span class="iconfont icon-yanzheng1"></span>信息核验
+            <span class="iconfont icon-shenfenzheng"></span>身份认证
+          </div>
         </div>
         <div class="i-card-header-extra" @click="teacherdetail">查看详情</div>
       </div>
-      <div class="i-class i-card-body">
+      <!-- <div class="i-class i-card-body">
         xxx
-      </div>
-      <div class="i-class i-card-footer">
-        yyy
+      </div> -->
+      <div class="i-class i-card-footer" v-if="info.comment.length>0">
+        <span class="tag" v-for='(y,k) in info.comment' :key="k">{{y}}</span>
       </div>
     </div>
   </div>
@@ -36,13 +53,17 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+$maincolor: #377BF0;
+.card{
+  padding: 0;
+}
 .i-card {
   margin: 0 16px;
   font-size: 14px;
   overflow: hidden;
   position: relative;
   background: #fff;
-  border: 1rpx solid #dddee1;
+  border-top: 1rpx solid #dddee1;
   border-radius: 5px;
 }
 
@@ -60,10 +81,55 @@ export default {
 }
 
 .i-card-header-content {
-  flex: 1;
+  // flex: 1;
   text-align: left;
 }
-
+.mid{
+  width: 350rpx;
+  min-height: 64px ;
+  padding: 0 12rpx 0 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 34rpx;
+  .t{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    .name{
+      display: flex;
+      align-items: center;
+      font-size: 34rpx;
+      font-weight: 600;
+      img{
+        width: 32rpx;
+        height: 40rpx;
+      }
+    }
+    .coursetype{
+      display: flex;
+      align-items: center;
+      font-size: 32rpx;
+      padding-left: 10rpx;
+    }
+    .coursename{
+      display: flex;
+      align-items: center;
+      font-size: 32rpx;
+      padding-left: 10rpx;
+    }
+  }
+  .m{
+    font-size: 32rpx;
+  }
+  .b{
+    font-size: 28rpx;
+    span{
+      color: $maincolor;
+    }
+  }
+}
 .i-card-header-thumb {
   display: inline-block;
   width: 64px;
@@ -85,9 +151,9 @@ export default {
 }
 
 .i-card-header-extra {
-  flex: 1;
+  // flex: 1;
   text-align: right;
-  font-size: 14px;
+  font-size: 34rpx;
   font-weight: 600;
   color: #377bf0;
 }
@@ -119,5 +185,13 @@ export default {
   padding: 6px 16px;
   color: #80848f;
   font-size: 12px;
+  .tag{
+    display: inline-block;
+    padding: 0 12rpx;
+    background: $maincolor;
+    color: #fff;
+    border-radius: 30rpx;
+    margin-right: 10rpx;
+  }
 }
 </style>

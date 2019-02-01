@@ -1,21 +1,117 @@
 <template>
   <div class="container">
-    
     <div class="head">
       <div class="avatar">
         <img :src="teacherdetail.avatar" mode='aspectFill' alt="老师头像">
       </div>
-      <div class="title">{{teacherdetail.name}}</div>
+      <div class="title">{{teacherdetail.name}}
+        <img src='/static/img/nan.png' mode='aspectFill' v-if="teacherdetail.sex == '男'" />
+        <img src='/static/img/nv.png' mode='aspectFill' v-if="teacherdetail.sex == '女'" />
+      </div>
+      <div class="view">
+        <div class="l">
+          被预约 {{teacherdetail.ordercount}} 次
+        </div>
+        <div class="r">
+          被看过 {{teacherdetail.viewcount}} 次
+        </div>
+      </div>
       <div class="brdesc">个人简介：{{teacherdetail.applydesc}}</div>
+      <div class="qqmap" @click='toqqmap'>
+        <span class='iconfont icon-round position'></span>
+        <span class='position'>{{teacherdetail.citylabel}}</span>
+      </div>
     </div>
     <!-- #f9ffea -->
-    <div class="qqmap" @click='toqqmap'>老师位置 : 
-      <span class='iconfont icon-round position'></span>
-      <span class='position'>{{teacherdetail.citylabel}}</span>
+    <!-- <div class="qqmap" @click='toqqmap'>老师位置 : </div> -->
+    <div class="teachinfo">
+      教学信息
     </div>
+    <div class="detail">
+      <div class="line">
+        <div class="l">
+          教学年级
+        </div>
+        <div class="r">
+          {{teacherdetail.coursetype}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          教学科目
+        </div>
+        <div class="r">
+          {{teacherdetail.coursename}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          目前职业
+        </div>
+        <div class="r">
+          {{teacherdetail.role}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          学历
+        </div>
+        <div class="r">
+          {{teacherdetail.xueli}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          教龄
+        </div>
+        <div class="r">
+          {{teacherdetail.teachyear}} 年
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          补课时间
+        </div>
+        <div class="r">
+          <span class="iconfont icon-rili"></span>
+          {{teacherdetail.teachday}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          时间段
+        </div>
+        <div class="r">
+          <span class="iconfont icon-time"></span>
+          {{teacherdetail.teachstarttime}} 至 {{teacherdetail.teachendtime}} 
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          信息核验
+        </div>
+        <div class="r">
+          <span class="iconfont icon-yanzheng1"></span>
+          已核验
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          身份证
+        </div>
+        <div class="r">
+          <span class="iconfont icon-shenfenzheng"></span>
+          已证实
+        </div>
+      </div>
+    </div>
+    <div class="toptip">
+      *预约下单后，您将获取老师的更全面信息，如：老师联系方式、毕业院校、专业、生活照等。
+      可以进入‘我的’->‘我的预约’中查看具体信息。
+    </div>
+    <i-load-more tip="我是有底线的" :loading="false" />
+    <div class="spacing"></div>
     
-    <div class="spacing">
-    </div>
     <div class="foot" >
       <div class="item s part1">
         <div @click="routeToHome">
@@ -27,10 +123,10 @@
           联系商家 -->
         </div>
       </div>
-      <div class="item b part4" hover-class="hoverbtn1" @click="jointocart">
+      <div class="item b part4" hover-class="hoverbtn1" @click="jointocollect">
         添加收藏
       </div>
-      <div class="item b part5" hover-class="hoverbtn" @click="buynow">立即预约</div>
+      <div class="item b part5" hover-class="hoverbtn" @click="paynow">立即预约</div>
     </div>
     <button class="share" open-type="share">
       <i class="iconfont icon-fenxiang-copy"></i>
@@ -82,53 +178,107 @@ export default {
         url:`/pages/qqmap/main?longitude=${this.teacherdetail.longitude}&latitude=${this.teacherdetail.latitude}`
       })
     },
-    buynow() {
-      // console.log("buynow");
-      let url = `/pages/order/main?teacherdetail=${JSON.stringify(this.teacherdetail)}&origin=${this.origin}`
-      wx.navigateTo({url})
-    },
-    jointocart(){
-      // console.log("teacherdetail jointocart");
+    jointocollect(){
+      // console.log("teacherdetail jointocollect");
       var self = this;
-      wx.showLoading({
-        title:'Loading',
-        mask:true,
+      // 做本地存储
+      let teacher_collect = wx.getStorageSync('teacher_collect') || []
+      for (let index = 0; index < teacher_collect.length; index++) {
+        const v = teacher_collect[index];
+        if(v.openid == self.teacherdetail.openid){
+          return wx.showToast({
+            title:'添加成功',
+            duration: 1800
+          })
+        }
+      }
+      teacher_collect.unshift(self.teacherdetail)
+      wx.setStorage({
+        key: 'teacher_collect',
+        data: teacher_collect
       })
+      return wx.showToast({
+        title:'添加成功',
+        duration: 1800
+      })
+    },
+    paynow(){
+      var self = this
+      wx.showLoading({
+        title: 'Loading...',
+      })
+      // 统一下单 生成订单号
       qc.request({
-        url: conf.service.addtocartUrl,
+        url: conf.service.prepayUrl,
+        method:"POST",
         data:{
-          goodsid:self.teacherdetail._id
+          id: self.teacherdetail.openid,
+          type:'teacher'
         },
-        success:function(res) {
-          wx.hideLoading()
-          // console.log('addtocart res', res.data.data);
+        success:async function(res) {
+          wx.hideLoading();
           if(res.data.success){
-            wx.showToast({
-              title:"添加成功",
-              duration:1500,
-              icon:'success'
-            })
+            let payres = await wxpay( res.data.data );
+            if(payres.errMsg == 'requestPayment:ok'){
+              // 前端订单支付完成 等待商家核验（等待微信通知回调） 
+              wx.showToast({
+                title: clientpaidres.msg, 
+                duration: 1500,
+                icon:'success',
+                mask:true,
+                complete:function(){
+                  setTimeout(function(){
+                    wx.navigateTo({
+                      url:"/pages/orderlist/main?index=0"
+                    })
+                  },1500)
+                }
+              })
+            }else{
+              wx.showToast({
+                title: '支付失败',
+                 duration: 1000,
+                  icon:'none',
+                  mask:true ,
+                  complete:function(){
+                    wx.navigateTo({
+                      url:"/pages/orderlist/main?index=0"
+                    })
+                  }
+              })
+            }
           }else{
             wx.showToast({
-              title:res.data.msg ,
-              duration:1500,
-              icon:'none'
+              title: "系统错误，请重新下单",
+              icon: 'none',
+              duration: 2000,
+              complete:function(){
+                setTimeout(function(){
+                  // wx.navigateBack({
+                  //   delta: 1
+                  // })
+                },2000)
+              }
             })
           }
-          
         },
-        fail(){
-          wx.hideLoading()
+        fail: function(err) {
+          // console.log(err);
+          // console.log('支付流程结束，支付失败~')
+          // wx.hideLoading();
           wx.showToast({
-            title:"请求失败",
-            duration:1500,
-            icon:'none'
+              title: '下单失败,请检查网络', 
+              duration: 2000,
+              icon:'none',
+              mask:true
           })
-        },
-        complete(){
+
           
+        },
+        complete:function(){
+          // wx.hideLoading();
         }
-      })
+      });
     }
   },
   onLoad(){
@@ -170,9 +320,9 @@ export default {
     // console.log('share');
     return {
       // title: `【找家教,就找思元家教】${self.teacherdetail.name}`,
-      title: `快看这里有个厉害的家教`,
-      path: `/pages/teacherdetail/main?goodsid=${self.goodsid}&origin=${self.origin}`,
-      imageUrl: `${self.teacherdetail.urls[0]}`,
+      title: '快看这里有个厉害的家教!',
+      path: `/pages/teacherdetail/main?openid=${self.teacherdetail.openid}`,
+      // imageUrl: `${self.teacherdetail.urls[0]}`,
       success: (res) => {
         // console.log("转发成功", res);
       },
@@ -186,6 +336,34 @@ export default {
 
 <style scoped lang='scss'>
 $maincolor: #377BF0;
+.icon-time{
+  color:$maincolor;
+}
+.icon-rili{
+  color:$maincolor;
+  font-size: 50rpx;
+  position: relative;
+  top: -10rpx;
+  left: -6rpx;
+  padding-right: 10rpx;
+}
+.icon-yanzheng1{
+  color:$maincolor;
+}
+.icon-shenfenzheng{
+  color:green;
+  font-size: 34rpx;
+}
+.toptip{
+  background: #efefef; 
+  margin-top:12rpx;
+  padding: 12rpx;
+  text-align: center;   
+  font-size: 28rpx;
+  text-align: left;
+  text-indent: 1.5em;
+}
+
 .container{
   padding: 0 20rpx 100rpx;
 }
@@ -221,6 +399,19 @@ swiper {
       border-radius: 85rpx;
     }
   }
+  .view{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 32rpx;
+    color: #c0c0c0;
+    .l{
+
+    }
+    .r{
+
+    }
+  }
   .title {
     font-size: 40rpx;
     font-weight: 700;
@@ -229,6 +420,14 @@ swiper {
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0 auto;
+    span{
+      font-weight: normal;
+      font-size: 36rpx;
+    }
+    img{
+      width: 32rpx;
+      height: 40rpx;
+    }
   }
   .brdesc {
     color: rgb(107, 107, 107);
@@ -236,11 +435,13 @@ swiper {
     margin: 0 auto;
     text-align: left;
     padding-bottom: 20rpx;
-    border-bottom:1rpx solid #eeeeee; 
+    // border-bottom:1rpx solid #eeeeee; 
   }
 }
 .qqmap{
+  border-bottom:1px solid #e5e5e5; 
   .position{
+    font-size: 30rpx;
     color: $maincolor;
   }
 }
@@ -319,43 +520,44 @@ swiper {
     }
   }
   .spacing{
-    height: 100rpx;
+    height: 10rpx;
   }
 .dtdesc{
   word-break: break-all;
   
   padding: 0rpx 20rpx 20rpx;
   font-size: 32rpx;
-  border-bottom:1px solid #e5e5e5; 
+  
   div{
     text-indent: 2em;
   }
 }
-.fahuo{
-  padding: 0rpx 20rpx 20rpx;
-  border-bottom:1px solid #e5e5e5; 
-  font-size: 32rpx;
-  .u{
-    font-weight: 700;
-    color: #ce4031;
-  }
-  .m{
-    padding: 0 0 0 20rpx;
-    span{
+.teachinfo{
+  font-weight: 600;
+  font-size: 40rpx;
+  text-align: center;
+}
+.detail{
+  font-size: 34rpx;
+  .line{
+    display: flex;
+    flex-direction: row;
+    .l{
+      width: 200rpx;
+      box-sizing: border-box;
+      padding-right: 26rpx;
+      text-align: right;
       font-weight: 600;
     }
-    .position{
-      color: #24a94e;
-      text-decoration:underline;
+    .r{
+      width: 510rpx;
+      display: flex;
+      align-items: flex-start;
+      span{
+        display: inline-block;
+        padding-right: 10rpx;
+      }
     }
-  }
-}
-.dtimgs{
-  font-size: 32rpx;
-  border-bottom:1px solid #e5e5e5; 
-  padding: 0rpx 20rpx 20rpx;
-  img{
-    width: 100%;
   }
 }
 .foot {
@@ -391,13 +593,13 @@ swiper {
   .part4 {
     background-color: #fdb51b;
     color: #000;
-    font-size: 40rpx;
+    font-size: 36rpx;
     text-align: center;
   }
   .part5 {
     background-color: $maincolor;
     color: #fff;
-    font-size: 40rpx;
+    font-size: 36rpx;
     text-align: center;
   }
   .hoverbtn1 {

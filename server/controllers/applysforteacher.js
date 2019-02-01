@@ -11,6 +11,8 @@ module.exports = async (ctx, next) => {
         params.teachtype = JSON.stringify(params.teachtype)
         params.teacharea = JSON.stringify(params.teacharea)
         params.teachday = JSON.stringify(params.teachday)
+        params.comment = JSON.stringify(params.comment)
+        
         let search = await mysql('applysforteacher').first().where({openid})
         if(!search){
             // 直接插入

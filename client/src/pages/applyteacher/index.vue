@@ -104,7 +104,7 @@
       <span class="m">常住地点：</span>
       <div class="r">
         <!-- <div><button hover-class='btnhover'>选择城市</button></div> -->
-        <div>
+        <div class="area">
           <span class="iconfont icon-round"></span>
           <span @click='chooselocation'>{{ form.citylabel || '点击选择你的小区位置' }}</span>
           <input type="text" name='citylabel' disabled v-model="form.citylabel" hidden>
@@ -169,6 +169,62 @@
         <input type="text" name='idcard2' disabled v-model="imgurls['2']" hidden>
       </div>
     </div>
+    <div class="item block">
+      <span class="l">*</span>
+      <span class="m">一张生活照：</span>
+      <div class="r">
+        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail2" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' which='3'></mp-uploader>
+        <input type="text" name='idcard3' disabled v-model="imgurls['3']" hidden>
+      </div>
+    </div>
+    <div class="">
+      <span class="">*</span>
+      <span class="">学生印象：</span>
+      <div class="">
+        <checkbox-group name='comment' @change='commentchange'>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='认真负责'>认真负责</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='幽默风趣' >幽默风趣</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='低调内敛' >低调内敛</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='耐心指导'>耐心指导</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='一丝不苟'>一丝不苟</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='宽容大度'>宽容大度</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='教学大咖'>教学大咖</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='内容丰富'>内容丰富</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='知识新颖'>知识新颖</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='很有成效'>很有成效</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='平易近人'>平易近人</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='和善可亲'>和善可亲</checkbox>
+          </label>
+          
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='还想找Ta补课'>还想找他补课</checkbox>
+          </label>
+        </checkbox-group>
+      </div>
+    </div>
     <div class="textarea">
       <span class="l">*</span>
       <span class="m">个人介绍：</span>
@@ -217,7 +273,7 @@ export default {
       xueliarr:['大专','本科','硕士','博士'],
       xueli:'',
       graduateyear:'',
-      rolearr:['专职小学老师','专职初中老师','专职高中老师','专职艺术老师','在读兼职大学生','其他'],
+      rolearr:['专职小学老师','专职初中老师','专职高中老师','专职艺术老师','兼职大学生','其他'],
       role:'',
       school:'',
       major:'',
@@ -253,7 +309,8 @@ export default {
       // 上传的2张照片
       imgurls:{
         1:'',
-        2:''
+        2:'',
+        3:''
       }
 
     };
@@ -596,7 +653,6 @@ $maincolor: #377BF0;
 }
 .container{
   padding: 0 20rpx 20rpx;
-  
   .item{
     display: flex;
     flex-direction: row;
@@ -645,6 +701,9 @@ $maincolor: #377BF0;
   }
   .place{
     .r{
+      .area{
+        color: $maincolor;
+      }
       button{
         display: inline-block;
         height: 44rpx;
@@ -707,5 +766,18 @@ $maincolor: #377BF0;
     color: #ccc;
   }
 }
-
+.commentlabel{
+  checkbox{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #377BF0;
+    // height: 70rpx;
+    padding: 6rpx 20rpx;
+    border-radius: 30rpx;
+    color: #fff;
+    font-size: 30rpx;
+    margin-right: 8rpx;
+  }
+}
 </style>

@@ -119,7 +119,7 @@ var config = {
         roundshopgoodsuploadUrl: `${host}/weapp/roundshopgoodsupload`,
 
     },
-    mapkey:'2XEBZ-7DR66-RFZSB-EM52P-TK7W7-3YFA3'
+    mapkey:'NNWBZ-OSLKD-ABD4N-POSXK-QFOAZ-GZBWR'
 };
 
 export default config;

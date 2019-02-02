@@ -1,89 +1,106 @@
 <template>
   <div class="container">
-    <swiper v-if="goodsdetail.origin != 'platform'" indicator-dots="true" circular="true" next-margin="0" previous-margin="0">
-      <block v-for="(x, i) in goodsdetail.urls" :key="i">
-        <swiper-item>
-          <img :src="x" class="slide-image" mode>
-        </swiper-item>
-      </block>
-    </swiper>
-    <swiper v-if="goodsdetail.origin == 'platform'" indicator-dots="true" circular="true" next-margin="0" previous-margin="0">
-      <block v-for="(x, i) in goodsdetail.urls" :key="i">
-        <swiper-item>
-          <img :src="x.url" class="slide-image" mode>
-        </swiper-item>
-      </block>
-    </swiper>
-    <!-- <div class="warn">
-      *为保证交易安全，普通用户上传的商品只可浏览不可购买
-    </div> -->
     <div class="head">
-      <div class="title">{{goodsdetail.name}}</div>
-      <div class="brdesc" v-if="goodsdetail.origin == 'platform'">{{goodsdetail.briefDesc}}</div>
+      <div class="avatar">
+        <img :src="studentdetail.avatar" mode='aspectFill' alt="老师头像">
+      </div>
+      <div class="title">{{studentdetail.name}}
+        <img src='/static/img/nan.png' mode='aspectFill' v-if="studentdetail.sex == '男'" />
+        <img src='/static/img/nv.png' mode='aspectFill' v-if="studentdetail.sex == '女'" />
+      </div>
+      <div class="view">
+        <div class="r">
+          被看过 {{studentdetail.viewcount}} 次
+        </div>
+      </div>
+      <div class="brdesc">学员简介：{{studentdetail.applydesc}}</div>
+      <div class="qqmap" @click='toqqmap'>
+        <span class='iconfont icon-round position'></span>
+        <span class='position'>{{studentdetail.citylabel}}</span>
+      </div>
     </div>
     <!-- #f9ffea -->
-    <div class="price">
-      <div class="up">
+    <!-- <div class="qqmap" @click='toqqmap'>老师位置 : </div> -->
+    <div class="teachinfo">
+      补课信息
+    </div>
+    <div class="detail">
+      <div class="line">
         <div class="l">
-          <div class="nowprice">
-            <div class="tag">批物价</div>
-            <div class="nowmoney">￥{{goodsdetail.currentPrice}}</div>
-          </div>
-          <div class="oldprice">
-            <div class="tag">市场价</div>
-            <div class="oldmoney">￥{{goodsdetail.oldPrice}}</div>
-          </div>
+          所在年级
         </div>
-        <div class="r" v-if="origin == 'platform'">
-          <div class="tag">各大商超价</div>
-          <div
-            class="marketprice"
-            v-for="(x,i) in goodsdetail.marketPrice"
-            :key="i"
-          >{{x.name}}:￥{{x.price}}</div>
+        <div class="r">
+          {{studentdetail.grade}}
         </div>
       </div>
-      <div class="down">
-        <i class="iconfont icon-kucunguanli"></i>
-        商品库存{{goodsdetail.stock}}件
+      <div class="line">
+        <div class="l">
+          补课科目
+        </div>
+        <div class="r">
+          {{studentdetail.coursename}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          期望教龄
+        </div>
+        <div class="r">
+          {{studentdetail.teachyear}} 年
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          期望时间
+        </div>
+        <div class="r">
+          <span class="iconfont icon-rili"></span>
+          {{studentdetail.teachday}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          具体时间
+        </div>
+        <div class="r">
+          <span class="iconfont icon-time"></span>
+          {{studentdetail.teachstarttime}} 至 {{studentdetail.teachendtime}} 
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          信息核验
+        </div>
+        <div class="r">
+          <span class="iconfont icon-yanzheng1"></span>
+          已核验
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          身份证
+        </div>
+        <div class="r">
+          <span class="iconfont icon-shenfenzheng"></span>
+          已证实
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          学员概况
+        </div>
+        <div class="r">
+          {{studentdetail.gaikuang}}
+        </div>
       </div>
     </div>
-    <div class="dtdesc">
-      商品描述：
-      <div>{{goodsdetail.detailDesc}}</div>
+    <div class="toptip">
+      *预约下单后，您将获取学员的更全面信息，如：学员联系方式等。
+      可以进入‘我的’->‘我的订单’中查看具体信息。
     </div>
-    <div class="fahuo">
-      <div class="u">[注意事项]</div>
-      <!-- 发货地 发货时间 发货方式 -->
-      <div class="m">
-          <div>发货方式 : <span>{{goodsdetail.deliveryMethods || '商家未注明'}}</span></div>
-          <div @click='toqqmap'>发货/提货位置 : 
-            <span class='iconfont icon-round position'></span>
-            <span class='position'>{{goodsdetail.deliveryArea || '商家未注明'}}</span>
-          </div>
-          <div v-if="goodsdetail.origin!='platform'">组团时间 :{{goodsdetail._start+'~'+goodsdetail._end}}</div>
-          <div>发货/提货时间 :{{goodsdetail.deliveryTime || '商家未注明'}}</div>
-          <div>可购区域 :
-            <span v-for='(m,k) in goodsdetail.targetArea_name' :key="k"> {{ m.name }} </span>
-          </div>
-          <div class="tips"></div>
-          <div>是否包邮 :{{goodsdetail.shipping?'包邮':'不包邮'}}</div>
-      </div>
-    </div>
-    <div class="fahuo" v-if="goodsdetail.origin != 'platform'">
-      <div class="u">[卖家提示]</div>
-      <div>
-        {{goodsdetail.tips}}
-      </div>
-    </div>
-    <div class="dtimgs" v-if="goodsdetail.origin == 'platform'">
-      <div>商品详情：</div>
-      <div>
-        <img v-for='(x,i) in goodsdetail.detailImg' :key='i' :src="x.url" alt="">
-      </div>
-    </div>
-    <div class="spacing">
-    </div>
+    <i-load-more tip="我是有底线的" :loading="false" />
+    <div class="spacing"></div>
+    
     <div class="foot" >
       <div class="item s part1">
         <div @click="routeToHome">
@@ -95,10 +112,10 @@
           联系商家 -->
         </div>
       </div>
-      <div class="item b part4" hover-class="hoverbtn1" @click="jointocart">
-        加入购物车
+      <div class="item b part4" hover-class="hoverbtn1" @click="jointocollect">
+        添加收藏
       </div>
-      <div class="item b part5" hover-class="hoverbtn" @click="buynow">立即购买</div>
+      <div class="item b part5" hover-class="hoverbtn" @click="paynow">立即预约</div>
     </div>
     <button class="share" open-type="share">
       <i class="iconfont icon-fenxiang-copy"></i>
@@ -113,9 +130,7 @@ import chooselocation from "@/wxapis/chooselocation";
 import modal from "@/wxapis/modal";
 import qc from 'wafer2-client-sdk'
 import conf from '@/config'
-
-import slogan from "@/components/slogan";
-import goodsItem from "@/components/goodsitem";
+import wxpay from '@/wxapis/wxpay'
 
 
 export default {
@@ -123,15 +138,13 @@ export default {
     return {
       userInfo: {},
       location: "尚未获取定位",
-      goodsdetail: {},
+      studentdetail: {},
       count:1,
       goodsid:'',
       origin:''
     };
   },
   components: {
-    slogan,
-    goodsItem
   },
   methods: {
     routeToHome() {
@@ -139,7 +152,7 @@ export default {
       wx.switchTab({ url });
     },
     toqqmap() {
-      if(!this.goodsdetail.longitude || !this.goodsdetail.latitude){
+      if(!this.studentdetail.longitude || !this.studentdetail.latitude){
         return wx.showToast({
           title:'该商品未添加定位',
           duration: 1500,
@@ -147,56 +160,113 @@ export default {
         })
       }
       wx.navigateTo({
-        url:`/pages/qqmap/main?longitude=${this.goodsdetail.longitude}&latitude=${this.goodsdetail.latitude}`
+        url:`/pages/qqmap/main?longitude=${this.studentdetail.longitude}&latitude=${this.studentdetail.latitude}`
       })
     },
-    buynow() {
-      // console.log("buynow");
-      let url = `/pages/order/main?goodsdetail=${JSON.stringify(this.goodsdetail)}&origin=${this.origin}`
-      wx.navigateTo({url})
-    },
-    jointocart(){
-      // console.log("goodsdetail jointocart");
+    jointocollect(){
+      // console.log("studentdetail jointocollect");
       var self = this;
-      wx.showLoading({
-        title:'Loading',
-        mask:true,
+      // 做本地存储
+      let student_collect = wx.getStorageSync('student_collect') || []
+      for (let index = 0; index < student_collect.length; index++) {
+        const v = student_collect[index];
+        if(v.openid == self.studentdetail.openid){
+          return wx.showToast({
+            title:'添加成功',
+            duration: 1800
+          })
+        }
+      }
+      student_collect.unshift(self.studentdetail)
+      wx.setStorage({
+        key: 'student_collect',
+        data: student_collect
       })
+      return wx.showToast({
+        title:'添加成功',
+        duration: 1800
+      })
+    },
+    paynow(){
+      var self = this
+      wx.showLoading({
+        title: 'Loading...',
+      })
+      // 统一下单 生成订单号
       qc.request({
-        url: conf.service.addtocartUrl,
+        url: conf.service.prepayUrl,
+        method:"POST",
         data:{
-          goodsid:self.goodsdetail._id
+          id: self.studentdetail.openid,
+          type:'teacher'
         },
-        success:function(res) {
-          wx.hideLoading()
-          // console.log('addtocart res', res.data.data);
+        success:async function(res) {
+          wx.hideLoading();
           if(res.data.success){
-            wx.showToast({
-              title:"添加成功",
-              duration:1500,
-              icon:'success'
-            })
+            let payres = await wxpay( res.data.data );
+            console.log(payres);
+            if(payres.errMsg == 'requestPayment:ok'){
+              // 前端订单支付完成 等待商家核验（等待微信通知回调） 
+              wx.showToast({
+                title: '支付成功', 
+                duration: 1500,
+                icon:'success',
+                mask:true,
+                complete:function(){
+                  setTimeout(function(){
+                    wx.navigateTo({
+                      url:"/pages/orderlist/main?index=0"
+                    })
+                  },1500)
+                }
+              })
+            }else{
+              wx.showToast({
+                title: '支付失败',
+                 duration: 1500,
+                  icon:'none',
+                  mask:true ,
+                  complete:function(){
+                    setTimeout(function(){
+                      wx.navigateTo({
+                        url:"/pages/orderlist/main?index=0"
+                      })
+                    },1500)
+                  }
+              })
+            }
           }else{
             wx.showToast({
-              title:res.data.msg ,
-              duration:1500,
-              icon:'none'
+              title: "系统错误，请重新下单",
+              icon: 'none',
+              duration: 2000,
+              complete:function(){
+                setTimeout(function(){
+                  // wx.navigateBack({
+                  //   delta: 1
+                  // })
+                },2000)
+              }
             })
           }
-          
         },
-        fail(){
-          wx.hideLoading()
+        fail: function(err) {
+          // console.log(err);
+          // console.log('支付流程结束，支付失败~')
+          // wx.hideLoading();
           wx.showToast({
-            title:"请求失败",
-            duration:1500,
-            icon:'none'
+              title: '下单失败,请检查网络', 
+              duration: 2000,
+              icon:'none',
+              mask:true
           })
-        },
-        complete(){
+
           
+        },
+        complete:function(){
+          // wx.hideLoading();
         }
-      })
+      });
     }
   },
   onLoad(){
@@ -205,40 +275,31 @@ export default {
     })
   },
   onShow(){
-    let goodsid = this.$root.$mp.query.goodsid
-    let origin = this.$root.$mp.query.origin
-    if(!goodsid || !origin){
+    let openid = this.$root.$mp.query.openid
+    let randomstr = this.$root.$mp.query.randomstr
+    
+    if(!openid || !randomstr){
       return wx.showToast({
-        title:'商品信息有误，请重新选择',
+        title:'学员信息有误，请返回重新选择',
         icon:'none',
-        duration: 2500
+        duration: 2000
       })
     }
-    this.goodsid = goodsid
-    this.origin = origin
-
-    // console.log('goodsid:',goodsid);
     
     var self = this;
       qc.request({
-        url: conf.service.goodsdetailUrl,
+        url: conf.service.studentdetailUrl,
         // method:"POST",
         data:{
-          goodsid, origin
+          openid, randomstr
         },
         success:function(res) {
-          // console.log('goodsdetail', res.data.data);
-          let goodsinfo = res.data.data
-          goodsinfo.dtimgs = []
-          goodsinfo.detailImg.map(function(v,i){
-            goodsinfo.dtimgs.push(v.url)
-          })
-          goodsinfo.targetArea_name = JSON.parse(goodsinfo.targetArea_name || '[]') 
-          self.goodsdetail = goodsinfo
+          wx.hideLoading()
+          self.studentdetail = res.data.data
         },
         fail(){
           wx.showToast({
-            title:"获取商品详情失败",
+            title:"获取学员信息失败，请检查网络",
             duration:1500
           })
         }
@@ -248,9 +309,9 @@ export default {
     var self = this
     // console.log('share');
     return {
-      title: `【批物帮-买啥都是批发价!】${self.goodsdetail.name}`,
-      path: `/pages/goodsdetail/main?goodsid=${self.goodsid}&origin=${self.origin}`,
-      imageUrl: `${self.goodsdetail.urls[0]}`,
+      title: '急!这位同学想找个厉害的家教!',
+      path: `/pages/studentdetail/main?openid=${self.studentdetail.openid}`,
+      // imageUrl: `${self.studentdetail.urls[0]}`,
       success: (res) => {
         // console.log("转发成功", res);
       },
@@ -263,8 +324,38 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-$maincolor: #ce4031;
+$maincolor: #377BF0;
+.icon-time{
+  color:$maincolor;
+}
+.icon-rili{
+  color:$maincolor;
+  font-size: 50rpx;
+  position: relative;
+  top: -10rpx;
+  left: -6rpx;
+  padding-right: 10rpx;
+}
+.icon-yanzheng1{
+  color:$maincolor;
+}
+.icon-shenfenzheng{
+  color:green;
+  font-size: 34rpx;
+}
+.toptip{
+  background: #efefef; 
+  margin-top:12rpx;
+  padding: 12rpx;
+  text-align: center;   
+  font-size: 28rpx;
+  text-align: left;
+  text-indent: 1.5em;
+}
 
+.container{
+  padding: 0 20rpx 100rpx;
+}
 swiper {
   width: 750rpx;
   height: 562.5rpx;
@@ -287,6 +378,29 @@ swiper {
 .head {
   padding: 20rpx 0;
   text-align: center;
+  .avatar{
+    display: flex;
+    justify-content: space-around;
+    padding: 10rpx 0;
+    img{
+      width: 170rpx;
+      height: 170rpx;
+      border-radius: 85rpx;
+    }
+  }
+  .view{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 32rpx;
+    color: #c0c0c0;
+    .l{
+
+    }
+    .r{
+
+    }
+  }
   .title {
     font-size: 40rpx;
     font-weight: 700;
@@ -295,11 +409,29 @@ swiper {
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0 auto;
+    span{
+      font-weight: normal;
+      font-size: 36rpx;
+    }
+    img{
+      width: 32rpx;
+      height: 40rpx;
+    }
   }
   .brdesc {
     color: rgb(107, 107, 107);
     max-width: 80%;
     margin: 0 auto;
+    text-align: left;
+    padding-bottom: 20rpx;
+    // border-bottom:1rpx solid #eeeeee; 
+  }
+}
+.qqmap{
+  border-bottom:1px solid #e5e5e5; 
+  .position{
+    font-size: 30rpx;
+    color: $maincolor;
   }
 }
 .price {
@@ -377,43 +509,44 @@ swiper {
     }
   }
   .spacing{
-    height: 100rpx;
+    height: 10rpx;
   }
 .dtdesc{
   word-break: break-all;
   
   padding: 0rpx 20rpx 20rpx;
   font-size: 32rpx;
-  border-bottom:1px solid #e5e5e5; 
+  
   div{
     text-indent: 2em;
   }
 }
-.fahuo{
-  padding: 0rpx 20rpx 20rpx;
-  border-bottom:1px solid #e5e5e5; 
-  font-size: 32rpx;
-  .u{
-    font-weight: 700;
-    color: #ce4031;
-  }
-  .m{
-    padding: 0 0 0 20rpx;
-    span{
+.teachinfo{
+  font-weight: 600;
+  font-size: 40rpx;
+  text-align: center;
+}
+.detail{
+  font-size: 34rpx;
+  .line{
+    display: flex;
+    flex-direction: row;
+    .l{
+      width: 200rpx;
+      box-sizing: border-box;
+      padding-right: 26rpx;
+      text-align: right;
       font-weight: 600;
     }
-    .position{
-      color: #24a94e;
-      text-decoration:underline;
+    .r{
+      width: 510rpx;
+      display: flex;
+      align-items: flex-start;
+      span{
+        display: inline-block;
+        padding-right: 10rpx;
+      }
     }
-  }
-}
-.dtimgs{
-  font-size: 32rpx;
-  border-bottom:1px solid #e5e5e5; 
-  padding: 0rpx 20rpx 20rpx;
-  img{
-    width: 100%;
   }
 }
 .foot {
@@ -449,13 +582,13 @@ swiper {
   .part4 {
     background-color: #fdb51b;
     color: #000;
-    font-size: 40rpx;
+    font-size: 36rpx;
     text-align: center;
   }
   .part5 {
     background-color: $maincolor;
     color: #fff;
-    font-size: 40rpx;
+    font-size: 36rpx;
     text-align: center;
   }
   .hoverbtn1 {

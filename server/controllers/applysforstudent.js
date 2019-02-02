@@ -6,9 +6,9 @@ module.exports = async (ctx, next) => {
     let openid = ctx.state.$wxInfo.userinfo.openId ;
     let avatarUrl = ctx.state.$wxInfo.userinfo.avatarUrl ;
     console.log('@学生提交资料  params:',params);
+    let randomstr = 'S' + Math.floor(Math.random()*(89999)+10000)
     try{
         params.teachtype = JSON.stringify(params.teachtype)
-        // params.teacharea = JSON.stringify(params.teacharea)
         params.teachday = JSON.stringify(params.teachday)
         let search = await mysql('applysforstudent').select().where({openid})
         for (let i = 0, l=search.length; i < l; i++) {
@@ -23,7 +23,7 @@ module.exports = async (ctx, next) => {
             }
         }
         // 直接插入
-        await mysql('applysforstudent').insert({...params, openid, avatarUrl})
+        await mysql('applysforstudent').insert({...params, openid, avatarUrl, randomstr})
         return ctx.body = {
             code:"STUDENT_APPLY_SUCCESS",
             data:{},

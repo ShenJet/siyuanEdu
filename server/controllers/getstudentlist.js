@@ -4,39 +4,34 @@ const { mysql } = qcloud
 
 module.exports = async (ctx, next) => {
     let type = ctx.query.type
-    let res = await mysql('user_teachers').select(
+    let res = await mysql('applysforstudent').select(
         'openid',
         'recieveorder',
         'avatar',
         'name',
         'sex',
-        'role',
-        // 'xueli',
         'coursetype',
         'coursename',
-        'teachtype',
+        'longitude',
+        'latitude',
+        'teachersex',
+        'teachday',
         'teachyear',
-        'teacharea',
-        // 'citylabel',
-        'comment',
-        // 'longitude',
-        // 'latitude',
-        // 'ordercount',
-        // 'viewcount'
+        'city',
+        'country',
+        'grade',
+        'randomstr'
     ).where({recieveorder: 1}).limit(8).orderBy('id', 'desc');
     // console.log('teacher list:');
     // console.log(res);
     res.map(function(v, i){
-        v.name = v.name.substring(0,1)+'老师'
-        v.teachtype = JSON.parse(v.teachtype)
-        v.teacharea = JSON.parse(v.teacharea)
-        v.comment = JSON.parse(v.comment)
+        v.name = v.name.substring(0,1)+'同学'
+        v.teachday = JSON.parse(v.teachday)
     })
-    // console.log(res);
     ctx.body = {
         code:1,
         success:true,
-        msg:"思元名师获取成功",
+        msg:"学员列表刷新成功",
         data:res
     }
 }

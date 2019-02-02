@@ -64,7 +64,7 @@
         <radio-group name='teachersex'>
           <radio  color='#377BF0' value='男'>只找男老师</radio>
           <radio  color='#377BF0' value='女'>只找女老师</radio>
-          <radio  color='#377BF0' value='男女'>都可以</radio>
+          <radio  color='#377BF0' value='男或女'>都可以</radio>
         </radio-group>
       </span>
     </div>

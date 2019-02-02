@@ -39,15 +39,9 @@ var config = {
 
         // 获取学生列表
         getstudentlistUrl: `${host}/weapp/studentlist`,
-
-        // 收货地址修改
-        addresseditUrl: `${host}/weapp/addressedit`,
-
-        // 加入购物车
-        addtocartUrl:`${host}/weapp/addtocart`,
-
-        // 查询购物车
-        cartgoodsUrl:`${host}/weapp/cartgoods`,
+                
+        // 获取学生详情
+        studentdetailUrl: `${host}/weapp/studentdetail`,
 
         // 通过后端调统一下单接口
         prepayUrl: `${host}/weapp/prepay`,
@@ -55,23 +49,8 @@ var config = {
         // 获取订单列表
         getOrderList: `${host}/weapp/orderlist`,
 
-        // 确认收货
-        confirmshipUrl: `${host}/weapp/confirmship`,
-
-        // 退货退款申请
-        refundUrl: `${host}/weapp/refund`,
-
         // 删除订单
         deleteorderUrl: `${host}/weapp/deleteorder`,
-
-        // 前端已支付，告知服务器
-        clientpaidUrl: `${host}/weapp/clientpaid`,
-        
-        // 提现列表获取
-        getTixianListUrl: `${host}/weapp/gettixianlist` ,
-
-        // 提现申请
-        tixianUrl: `${host}/weapp/tixian` ,
 
         // 获取已发布商品
         myreleaseUrl: `${host}/weapp/myrelease` ,
@@ -83,40 +62,7 @@ var config = {
         teacherapplyUrl: `${host}/weapp/teacherapply`,
 
         // 学生提交资料
-        studentapplyUrl: `${host}/weapp/studentapply`,
-        
-        // 组团-搜索帮主
-        searchbangzhuUrl: `${host}/weapp/searchbangzhu`,
-
-        // 组团-搜索普通用户商品
-        searchzutuanuserUrl: `${host}/weapp/searchzutuanuser`,
-        
-        // 组团-搜索帮主商品
-        searchbangzhugoodsUrl: `${host}/weapp/searchbangzhugoods`,
-
-        // 组团-帮主商品上传
-        bangzhugoodsuploadUrl: `${host}/weapp/bangzhugoodsupload`,
-
-        // 组团-搜索该地区已开放小区列表
-        getcommunitylistUrl: `${host}/weapp/getcommunitylist`,
-        
-        // 组团-搜索该小区的商品列表
-        getcommunitygoodslistUrl: `${host}/weapp/getcommunitygoodslist`,
-
-        // 周边-周边店铺
-        searchroundshopUrl: `${host}/weapp/roundshop`,
-
-        // 周边-周边店铺商品
-        searchroundshopgoodsUrl: `${host}/weapp/roundshopgoods`,
-
-        // 周边-检查当前用户是否已注册商铺
-        checkuserisshopUrl: `${host}/weapp/checkuserisshop`,
-
-        // 周边-周边店铺入驻申请
-        roundshopapplyUrl: `${host}/weapp/roundshopapply`,
-
-        // 周边-周边店铺商品上传
-        roundshopgoodsuploadUrl: `${host}/weapp/roundshopgoodsupload`,
+        studentapplyUrl: `${host}/weapp/studentapply`
 
     },
     mapkey:'NNWBZ-OSLKD-ABD4N-POSXK-QFOAZ-GZBWR'

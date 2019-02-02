@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/students/main",
     "pages/teachers/main",
     "pages/index/main",
     "pages/applyteacher/main",
@@ -8,11 +9,11 @@
     "pages/profile/main",
     "pages/my/main",
     "pages/teacherdetail/main",
-    "pages/students/main",
     "pages/studentdetail/main",
     "pages/stu_detail/main",
     "pages/tech_detail/main",
-    "pages/qqmap/main"
+    "pages/qqmap/main",
+    "pages/orderlist/main"
   ],
   "usingComponents": {
     "i-button":       "/static/iview/button/index",

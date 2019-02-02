@@ -174,10 +174,29 @@ export default {
       })
     },
     teacherdetail(x){
-      let url = `/pages/teacherdetail/main?openid=${x.openid}`
-      wx.navigateTo({
-        url
-      })
+      let loginstate = this.globalData.loginstate;
+      if(loginstate === true){
+        let url = `/pages/teacherdetail/main?openid=${x.openid}`
+        wx.navigateTo({
+          url
+        })
+      }else{
+        wx.showToast({
+          title:'用户尚未登录，请先登录',
+          duration: 1800,
+          icon:'none',
+          mask: true,
+          complete(){
+            setTimeout(function(){
+              let url = `/pages/my/main`
+              wx.switchTab({
+                url
+              })
+            },1900)
+          }
+        })
+        
+      }
     }
   },
 

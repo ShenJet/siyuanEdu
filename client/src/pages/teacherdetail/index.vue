@@ -79,6 +79,15 @@
       </div>
       <div class="line">
         <div class="l">
+          课时费
+        </div>
+        <div class="r">
+          <span class="iconfont icon-feiyongshenqing"></span>
+          {{teacherdetail.price}} 元/小时
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
           时间段
         </div>
         <div class="r">
@@ -141,9 +150,7 @@ import chooselocation from "@/wxapis/chooselocation";
 import modal from "@/wxapis/modal";
 import qc from 'wafer2-client-sdk'
 import conf from '@/config'
-
-import slogan from "@/components/slogan";
-import goodsItem from "@/components/goodsitem";
+import wxpay from '@/wxapis/wxpay'
 
 
 export default {
@@ -158,8 +165,6 @@ export default {
     };
   },
   components: {
-    slogan,
-    goodsItem
   },
   methods: {
     routeToHome() {
@@ -219,10 +224,11 @@ export default {
           wx.hideLoading();
           if(res.data.success){
             let payres = await wxpay( res.data.data );
+            console.log(payres);
             if(payres.errMsg == 'requestPayment:ok'){
               // 前端订单支付完成 等待商家核验（等待微信通知回调） 
               wx.showToast({
-                title: clientpaidres.msg, 
+                title: '支付成功', 
                 duration: 1500,
                 icon:'success',
                 mask:true,
@@ -237,13 +243,15 @@ export default {
             }else{
               wx.showToast({
                 title: '支付失败',
-                 duration: 1000,
+                 duration: 1500,
                   icon:'none',
                   mask:true ,
                   complete:function(){
-                    wx.navigateTo({
-                      url:"/pages/orderlist/main?index=0"
-                    })
+                    setTimeout(function(){
+                      wx.navigateTo({
+                        url:"/pages/orderlist/main?index=0"
+                      })
+                    },1500)
                   }
               })
             }
@@ -353,6 +361,9 @@ $maincolor: #377BF0;
 .icon-shenfenzheng{
   color:green;
   font-size: 34rpx;
+}
+.icon-feiyongshenqing{
+  color:$maincolor;
 }
 .toptip{
   background: #efefef; 

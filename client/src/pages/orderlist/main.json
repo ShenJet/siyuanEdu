@@ -1,7 +1,7 @@
 {
     "navigationBarBackgroundColor": "#377BF0",
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "学员详情",
+    "navigationBarTitleText": "我的订单",
     "backgroundTextStyle": "light",
-    "enablePullDownRefresh": false
+    "enablePullDownRefresh": true
 }

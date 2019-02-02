@@ -1,69 +1,242 @@
 <template>
-  <div>
-    <ul class="pege">
-      <li v-for="(log, index) in logs" :class="{ red: aa }" :key="index" class="log-item">
-        <card :text="(index + 1) + ' . ' + log"></card>
-      </li>
-    </ul>
+  <div class="page">
+    <div class="top">
+      <div>
+        <picker mode='region' @change='regionchange'>
+          {{ country || '地区' }}
+          <span class="iconfont icon-tubiao_xiala"></span>
+        </picker>
+      </div>
+      <div>
+        <picker mode='multiSelector' :range='courses' value='[0,0]' @change='coursechange'>
+          {{coursename || '科目'}}
+          <span class="iconfont icon-tubiao_xiala"></span>
+        </picker>
+      </div>
+      <div>
+        <picker mode='selector' :range='sexes' value='0' @change='sexchange'>
+          {{sex || '性别'}}
+          <span class="iconfont icon-tubiao_xiala"></span>
+        </picker>
+      </div>
+      <div>
+        <picker mode='selector' :range='roles' value='0' @change='rolechange'>
+          {{ role || '身份' }}
+          <span class="iconfont icon-tubiao_xiala"></span>
+        </picker>
+      </div>
+      <div>
+        <button class="reset" hover-class='reset-hover' @click='clear'>重置条件</button>
+      </div>
+    </div>
+    <div class="list">
+      <student-card v-for="(x,i) in studentlist" :key='i' :info='x' @studentdetail='studentdetail(x)'></student-card>
+    </div>
   </div>
 </template>
 
 <script>
-import { formatTime } from '@/utils/index'
-import card from '@/components/card'
+import qc from 'wafer2-client-sdk'
+import conf from '@/config'
+import studentCard from '@/components/studentCard'
 
 export default {
   components: {
-    card
+    studentCard
   },
 
   data () {
     return {
-      logs: []
+      courses:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
+      sexes:['男老师','女老师','都可以'],
+      roles:['专职教师','大学生','都可以'],
+      sex:'',
+      role:'',
+      studentlist: [],
+      pageindex:1,
+      coursetype:'',
+      coursename:'',
+      province:'',
+      city:'',
+      country:'',
     }
   },
+  methods:{
+    getstudents(){
+      var self = this
+      wx.showLoading({
+        title:"Loading..."
+      })
+      qc.request({
+        data:{
+          pageindex: self.pageindex,
+          coursetype: self.coursetype,
+          coursename: self.coursename,
+          province: self.province,
+          city: self.city,
+          sex: self.sex,
+          country: self.country,
+          role: self.role
+        },
+        url: conf.service.getstudentlistUrl,
+        success(res){
+          self.studentlist = res.data.data
 
+          self.pageindex++
+          wx.hideLoading()
+          wx.showToast({
+            title:res.data.msg,
+            icon:'none',
+            duration:1400
+          })
+          // setTimeout(function(){
+          //   wx.switchTab({
+          //     url:'/pages/index/main'
+          //   })
+          // },1600)
+        },
+        fail(){
+          wx.hideLoading()
+          wx.showToast({
+            title:'网络连接失败',
+            icon:'none',
+            duration:1400
+          })
+        },
+        complete(){
+          wx.stopPullDownRefresh()
+        }
+      })
+    },
+    regionchange(e){
+      console.log(e.mp.detail.value);
+      let arr = e.mp.detail.value
+      this.province = arr[0]
+      this.city = arr[1]
+      this.country = arr[2]
+      this.pageindex = 1
+      this.getstudents()
+    },
+    coursechange(e){
+      console.log(e.mp.detail.value);
+      let arr = e.mp.detail.value
+      this.coursetype = this.courses[0][arr[0]]
+      this.coursename = this.courses[1][arr[1]]
+      this.pageindex = 1
+      this.getstudents()
+    },
+    sexchange(e){
+      console.log(e.mp.detail.value);
+      let index = e.mp.detail.value
+      this.sex = this.sexes[index]
+      this.pageindex = 1
+      this.getstudents()
+    },
+    rolechange(e){
+      console.log(e.mp.detail.value);
+      let index = e.mp.detail.value
+      this.role = this.roles[index]
+      this.pageindex = 1
+      this.getstudents()
+    },
+    clear(){
+      this.pageindex = 1 ;
+      this.coursetype = '' ;
+      this.coursename = '' ;
+      this.province = '' ;
+      this.city = '' ;
+      this.sex = '' ;
+      this.role = '' ;
+      this.country = '' ;
+      this.getstudents()
+    },
+    studentdetail(x){
+      let loginstate = this.globalData.loginstate;
+      if(loginstate === true){
+        let url = `/pages/studentdetail/main?openid=${x.openid}&randomstr=${x.randomstr}`
+        wx.navigateTo({
+          url
+        })
+      }else{
+        wx.showToast({
+          title:'用户尚未登录，请先登录',
+          duration: 1800,
+          icon:'none',
+          mask: true,
+          complete(){
+            setTimeout(function(){
+              let url = `/pages/my/main`
+              wx.switchTab({
+                url
+              })
+            },1900)
+          }
+        })
+      }
+    }
+  },
   created () {
-    const logs = (wx.getStorageSync('logs') || [])
-    this.logs = logs.map(log => formatTime(new Date(log)))
+
   },
   onShow() {
-    // 判断是否已登录
-    // wx.getSetting({
-    //   success(res) {
-    //     console.log(res);
-    //     if (!res.authSetting["scope.userInfo"]) {
-    //       // 未授权或拒绝授权的情况
-          
-    //       wx.showToast({
-    //         title: '请先登录',
-    //         icon: 'none',
-    //         image: '',
-    //         duration: 1500,
-    //         mask: true,
-    //         success: (result)=>{
-    //           wx.switchTab({
-    //             url: "/pages/profile/main"
-    //           });
-    //         },
-    //         fail: ()=>{},
-    //         complete: ()=>{}
-    //       });
-    //     }
-    //   }
-    // });
+    let coursename = this.$root.$mp.query.coursename
+    if(coursename){
+      this.coursename = coursename ;
+      this.getstudents()
+    }
+  },
+  onLoad(){
+    this.getstudents()
   }
 }
 </script>
 
-<style>
-.log-list {
-  display: flex;
-  flex-direction: column;
-  padding: 40rpx;
+<style lang='scss' scoped>
+$maincolor: #377BF0;
+.page{
+  
 }
-
-.log-item {
-  margin: 10rpx;
+.top{
+  padding: 8rpx 20rpx;
+  background-color: rgb(236, 235, 235);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30rpx;
+  .reset{
+    padding: 0rpx 12rpx;
+    border: 1rpx solid $maincolor;
+    color: $maincolor;
+    background-color: #fff;
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 30rpx;
+  }
+  .reset-hover{
+    color: rgb(21, 96, 224);
+    border: 1rpx solid rgb(21, 96, 224);
+    background-color: rgb(212, 212, 212);
+  }
+  .icon-tubiao_xiala{
+    font-size: 26rpx;
+  }
+}
+.list{
+  // margin-top: 18rpx;
+  .title{
+    text-align: center;
+    color: $maincolor;
+    font-weight: 600;
+    font-size: 32rpx;
+    position: relative;
+    .more{
+      position: absolute;
+      top: 0;
+      right: 20rpx;
+      color: rgb(173, 173, 173);
+      font-size: 30rpx;
+    }
+  }
 }
 </style>

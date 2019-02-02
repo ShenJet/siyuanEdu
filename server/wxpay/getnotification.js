@@ -5,12 +5,11 @@ const { payconf } = require('../config.js');
 var crypto = require('crypto');
         
 const post = async function (ctx, next) {
-  
-    let data = ctx.xmlbody.xml //ctx.request.body
-    console.log('-------data----------');
-    console.log(data);
-    console.log('-------data end-------');
-        try{
+    try{
+        let data = ctx.xmlbody.xml //ctx.request.body
+        console.log('-------notification data----------');
+        console.log(data);
+        console.log('-------notification data end-------');
         if( data && data['return_code'][0] == 'SUCCESS' && data['result_code'][0] == 'SUCCESS' ){
             // 1. 通知信息的处理
             var keys = Object.keys(data);

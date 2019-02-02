@@ -9,7 +9,7 @@
  * @author shenjie
  *
  * Created at     : 2018-12-17 16:14:34 
- * Last modified  : 2019-02-01 16:46:34
+ * Last modified  : 2019-02-02 11:56:01
  */
 var request = require('request');
 var xmlreader = require("xmlreader");
@@ -108,7 +108,11 @@ const unifiedorder = async (ctx, next) => {
             }
         }
         // 获取价格 计算总价
-        var total_price = await knex('price').first()[type] * 10 * 10 ;// 单位是分
+        var pricequery = await knex('price').first()
+        console.log('pricequery:');
+        console.log(pricequery);
+        
+        var total_price = pricequery[type] * 10 * 10 ;// 单位是分
         console.log(`totalprice:${total_price}`);
         
         // STEP3 组装数据，签名

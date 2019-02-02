@@ -1,5 +1,4 @@
 appid: wxcad3341551190ad3
-
 secret: b366275aaec4372d61fdd7c20e0a8ed2
 
 小程序 767951616@qq.com
@@ -8,3 +7,6 @@ secret: b366275aaec4372d61fdd7c20e0a8ed2
 地图key 
 NNWBZ-OSLKD-ABD4N-POSXK-QFOAZ-GZBWR
 
+商户号 1525651531
+API调用key TVU1MO18PS9YQLW58P2SENSEW6O46JIY
+商户操作密码 siyuan@123

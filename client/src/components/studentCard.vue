@@ -10,28 +10,26 @@
             <div class="name">
               <img src='/static/img/nan.png' mode='aspectFill' v-if="info.sex == '男'" />
               <img src='/static/img/nv.png' mode='aspectFill' v-if="info.sex == '女'" />
-              {{ info.name }}
+               {{ info.name }}
             </div>
             <div class="coursetype">{{info.coursetype}}</div>
             <div class="coursename">{{info.coursename}}</div>
           </div>
           <div class="m">
-            {{info.role}} {{info.teachyear}}年教龄
+            希望找{{info.teachyear}}年教龄的{{info.teachersex}}老师
           </div>
           <div class="b">
             <span class="iconfont icon-yanzheng1"></span>信息核验
             <span class="iconfont icon-shenfenzheng"></span>身份认证
           </div>
         </div>
-        <div class="i-card-header-extra" @click="teacherdetail">
+        <div class="i-card-header-extra" @click="studentdetail">
           <span>查看详情</span>
         </div>
       </div>
-      <!-- <div class="i-class i-card-body">
-        xxx
-      </div> -->
-      <div class="i-class i-card-footer" v-if="info.comment.length>0">
-        <span class="tag" v-for='(y,k) in info.comment' :key="k">{{y}}</span>
+      <div class="i-class i-card-footer">
+        <span class="iconfont icon-round"></span>
+        {{info.city}} {{info.country}}
       </div>
     </div>
   </div>
@@ -47,8 +45,8 @@ export default {
     }
   },
   methods:{
-    teacherdetail(){
-      this.$emit('teacherdetail')
+    studentdetail(){
+      this.$emit('studentdetail')
     }
   }
 };
@@ -192,7 +190,7 @@ $maincolor: #377BF0;
 
 .i-card-footer {
   position: relative;
-  padding: 6px 16px;
+  padding: 0px 16px 6px;
   color: #80848f;
   font-size: 12px;
   .tag{

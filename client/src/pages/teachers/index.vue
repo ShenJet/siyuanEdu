@@ -3,25 +3,25 @@
     <div class="top">
       <div>
         <picker mode='region' @change='regionchange'>
-          地区
+          {{ country || '地区' }}
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
       </div>
       <div>
-        <picker mode='multiSelector' :range='coursese' value='[0,0]' @change='coursechange'>
-          科目
+        <picker mode='multiSelector' :range='courses' value='[0,0]' @change='coursechange'>
+          {{coursename || '科目'}}
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
       </div>
       <div>
         <picker mode='selector' :range='sexes' value='0' @change='sexchange'>
-          性别
+          {{sex || '性别'}}
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
       </div>
       <div>
         <picker mode='selector' :range='roles' value='0' @change='rolechange'>
-          身份
+          {{ role || '身份' }}
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
       </div>
@@ -47,9 +47,11 @@ export default {
 
   data () {
     return {
-      coursese:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
+      courses:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
       sexes:['男老师','女老师','都可以'],
       roles:['专职教师','大学生','都可以'],
+      sex:'',
+      role:'',
       teacherlist: [],
       pageindex:1,
       coursetype:'',
@@ -74,6 +76,7 @@ export default {
           city: self.city,
           sex: self.sex,
           country: self.country,
+          role: self.role
         },
         url: conf.service.getteacherlistUrl,
         success(res){
@@ -111,22 +114,30 @@ export default {
       this.province = arr[0]
       this.city = arr[1]
       this.country = arr[2]
+      this.pageindex = 1
+      this.getteachers()
     },
     coursechange(e){
       console.log(e.mp.detail.value);
       let arr = e.mp.detail.value
-      this.coursetype = this.courses[arr[0]]
-      this.coursename = this.courses[arr[1]]
+      this.coursetype = this.courses[0][arr[0]]
+      this.coursename = this.courses[1][arr[1]]
+      this.pageindex = 1
+      this.getteachers()
     },
     sexchange(e){
       console.log(e.mp.detail.value);
       let index = e.mp.detail.value
       this.sex = this.sexes[index]
+      this.pageindex = 1
+      this.getteachers()
     },
     rolechange(e){
       console.log(e.mp.detail.value);
       let index = e.mp.detail.value
       this.role = this.roles[index]
+      this.pageindex = 1
+      this.getteachers()
     },
     clear(){
       this.pageindex = 1 ;
@@ -135,14 +146,33 @@ export default {
       this.province = '' ;
       this.city = '' ;
       this.sex = '' ;
+      this.role = '' ;
       this.country = '' ;
       this.getteachers()
     },
     teacherdetail(x){
-      let url = `/pages/teacherdetail/main?openid=${x.openid}`
-      wx.navigateTo({
-        url
-      })
+      let loginstate = this.globalData.loginstate;
+      if(loginstate === true){
+        let url = `/pages/teacherdetail/main?openid=${x.openid}`
+        wx.navigateTo({
+          url
+        })
+      }else{
+        wx.showToast({
+          title:'用户尚未登录，请先登录',
+          duration: 1800,
+          icon:'none',
+          mask: true,
+          complete(){
+            setTimeout(function(){
+              let url = `/pages/my/main`
+              wx.switchTab({
+                url
+              })
+            },1900)
+          }
+        })
+      }
     }
   },
   created () {
@@ -152,7 +182,11 @@ export default {
     let coursename = this.$root.$mp.query.coursename
     if(coursename){
       this.coursename = coursename ;
+      this.getteachers()
     }
+    
+  },
+  onLoad(){
     this.getteachers()
   }
 }
@@ -170,6 +204,7 @@ $maincolor: #377BF0;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 30rpx;
   .reset{
     padding: 0rpx 12rpx;
     border: 1rpx solid $maincolor;
@@ -184,9 +219,12 @@ $maincolor: #377BF0;
     border: 1rpx solid rgb(21, 96, 224);
     background-color: rgb(212, 212, 212);
   }
+  .icon-tubiao_xiala{
+    font-size: 26rpx;
+  }
 }
 .list{
-  margin-top: 30rpx;
+  // margin-top: 18rpx;
   .title{
     text-align: center;
     color: $maincolor;

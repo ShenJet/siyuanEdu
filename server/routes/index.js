@@ -9,7 +9,6 @@ const router = require('koa-router')({
 const controllers = require('../controllers')
 const unifiedorder = require('../wxpay/pay.js')
 const getnotification = require('../wxpay/getnotification.js')
-const clientpaid = require('../wxpay/clientpaid.js')
 
 
 // 从 sdk 中取出中间件
@@ -39,54 +38,8 @@ router.get('/message', controllers.message.get)
 // POST 用来处理微信转发过来的客服消息
 router.post('/message', controllers.message.post)
 
-// GET !!! 小程序查询商品列表
-router.get('/teacherlist', controllers.getteacherlist)
-
 // GET !!! 小程序查询首页轮播图
 router.get('/swiperlist', controllers.getswiperlist)
-
-// GET !!! 小程序查询商品详情
-router.get('/teacherdetail', validationMiddleware, controllers.getteacherdetail)
-
-// GET !!! 小程序查询购物车
-router.get('/cartgoods', validationMiddleware, controllers.getcartgoods)
-
-// GET !!! 小程序添加到购物车
-router.get('/addtocart', validationMiddleware, controllers.addtocart)
-
-// GET !!! 小程序统一下单
-// router.get('/prepay', validationMiddleware, unifiedorder)
-router.post('/prepay', validationMiddleware, unifiedorder)
-
-// GET !!! 小程序获取收货地址列表
-router.get('/addresslist', validationMiddleware, controllers.addresslist)
-
-// POST !!! 小程序编辑收货地址
-router.post('/addressedit', validationMiddleware, controllers.addressedit)
-
-// GET !!! 小程序支付完成后客户端通知服务器支付结果
-router.get('/clientpaid', validationMiddleware, clientpaid) 
-
-// POST !!! 小程序支付后，微信服务器回调通知
-router.post( '/getnotification',  getnotification.post )
-
-// GET !!! 小程序获取订单列表
-router.get('/orderlist', validationMiddleware, controllers.getorderlist)
-
-// GET !!! 小程序确认收货
-router.get('/confirmship', validationMiddleware, controllers.confirmship)
-
-// GET !!! 小程序获退款退货
-router.get('/refund', validationMiddleware, controllers.refund)
-
-// GET !!! 小程序删除订单
-router.get('/deleteorder', validationMiddleware, controllers.deleteorder)
-
-// GET !!! 小程序获取可提现的订单
-router.get('/gettixianlist', validationMiddleware, controllers.gettixianlist)
-
-// GET !!! 小程序获取可提现的订单
-router.get('/tixian', validationMiddleware, controllers.tixian)
 
 // POST !!! 小程序老师申请
 router.post('/teacherapply', validationMiddleware, controllers.applysforteacher)
@@ -94,44 +47,36 @@ router.post('/teacherapply', validationMiddleware, controllers.applysforteacher)
 // POST !!! 小程序学生提交资料
 router.post('/studentapply', validationMiddleware, controllers.applysforstudent)
 
-// GET !!! 小程序搜索附近帮主
-router.get('/searchbangzhu', validationMiddleware, controllers.searchbangzhu)
+// GET !!! 小程序查询老师列表
+router.get('/teacherlist', controllers.getteacherlist)
 
-// GET !!! 小程序搜索附近用户
-router.get('/searchzutuanuser', validationMiddleware, controllers.searchzutuanuser)
+// GET !!! 小程序查询老师详情
+router.get('/teacherdetail', validationMiddleware, controllers.getteacherdetail)
 
-// GET !!! 小程序搜索附近帮主发布的商品
-router.get('/searchbangzhugoods', validationMiddleware, controllers.searchbangzhugoods)
+// GET !!! 小程序查询学员列表
+router.get('/studentlist', controllers.getstudentlist)
 
-// POST !!! 小程序帮主/用户发布商品
-router.post('/bangzhugoodsupload', validationMiddleware, controllers.bangzhugoodsupload)
+// GET !!! 小程序查询学员详情
+router.get('/studentdetail', validationMiddleware, controllers.getstudentdetail)
 
-// GET !!! 小程序帮主/用户获取自己的已发布商品
+// GET !!! 小程序统一下单
+// router.get('/prepay', validationMiddleware, unifiedorder)
+router.post('/prepay', validationMiddleware, unifiedorder)
+
+// POST !!! 小程序支付后，微信服务器回调通知
+router.post( '/getnotification',  getnotification.post )
+
+// GET !!! 小程序获取订单列表
+router.get('/orderlist', validationMiddleware, controllers.getorderlist)
+
+// GET !!! 小程序删除订单
+router.get('/deleteorder', validationMiddleware, controllers.deleteorder)
+
+// GET !!! 小程序用户获取自己的已发布商品
 router.get('/myrelease', validationMiddleware, controllers.myrelease)
 
-// GET !!! 小程序帮主/用户删除自己的已发布商品
+// GET !!! 小程序用户删除自己的已发布商品
 router.get('/deletemyrelease', validationMiddleware, controllers.deletemyrelease)
-
-// GET !!! 小程序搜索该地区已开放小区列表
-router.get('/getcommunitylist', validationMiddleware, controllers.getcommunitylist)
-
-// GET !!! 小程序搜索该小区发布商品列表
-router.get('/getcommunitygoodslist', validationMiddleware, controllers.getcommunitygoodslist)
-
-// GET !!! 小程序检查当前用户是否已注册商铺
-router.get('/checkuserisshop', validationMiddleware, controllers.checkuserisshop)
-
-// POST !!! 小程序周边店铺申请
-router.post('/roundshopapply', validationMiddleware, controllers.roundshopapply)
-
-// POST !!! 小程序周边店铺商品上传
-router.post('/roundshopgoodsupload', validationMiddleware, controllers.roundshopgoodsupload)
-
-// GET !!! 小程序搜索附近周边店铺
-router.get('/roundshop', validationMiddleware, controllers.roundshop)
-
-// GET !!! 小程序搜索附近周边店铺商品
-router.get('/roundshopgoods', validationMiddleware, controllers.roundshopgoods)
 
 
 

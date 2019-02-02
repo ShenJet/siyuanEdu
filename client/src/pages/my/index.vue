@@ -23,45 +23,37 @@
     <div class="mainpart mid">
       <div class="head">
         <div class="myorder">我的订单</div>
-        <div class="toall" @click='toorderlist(0)'>查看全部
+        <div class="toall" @click='toorderlist(2)'>查看全部
           <i class="iconfont icon-tubiao_xiangyou"></i>
         </div>
       </div>
       <div class="list">
-        <div @click='toorderlist(1)'>
+        <div @click='toorderlist(0)'>
           <i class="iconfont icon-fukuan i1"></i>
-          <div>待付款</div>
+          <div>已支付</div>
+        </div>
+        <div @click='toorderlist(1)'>
+          <i class="iconfont icon-time i3"></i>
+          <div>未支付</div>
         </div>
         <div @click='toorderlist(2)'>
           <i class="iconfont icon-icon-test i2"></i>
-          <div>待发货</div>
-        </div>
-        <div @click='toorderlist(3)'>
-          <i class="iconfont icon-yifahuodefuben i3"></i>
-          <div>已发货</div>
-        </div>
-        <div @click='toorderlist(4)'>
-          <i class="iconfont icon-yiwanchengdingdan i4"></i>
-          <div>已完成</div>
-        </div>
-        <div @click='toorderlist(5)'>
-          <i class="iconfont icon-tui i5"></i>
-          <div>退换货</div>
+          <div>全部订单</div>
         </div>
       </div>
     </div>
     <div class="mainpart btm">
-      <div class="list" @click="toaddress">收货地址
-        <i class="iconfont icon-tubiao_xiangyou"></i>
-      </div>
-      <div class="list">
-        <button class="contact" open-type='contact'>联系我们</button>
+      <div class="list" @click="tocollect">我的收藏
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div>
       <div class="list" @click="tomymoney">我的余额
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div>
       <div class="list" @click="tomygoods">我的发布
+        <i class="iconfont icon-tubiao_xiangyou"></i>
+      </div>
+      <div class="list">
+        <button class="contact" open-type='contact'>联系我们</button>
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div>
       <!-- <div class="list">我的邀请
@@ -350,6 +342,8 @@ $maincolor: #377BF0;
       line-height: 70rpx;
       padding: 0;
       font-size: 32rpx;
+      width: 600rpx;
+      text-align: left;
     }
     button::after{
       border: 0;

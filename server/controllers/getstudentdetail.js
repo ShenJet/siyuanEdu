@@ -51,7 +51,7 @@ module.exports = async (ctx, next) => {
                 msg:"学员信息获取成功",
                 data:res
             }
-            await mysql('applysforstudent').first().where({ openid })
+            await mysql('applysforstudent').first().where({ openid, randomstr })
             .increment('viewcount', 1) ;
         }else{
             return ctx.body = {

@@ -21,9 +21,9 @@ const CONF = {
     tunnelServerUrl: '',
     tunnelSignatureKey: '',
     // 腾讯云存储的相关信息 见：https://console.qcloud.com/cos5/bucket/setting?type=filelist&bucketName=piwubang-1257779595&path=%252Ftestupload%252F&region=ap-shanghai
-    qcloudAppId: '1257779595', 
-    qcloudSecretId: 'AKIDc5DzdAbt0xkJVYtTr6QeruoYfXHuCgpo', 
-    qcloudSecretKey: 'JWgaO3awGnFf2IOL8lzsPuNtJYgEpuof', 
+    qcloudAppId: '1258610094', 
+    qcloudSecretId: 'AKIDIPIwYxobmUDpHahujMOHxDF3cxITmDgu', 
+    qcloudSecretKey: '82oPwFL6cuynOrNiiT3OXTF1bptlOmut', 
     /**
      * MySQL 配置，用来存储 session 和用户信息
      * 若使用了腾讯云微信小程序解决方案

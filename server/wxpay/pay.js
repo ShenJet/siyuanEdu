@@ -9,7 +9,7 @@
  * @author shenjie
  *
  * Created at     : 2018-12-17 16:14:34 
- * Last modified  : 2019-02-02 11:56:01
+ * Last modified  : 2019-02-03 09:38:09
  */
 var request = require('request');
 var xmlreader = require("xmlreader");
@@ -79,7 +79,7 @@ const unifiedorder = async (ctx, next) => {
     if(type == 'teacher'){
         var table = 'user_teachers'
     }else if(type == 'student'){
-        var table = 'user_students'
+        var table = 'applysforstudent'
     }else{
         return ctx.body = {
             code:"ORDER_NO_PARAM_TYPE",

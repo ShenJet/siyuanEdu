@@ -170,7 +170,7 @@ export default {
       let student_collect = wx.getStorageSync('student_collect') || []
       for (let index = 0; index < student_collect.length; index++) {
         const v = student_collect[index];
-        if(v.openid == self.studentdetail.openid){
+        if(v.openid == self.studentdetail.openid && v.randomstr == self.studentdetail.randomstr){
           return wx.showToast({
             title:'添加成功',
             duration: 1800

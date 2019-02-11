@@ -53,11 +53,17 @@ router.get('/teacherlist', controllers.getteacherlist)
 // GET !!! 小程序查询老师详情
 router.get('/teacherdetail', validationMiddleware, controllers.getteacherdetail)
 
+// GET !!! 小程序查询已支付老师详情
+router.get('/teacherfulldetail', validationMiddleware, controllers.getteacherfulldetail)
+
 // GET !!! 小程序查询学员列表
 router.get('/studentlist', controllers.getstudentlist)
 
 // GET !!! 小程序查询学员详情
 router.get('/studentdetail', validationMiddleware, controllers.getstudentdetail)
+
+// GET !!! 小程序查询已支付学员详情
+router.get('/studentfulldetail', validationMiddleware, controllers.getstudentfulldetail)
 
 // GET !!! 小程序统一下单
 // router.get('/prepay', validationMiddleware, unifiedorder)

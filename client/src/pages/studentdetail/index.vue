@@ -96,7 +96,7 @@
     </div>
     <div class="toptip">
       *预约下单后，您将获取学员的更全面信息，如：学员联系方式等。
-      可以进入‘我的’->‘我的订单’中查看具体信息。
+      可以进入‘我的’->‘已支付’中查看具体信息。
     </div>
     <i-load-more tip="我是有底线的" :loading="false" />
     <div class="spacing"></div>

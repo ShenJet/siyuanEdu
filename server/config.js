@@ -34,7 +34,7 @@ const CONF = {
         db: 'siyuan',
         port: 3306,
         user: 'root',
-        pass: 'root',
+        pass: 'siyuan@123',
         char: 'utf8mb4'
     },
     cos: {

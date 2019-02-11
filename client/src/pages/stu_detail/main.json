@@ -1,3 +1,7 @@
 {
-  "navigationBarTitleText": "查看启动日志"
+    "navigationBarBackgroundColor": "#377BF0",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "学员详情",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
 }

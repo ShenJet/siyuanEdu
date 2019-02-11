@@ -43,15 +43,15 @@
       </div>
     </div>
     <div class="mainpart btm">
-      <div class="list" @click="tocollect">我的收藏
-        <i class="iconfont icon-tubiao_xiangyou"></i>
-      </div>
-      <div class="list" @click="tomymoney">我的余额
-        <i class="iconfont icon-tubiao_xiangyou"></i>
-      </div>
       <div class="list" @click="tomygoods">我的发布
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div>
+      <div class="list" @click="tocollect">我的收藏
+        <i class="iconfont icon-tubiao_xiangyou"></i>
+      </div>
+      <!-- <div class="list" @click="tomymoney">我的余额
+        <i class="iconfont icon-tubiao_xiangyou"></i>
+      </div> -->
       <div class="list">
         <button class="contact" open-type='contact'>联系我们</button>
         <i class="iconfont icon-tubiao_xiangyou"></i>
@@ -63,7 +63,7 @@
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div> -->
     </div>
-    <i-load-more class="footer" tip="苏州任意门软件提供技术支持" @click="showrenyimen" />
+    <i-load-more class="footer" i-class='footer' :loading="false" tip="苏州任意门软件提供技术支持" @click="showrenyimen" />
 
   </div>
 </template>

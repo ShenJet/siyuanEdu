@@ -20,7 +20,7 @@
               {{ x.goodsinfo.name }} {{ x.goodsinfo.coursetype }}-{{ x.goodsinfo.coursename }}
             </div>
             <div class="r">
-              <div class="total_fee">总价:￥{{x.total_fee/100}}</div>
+              <div class="total_fee">￥{{x.total_fee/100}}</div>
             </div>
           </div>
           <div class="round">
@@ -93,7 +93,15 @@ export default {
   },
   methods: {
     toorderdetail(x){
-      
+      console.log(x);
+      if(x.goodsinfo.usertype == 'teacher'){
+        var url =`/pages/tech_detail/main?orderid=${x.orderid}`
+      }else{
+        var url =`/pages/stu_detail/main?orderid=${x.orderid}`
+      }
+      wx.navigateTo({
+        url
+      })
     },
     deleteModal(x){
       var self = this

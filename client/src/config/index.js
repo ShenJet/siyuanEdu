@@ -5,8 +5,8 @@
 // 此处主机域名修改成腾讯云解决方案分配的域名
 // var host = 'http://192.168.2.102:8899';
 // var host = 'http://192.168.1.146:8899';
-var host = 'http://111.231.78.250:8898';
-// var host = 'https://www.piwubang.com';
+// var host = 'http://111.231.78.250:8898';
+var host = 'https://www.siyuanwlkj.com';
 // var host = 'http://www.tech997.cn:8899';
 
 
@@ -36,12 +36,18 @@ var config = {
                 
         // 获取老师详情
         teacherdetailUrl: `${host}/weapp/teacherdetail`,
+                
+        // 获取已支付老师详情
+        teacherfulldetailUrl: `${host}/weapp/teacherfulldetail`,
 
         // 获取学生列表
         getstudentlistUrl: `${host}/weapp/studentlist`,
                 
         // 获取学生详情
         studentdetailUrl: `${host}/weapp/studentdetail`,
+                
+        // 获取已支付学生详情
+        studentfulldetailUrl: `${host}/weapp/studentfulldetail`,
 
         // 通过后端调统一下单接口
         prepayUrl: `${host}/weapp/prepay`,

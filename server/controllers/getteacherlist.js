@@ -19,6 +19,7 @@ module.exports = async (ctx, next) => {
         'teacharea',
         // 'citylabel',
         'comment',
+        'usertype'
         // 'longitude',
         // 'latitude',
         // 'ordercount',

@@ -14,7 +14,6 @@ module.exports = async (ctx, next) => {
         }
     }
     try {
-        
         let res = await mysql('user_teachers')
         .first(
             'openid',
@@ -42,7 +41,8 @@ module.exports = async (ctx, next) => {
             'longitude',
             'latitude',
             'ordercount',
-            'viewcount'
+            'viewcount',
+            'usertype'
         )
         .where({ openid });
         

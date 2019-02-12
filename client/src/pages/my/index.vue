@@ -53,7 +53,7 @@
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div> -->
       <div class="list">
-        <button class="contact" open-type='contact'>联系我们</button>
+        <button class="contact" open-type='contact'>联系客服</button>
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div>
       <!-- <div class="list">我的邀请
@@ -228,6 +228,11 @@ export default {
     tomygoods(){
       wx.navigateTo({
         url:"/pages/myrelease/main"
+      })
+    },
+    tocollect(){
+      wx.navigateTo({
+        url:"/pages/mycollect/main"
       })
     }
   }

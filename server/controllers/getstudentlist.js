@@ -20,7 +20,8 @@ module.exports = async (ctx, next) => {
         'city',
         'country',
         'grade',
-        'randomstr'
+        'randomstr',
+        'usertype'
     ).where({recieveorder: 1}).limit(8).orderBy('id', 'desc');
     // console.log('teacher list:');
     // console.log(res);

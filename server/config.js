@@ -63,7 +63,7 @@ const CONF = {
          appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
          mchid :     '1525651531',  //商户号
          mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
-         wxurl :     'http://www.tech997.cn:8898/weapp/getnotification', // 下单后的通知地址
+         wxurl :     'https://www.siyuanwlkj.com/weapp/getnotification', // 下单后的通知地址
     },
     // 微信登录态有效期
     wxLoginExpires: 7200

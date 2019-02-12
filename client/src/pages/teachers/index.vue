@@ -179,7 +179,9 @@ export default {
 
   },
   onShow() {
-    let coursename = this.$root.$mp.query.coursename
+    let coursename = this.globalData.coursename
+    console.log(coursename);
+    
     if(coursename){
       this.coursename = coursename ;
       this.getteachers()

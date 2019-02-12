@@ -8,11 +8,6 @@
         <img src='/static/img/nan.png' mode='aspectFill' v-if="studentdetail.sex == '男'" />
         <img src='/static/img/nv.png' mode='aspectFill' v-if="studentdetail.sex == '女'" />
       </div>
-      <div class="view">
-        <div class="r">
-          被看过 {{studentdetail.viewcount}} 次
-        </div>
-      </div>
       <div class="brdesc">学员简介：{{studentdetail.applydesc}}</div>
       <div class="qqmap" @click='toqqmap'>
         <span class='iconfont icon-round position'></span>
@@ -25,6 +20,14 @@
       补课信息
     </div>
     <div class="detail">
+      <div class="line">
+        <div class="l">
+          联系方式
+        </div>
+        <div class="r" @click="dail">
+          {{studentdetail.phone}}
+        </div>
+      </div>
       <div class="line">
         <div class="l">
           所在年级
@@ -95,8 +98,7 @@
       </div>
     </div>
     <div class="toptip">
-      *预约下单后，您将获取学员的更全面信息，如：学员联系方式等。
-      可以进入‘我的’->‘已支付’中查看具体信息。
+      *您已成功预约该学生。您可以通过上述联系方式联系该学生，也可以通过'我的'->'联系客服'，通过客服协助联络该学生。
     </div>
     <i-load-more tip="我是有底线的" :loading="false" />
     <div class="spacing"></div>
@@ -127,6 +129,11 @@ export default {
   components: {
   },
   methods: {
+    dail(){
+      wx.makePhoneCall({
+        phoneNumber: this.studentdetail.phone
+      })
+    },
     routeToHome() {
       let url = "/pages/index/main";
       wx.switchTab({ url });
@@ -252,12 +259,11 @@ export default {
   onLoad(){
   },
   onShow(){
-    let openid = this.$root.$mp.query.openid
-    let randomstr = this.$root.$mp.query.randomstr
+    let orderid = this.$root.$mp.query.orderid
     
-    if(!openid || !randomstr){
+    if(!orderid){
       return wx.showToast({
-        title:'学员信息有误，请返回重新选择',
+        title:'订单信息有误，请返回重新选择',
         icon:'none',
         duration: 2000
       })
@@ -265,10 +271,10 @@ export default {
     
     var self = this;
       qc.request({
-        url: conf.service.studentdetailUrl,
+        url: conf.service.studentfulldetailUrl,
         // method:"POST",
         data:{
-          openid, randomstr
+          orderid
         },
         success:function(res) {
           wx.hideLoading()

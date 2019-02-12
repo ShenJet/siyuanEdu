@@ -9,7 +9,7 @@
  * @author shenjie
  *
  * Created at     : 2018-12-17 16:14:34 
- * Last modified  : 2019-02-03 09:38:09
+ * Last modified  : 2019-02-12 17:49:23
  */
 var request = require('request');
 var xmlreader = require("xmlreader");
@@ -56,8 +56,8 @@ const unifiedorder = async (ctx, next) => {
         }
     }
     // STEP2 拿到前端传过来的参数 查询商品，计算价格
-    let { id, type } = ctx.request.body
-    console.log(`id:${id},type:${type}` );
+    let { id, type, randomstr } = ctx.request.body
+    console.log(`id:${id},type:${type},randomstr:${randomstr}` );
     // 校验id参数
     if( !id ){
         return ctx.body = {
@@ -89,7 +89,11 @@ const unifiedorder = async (ctx, next) => {
         }
     }
     try {
-        let goodsinfo = await knex(table).first().where({openid: id});
+        if(type == 'teacher'){
+            var goodsinfo = await knex(table).first().where({openid: id});
+        }else if(type == 'student'){
+            var goodsinfo = await knex(table).first().where({openid: id, randomstr});
+        }
         console.log('goodsinfo:', goodsinfo);
         if( !goodsinfo ){
             return ctx.body = {

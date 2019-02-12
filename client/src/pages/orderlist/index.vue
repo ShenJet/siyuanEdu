@@ -24,6 +24,9 @@
             </div>
           </div>
           <div class="round">
+            <div class="orderid">
+              订单编号：{{ x.orderid }}
+            </div>
             <span class="iconfont icon-round"></span>
             {{ x.goodsinfo.citylabel }}
           </div>

@@ -1,13 +1,15 @@
 {
   "pages": [
+    "pages/my/main",
+    "pages/myrelease/main",
+    "pages/mycollect/main",
+    "pages/index/main",
     "pages/students/main",
     "pages/teachers/main",
-    "pages/index/main",
     "pages/applyteacher/main",
     "pages/applystudent/main",
     "pages/course/main",
     "pages/profile/main",
-    "pages/my/main",
     "pages/teacherdetail/main",
     "pages/studentdetail/main",
     "pages/stu_detail/main",

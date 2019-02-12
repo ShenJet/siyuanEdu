@@ -218,7 +218,8 @@ export default {
         method:"POST",
         data:{
           id: self.teacherdetail.openid,
-          type:'teacher'
+          type:'teacher',
+          randomstr:''
         },
         success:async function(res) {
           wx.hideLoading();

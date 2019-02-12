@@ -16,7 +16,7 @@ module.exports = async (ctx, next) => {
         let search = await mysql('applysforteacher').first().where({openid})
         if(!search){
             // 直接插入
-            await mysql('applysforteacher').insert({...params, openid, avatarUrl})
+            await mysql('applysforteacher').insert({...params, openid, avatar:avatarUrl})
             return ctx.body = {
                 code:"TEACHER_APPLY_SUCCESS",
                 data:{},

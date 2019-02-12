@@ -37,7 +37,8 @@ module.exports = async (ctx, next) => {
             'latitude',
             'viewcount',
             'grade',
-            'randomstr'
+            'randomstr',
+            'usertype'
         )
         .where({ openid, randomstr });
         

@@ -16,10 +16,10 @@
     </swiper>
     <div class="types">
       <div class="item" v-for="(x,i) in types" :key="i">
-        <a :href="'/pages/course/main?coursecate='+x.enname">
+        <div @click='toteachers(x.name)' >
           <div><i :class="x.icon" :style="'color:'+x.color"></i></div>
           <div>{{x.name}}</div>
-        </a>
+        </div>
       </div>
     </div>
     <div class="ruzhu">
@@ -128,6 +128,13 @@ export default {
   },
 
   methods: {
+    toteachers(x){
+      var url =`/pages/teachers/main`;
+      this.globalData.coursename = x
+      wx.switchTab({
+        url
+      })
+    },
     ruzhu(x){
       let url = `/pages/apply${x}/main`;
       wx.navigateTo({ url })
@@ -278,8 +285,7 @@ swiper{
     // height: 120rpx;
     margin-bottom: 15rpx;
     // background: red;
-    a{
-      display: block;
+    &>div{
       width: 100%;
       height: 100%;
       div:first-child{

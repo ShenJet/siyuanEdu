@@ -6,12 +6,8 @@
 // var host = 'http://192.168.2.102:8899';
 // var host = 'http://192.168.1.146:8899';
 // var host = 'http://111.231.78.250:8898';
-var host = 'https://www.siyuanwlkj.com';
 // var host = 'http://www.tech997.cn:8899';
-
-
-
-
+var host = 'https://www.siyuanwlkj.com';
 
 var config = {
 
@@ -62,7 +58,19 @@ var config = {
         myreleaseUrl: `${host}/weapp/myrelease` ,
 
         // 删除已发布商品
-        deletemyreleaseUrl: `${host}/weapp/deletemyrelease` ,
+        deletemyreleaseUrl: `${host}/weapp/myreleasedelete` ,
+
+        // 编辑已发布商品
+        editmyreleaseUrl: `${host}/weapp/myreleaseedit` ,
+
+        // 刷新已发布商品
+        refreshmyreleaseUrl: `${host}/weapp/myreleaserefresh` ,
+
+        // 暂时下架已发布商品
+        obtainmyreleaseUrl: `${host}/weapp/myreleaseobtain` ,
+
+        // 暂时下架已发布商品
+        releasemyreleaseUrl: `${host}/weapp/myreleaserelease` ,
 
         // 老师申请
         teacherapplyUrl: `${host}/weapp/teacherapply`,

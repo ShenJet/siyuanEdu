@@ -2,7 +2,7 @@
   <div class="">
     <!-- <slogan type='bangzhu'></slogan> -->
     <div class="toptip">
-      请准确填写资料，方便平台为您匹配老师
+      请准确填写资料，方便平台为您匹配学员
     </div>
     <div class="container">
       <form report-submit=true @submit="formSubmit">
@@ -26,74 +26,105 @@
       <span class="r">
         <!-- <input type="number" name='sex' v-model="form.sex" confirm-type='next' maxlength='11'> -->
         <radio-group name='sex' @click="sexchange">
-          <radio value='男' color='#377BF0'>男生</radio>
+          <radio value='男' color='#377BF0'>男老师</radio>
           <span style="display:inline-block;width:40rpx;"></span>
-          <radio value='女' color='#377BF0'>女生</radio>
+          <radio value='女' color='#377BF0'>女老师</radio>
         </radio-group>
       </span>
     </div>
     <div class="item line">
       <span class="l">*</span>
-      <span class="m">目前年级：</span>
+      <span class="m">目前身份：</span>
       <span class="r">
-        <picker mode='selector' name='grade' :range='gradearr' :value='grade' @change='gradechange'>{{grade || '点击选择年级'}}</picker>
+        <picker mode='selector' name='role' :range='rolearr' :value='role' @change='rolechange'>{{role || '点击选择身份'}}</picker>
       </span>
     </div>
     <div class="item line">
       <span class="l">*</span>
-      <span class="m">补课科目：</span>
+      <span class="m">最高学历：</span>
+      <span class="r">
+        <picker mode='selector' name='xueli' :range='xueliarr' :value='xueli' @change='xuelichange'>{{xueli || '点击选择学历'}}</picker>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">毕业院校：</span>
+      <span class="r">
+        <input type="text" name='school' v-model="school" placeholder="可填写在读院校" confirm-type='next'>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">所学专业：</span>
+      <span class="r">
+        <input type="text" name='major' v-model="major" placeholder="所学专业" confirm-type='next'>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">毕业年份：</span>
+      <span class="r">
+        <picker mode='date' name='graduateyear' value='2008' fields='year' start='1990' end='2030' @change='graduateyearchange'>{{graduateyear || '点击选择毕业年份'}}</picker>
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授科目：</span>
       <span class="r">
         <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择教授科目'}}</picker>
       </span>
     </div>
-    <div class="item line buke">
+    <div class="item line">
       <span class="l">*</span>
-      <span class="m">补课方式：</span>
+      <span class="m">教授费用：</span>
+      <span class="r price">
+        <input type="number" name="price" placeholder="每课时费用">元/小时
+      </span>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授方式：</span>
       <span class="r">
         <checkbox-group name='teachtype' @change='teachtypechange'>
-          <checkbox color='#377BF0' value='学生上老师家'>学生去老师家</checkbox>
-          <checkbox color='#377BF0' value='老师上学生家'>老师来学生家</checkbox>
+          <checkbox color='#377BF0' value='学生上老师家'>学生上老师家</checkbox>
+          <checkbox color='#377BF0' value='老师上学生家'>老师上学生家</checkbox>
           <checkbox color='#377BF0' value='远程教学'>远程视频教学</checkbox>
         </checkbox-group>
       </span>
     </div>
     <div class="item line">
       <span class="l">*</span>
-      <span class="m">老师要求：</span>
+      <span class="m">教学经验：</span>
       <span class="r" style="display:flex;flex-direction:row;">
-        <radio-group name='teachersex'>
-          <radio  color='#377BF0' value='男'>只找男老师</radio>
-          <radio  color='#377BF0' value='女'>只找女老师</radio>
-          <radio  color='#377BF0' value='男或女'>都可以</radio>
-        </radio-group>
-      </span>
-    </div>
-    <div class="item line">
-      <span class="l">*</span>
-      <span class="m">教龄要求：</span>
-      <span class="r" style="display:flex;flex-direction:row;">
-        至少<input type="number" value="1" name='teachyear' style="text-align:center;">年
+        <input type="number" value="1" name='teachyear' >年
       </span>
     </div>
     <div class="item block place">
       <span class="l">*</span>
-      <span class="m">我的位置：</span>
+      <span class="m">常住地点：</span>
       <div class="r">
-        <div>
-          <span @click='chooselocation'>
-            <span class="iconfont icon-round"></span>
-            {{ form.citylabel || '点击选择你的位置' }}</span>
+        <!-- <div><button hover-class='btnhover'>选择城市</button></div> -->
+        <div class="area">
+          <span class="iconfont icon-round"></span>
+          <span @click='chooselocation'>{{ form.citylabel || '点击选择你的小区位置' }}</span>
           <input type="text" name='citylabel' disabled v-model="form.citylabel" hidden>
           <input type="text" name='code' disabled v-model="form.code" hidden>
         </div>
-        <!-- <div class="community">
+        <div class="community">
           小区：<input type="text" name="community" id="" placeholder="小区名" v-model="form.community" confirm-type='next'>
-        </div> -->
+        </div>
       </div>
+    </div>
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授区域：</span>
+      <span class="r">
+        <picker mode='region' name='teacharea' @change='teachareachange'>{{teacharea || '点击选择可教授区域'}}</picker>
+      </span>
     </div>
     <div class="item line daypick">
       <span class="l">*</span>
-      <span class="m">可补课日：</span>
+      <span class="m">可教授日：</span>
       <span class="r">
         <checkbox-group name='teachday'>
           <checkbox color='#377BF0' value='星期一'>星期一</checkbox>
@@ -108,15 +139,12 @@
     </div>
     <div class="item line">
       <span class="l">*</span>
-      <span class="m">补课时间段：</span>
+      <span class="m">教授时间段：</span>
       <span class="r  timepick">
         <picker mode="time" name='teachstarttime' value='19:00' @change='starttimechange'>{{teachstarttime}}</picker>
         <span>至</span>
         <picker mode="time" name='teachendtime' value='20:00' @change='endtimechange'>{{teachendtime}}</picker>
       </span>
-    </div>
-    <div class="toptip">
-      学生如果没有身份证，可先用家长的
     </div>
     <div class="item line">
       <span class="l">*</span>
@@ -141,18 +169,67 @@
         <input type="text" name='idcard2' disabled v-model="imgurls['2']" hidden>
       </div>
     </div>
-    <div class="textarea">
+    <div class="item block">
       <span class="l">*</span>
-      <span class="m">学员概况：</span>
-      <span class="r">
-        <textarea name='gaikuang' type="text" v-model="form.gaikuang" placeholder="学员本科目的目前学习状况..." />
-      </span>
+      <span class="m">一张生活照：</span>
+      <div class="r">
+        <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail2" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' which='3'></mp-uploader>
+        <input type="text" name='idcard3' disabled v-model="imgurls['3']" hidden>
+      </div>
+    </div>
+    <div class="">
+      <span class="">*</span>
+      <span class="">学生印象：</span>
+      <div class="">
+        <checkbox-group name='comment' @change='commentchange'>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='认真负责'>认真负责</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='幽默风趣' >幽默风趣</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='低调内敛' >低调内敛</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='耐心指导'>耐心指导</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='一丝不苟'>一丝不苟</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='宽容大度'>宽容大度</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='教学大咖'>教学大咖</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='内容丰富'>内容丰富</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='知识新颖'>知识新颖</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='很有成效'>很有成效</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='平易近人'>平易近人</checkbox>
+          </label>
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='和善可亲'>和善可亲</checkbox>
+          </label>
+          
+          <label class='commentlabel' >
+            <checkbox color='#377BF0' value='还想找Ta补课'>还想找他补课</checkbox>
+          </label>
+        </checkbox-group>
+      </div>
     </div>
     <div class="textarea">
       <span class="l">*</span>
-      <span class="m">其他备注：</span>
+      <span class="m">个人介绍：</span>
       <span class="r">
-        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="例:希望找一个怎样的老师..." />
+        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="突出优势、经验与强项..." />
       </span>
     </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
@@ -193,9 +270,11 @@ export default {
   data() {
     return {
       userInfo: {},
+      xueliarr:['大专','本科','硕士','博士'],
+      xueli:'',
       graduateyear:'',
-      gradearr:['小学前','小学一年级','小学二年级','小学三年级','小学四年级','小学五年级','小学六年级',"初一","初二","初三","高一","高二","高三",'其他'],
-      grade:'',
+      rolearr:['专职幼教老师','专职小学老师','专职初中老师','专职高中老师','专职艺术老师','兼职大学生','其他'],
+      role:'',
       school:'',
       major:'',
       course:'',
@@ -209,6 +288,7 @@ export default {
         "中国象棋","国际象棋","计算机","学习习惯","记忆力","注意力","机器人",
         "其他"]
       ],
+      teacharea:'',
       teachstarttime:"开始时间",
       teachendtime:"结束时间",
       form:{
@@ -221,13 +301,12 @@ export default {
         idcardurl2:'',
         idcardurl3:'',
         desc:'',
-        gaikuang:'',
         phone:'',
         longitude:'',
         latitude:'',
         code:'',
         citylabel:'',
-        // community:'',
+        community:'',
         province:'',
         city:'',
         country:''
@@ -239,7 +318,8 @@ export default {
       // 上传的2张照片
       imgurls:{
         1:'',
-        2:''
+        2:'',
+        3:''
       }
 
     };
@@ -261,9 +341,9 @@ export default {
       
       this.xueli = this.xueliarr[e.mp.detail.value]
     },
-    gradechange(e){
+    rolechange(e){
       console.log(e.mp.detail);
-      this.grade = this.gradearr[e.mp.detail.value]
+      this.role = this.rolearr[e.mp.detail.value]
     },
     graduateyearchange(e){
       console.log(e.mp.detail);
@@ -283,6 +363,10 @@ export default {
     teachtypechange(e){
       console.log(e.mp.detail.value);
       
+    },
+    teachareachange(e){
+      console.log(e.mp.detail.value);
+      this.teacharea = e.mp.detail.value.join('-')
     },
     // 显示繁忙提示
     showBusy : text => wx.showToast({
@@ -527,8 +611,13 @@ export default {
         // login:true,
         method:"POST",
         data:{formId , ...value},
-        url: conf.service.studentapplyUrl,
+        url: conf.service.teacherapplyUrl,
         success(res){
+          // console.log(res);
+
+          // if(res.data.code == ){
+
+          // }
           wx.hideLoading()
           wx.showToast({
             title:res.data.msg,
@@ -558,6 +647,15 @@ export default {
   },
 
   async onShow() {
+    console.log(this.globalData.editdata);
+    if(!this.globalData.editdata.openid){
+      return wx.showToast({
+        title:'参数错误，请返回重新选择',
+        icon:'none',
+        duration: 1800
+      })
+    }
+    this.form = this.globalData.editdata
 
   }
 };
@@ -573,7 +671,6 @@ $maincolor: #377BF0;
 }
 .container{
   padding: 0 20rpx 20rpx;
-  
   .item{
     display: flex;
     flex-direction: row;
@@ -604,20 +701,27 @@ $maincolor: #377BF0;
       }
     }
   }
+  .price{
+    display: flex;
+    flex-direction: row;
+  }
   .block{
     .r{
       width: 450rpx;
-      display: felx;
+      // display: felx;
       flex-direction: row;
     }
   }
-  .daypick, .buke{
+  .daypick{
     .m{
       width: 340rpx;
     }
   }
   .place{
     .r{
+      .area{
+        color: $maincolor;
+      }
       button{
         display: inline-block;
         height: 44rpx;
@@ -680,5 +784,18 @@ $maincolor: #377BF0;
     color: #ccc;
   }
 }
-
+.commentlabel{
+  checkbox{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #377BF0;
+    // height: 70rpx;
+    padding: 6rpx 20rpx;
+    border-radius: 30rpx;
+    color: #fff;
+    font-size: 30rpx;
+    margin-right: 8rpx;
+  }
+}
 </style>

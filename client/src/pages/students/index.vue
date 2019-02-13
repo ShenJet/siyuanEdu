@@ -14,8 +14,8 @@
         </picker>
       </div>
       <div>
-        <picker mode='selector' :range='sexes' value='0' @change='sexchange'>
-          {{sex || '性别'}}
+        <picker mode='selector' :range='teachtypes' value='0' @change='teachtypechange'>
+          {{teachtype || '教授方式'}}
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
       </div>
@@ -50,6 +50,8 @@ export default {
       courses:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
       sexes:['男老师','女老师','都可以'],
       roles:['专职教师','大学生','都可以'],
+      teachtype:'',
+      teachtypes:['学生上老师家','老师上学生家','远程视频教学'],
       sex:'',
       role:'',
       studentlist: [],
@@ -125,7 +127,7 @@ export default {
       this.pageindex = 1
       this.getstudents()
     },
-    sexchange(e){
+    teachtypechange(e){
       console.log(e.mp.detail.value);
       let index = e.mp.detail.value
       this.sex = this.sexes[index]

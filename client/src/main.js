@@ -14,7 +14,8 @@ App.mpType = 'app'
 Vue.prototype.globalData = {
     loginstate: {},
     userInfo: {},
-    coursename: ''
+    coursename: '',
+    editdata: {}
 }
 
 const app = new Vue(App)

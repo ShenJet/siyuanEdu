@@ -30,6 +30,14 @@
       </div>
       <div class="line">
         <div class="l">
+          补课方式
+        </div>
+        <div class="r">
+          {{studentdetail.teachtype}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
           所在年级
         </div>
         <div class="r">

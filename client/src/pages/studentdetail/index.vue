@@ -27,6 +27,14 @@
     <div class="detail">
       <div class="line">
         <div class="l">
+          补课方式
+        </div>
+        <div class="r">
+          {{studentdetail.teachtype}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
           所在年级
         </div>
         <div class="r">
@@ -593,10 +601,10 @@ swiper {
     text-align: center;
   }
   .hoverbtn1 {
-    background-color: rgb(219, 143, 0);
+    background-color: rgb(199, 129, 0);
   }
   .hoverbtn {
-    background-color: #9c2518;
+    background-color: rgb(39, 102, 211);
   }
 }
 .share{

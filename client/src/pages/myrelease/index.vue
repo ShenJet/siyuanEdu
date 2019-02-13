@@ -3,22 +3,25 @@
     <div class="main">
       <div class="ordercon" v-for='(x,i) in releaselist' :key="i" >
         <div class="header main">
+          <div class="tip" v-if='x.beenordered'>本条信息已被预约，请注意接听电话</div>
           <div class="m">
-            <div class="l" @click="tocollectdetail(x)">
+            <div class="l" @click="todetail(x)">
               {{ x.name }} {{ x.coursetype }} {{ x.coursename }}
             </div>
             <div class="r">
-              <div class="refresh" @click="refresh(x)" >擦亮信息</div>
+              <div class="refresh" @click="refresh(x)" v-if='x.recieveorder && !x.beenordered'>擦亮</div>
+              <div class="refresh" @click="releaseModal(x)" v-if='!x.recieveorder || x.beenordered'>重新上架</div>
             </div>
           </div>
-          <div class="round" @click="tocollectdetail(x)">
+          <div class="round" @click="todetail(x)">
             <span class="iconfont icon-round"></span>
             {{ x.citylabel }}
           </div>
           <div class="d">
-              <button plain type="primary" @click='deleteModal(x)'>编辑</button>
-              <button plain class="down"  @click='deleteModal(x)'>暂时下架</button>
-              <button plain type="warn" @click='deleteModal(x)'>删除</button>
+              <button plain type="primary" @click='edit(x)'>编辑</button>
+              <!-- <button plain class="release"   @click='release(x)' v-if='!x.recieveorder || x.beenordered'>重新上架</button> -->
+              <button plain class="down"   @click='obtainModal(x)'  v-if='x.recieveorder && !x.beenordered'>暂时下架</button>
+              <!-- <button plain type="warn" @click='deleteModal(x)'>删除</button> -->
           </div>
         </div>
       </div>
@@ -56,9 +59,236 @@ export default {
     }
   },
   methods:{
+    edit(x){
+      this.globalData.editdata = x
+      if(x.usertype == 'teacher'){
+        var url = `/pages/editteacher/main?openid=${x.openid}`
+      }
+      if(x.usertype == 'student'){
+        var url = `/pages/editstudent/main?openid=${x.openid}&randomstr=${x.randomstr}`
+      }
+      wx.navigateTo({
+        url
+      })
+    },
+    releaseModal(x){
+      if(!x.recieveorder){
+        var content = '本信息已暂时下架，是否确定重新上架？'
+      }
+      if(x.beenordered){
+        var content = '本信息已被预约，是否确定重新上架？'
+      }
+
+      var self = this
+      wx.showModal({
+        title: '提示',
+        content,
+        success(res) {
+          if (res.confirm) {
+            // console.log('用户点击确定')
+            self.release(x)
+          } else if (res.cancel) {
+          }
+        }
+      })
+    },
+    release(x){
+      console.log(x);
+      var openid = x.openid
+      var usertype = x.usertype
+      if(usertype == 'student'){
+        var randomstr = x.randomstr
+      }else{
+        var randomstr = ''
+      }
+      var self = this
+      wx.showLoading({
+        title:'信息重新上架中...'
+      })
+      qc.request({
+        // login:true,
+        url: conf.service.releasemyreleaseUrl,
+        // method:"POST",
+        data:{
+          openid, usertype, randomstr
+        },
+        success:function(res) {
+          wx.hideLoading();
+          // console.log(res.data.msg);
+          
+          wx.showToast({
+              title: res.data.msg, 
+              duration: 1500,
+              icon:'none',
+              mask:true
+          })
+          self.getrelease()
+        },
+        fail: function(err) {
+          wx.hideLoading();
+          // console.log(err);
+          wx.showToast({
+              title: '请求失败，请检查网络', 
+              duration: 1500,
+              icon:'none',
+              mask:true
+          })
+        },
+        complete:function(){
+          
+        }
+      });
+    },
+    obtainModal(x){
+      var self = this
+      wx.showModal({
+        title: '提示',
+        content: '下架后他人无法搜索到本条信息，确认暂时下架？',
+        success(res) {
+          if (res.confirm) {
+            // console.log('用户点击确定')
+            self.obtain(x)
+          } else if (res.cancel) {
+          }
+        }
+      })
+    },
+    obtain(x){
+      console.log(x);
+      var openid = x.openid
+      var usertype = x.usertype
+      if(usertype == 'student'){
+        var randomstr = x.randomstr
+      }else{
+        var randomstr = ''
+      }
+      var self = this
+      wx.showLoading({
+        title:'信息暂时下架中...'
+      })
+      qc.request({
+        // login:true,
+        url: conf.service.obtainmyreleaseUrl,
+        // method:"POST",
+        data:{
+          openid, usertype, randomstr
+        },
+        success:function(res) {
+          wx.hideLoading();
+          wx.showToast({
+              title: res.data.msg, 
+              duration: 1500,
+              icon:'none',
+              mask:true
+          })
+          self.getrelease()
+        },
+        fail: function(err) {
+          wx.hideLoading();
+          // console.log(err);
+          wx.showToast({
+              title: '请求失败，请检查网络', 
+              duration: 1500,
+              icon:'none',
+              mask:true
+          })
+        },
+        complete:function(){
+          
+        }
+      });
+    },
+    deleteModal(x){
+      var self = this
+      wx.showModal({
+        title: '提示',
+        content: '删除后不可恢复，确定删除？',
+        success(res) {
+          if (res.confirm) {
+            // console.log('用户点击确定')
+            self.deletegoods(x)
+          } else if (res.cancel) {
+          }
+        }
+      })
+    },
+    deletegoods(x){
+      var self = this
+      wx.showLoading({
+        title:'已发布信息删除中...'
+      })
+      qc.request({
+        // login:true,
+        url: conf.service.deleteorderUrl,
+        // method:"POST",
+        data:{
+          orderid : x.orderid
+        },
+        success:function(res) {
+          wx.hideLoading();
+          // console.log(res.data.msg);
+          
+          wx.showToast({
+              title: res.data.msg, 
+              duration: 1500,
+              icon:'none',
+              mask:true
+          })
+          self.getrelease()
+        },
+        fail: function(err) {
+          wx.hideLoading();
+          // console.log(err);
+          wx.showToast({
+              title: '请求失败，请检查网络', 
+              duration: 1500,
+              icon:'none',
+              mask:true
+          })
+        },
+        complete:function(){
+          
+        }
+      });
+    },
     refresh(x){
       console.log(x);
-      
+      var openid = x.openid
+      var usertype = x.usertype
+      if(usertype == 'student'){
+        var randomstr = x.randomstr
+      }else{
+        var randomstr = ''
+      }
+      var self = this
+      wx.showLoading({
+        title:"信息擦亮中..."
+      })
+      qc.request({
+        data:{
+          openid, usertype, randomstr
+        },
+        url: conf.service.refreshmyreleaseUrl,
+        success(res){
+          wx.hideLoading()
+          wx.showToast({
+            title:res.data.msg,
+            icon:'none',
+            duration:1400
+          })
+        },
+        fail(){
+          wx.hideLoading()
+          wx.showToast({
+            title:'网络连接失败',
+            icon:'none',
+            duration:1400
+          })
+        },
+        complete(){
+          wx.stopPullDownRefresh()
+        }
+      })
     },
     getrelease(){
       var self = this
@@ -90,10 +320,15 @@ export default {
         }
       })
     },
-    teacherdetail(x){
+    todetail(x){
       let loginstate = this.globalData.loginstate;
       if(loginstate === true){
-        let url = `/pages/teacherdetail/main?openid=${x.openid}`
+        if(x.usertype == 'student'){
+          var url = `/pages/studentdetail/main?openid=${x.openid}&randomstr=${x.randomstr}`
+        }
+        if(x.usertype == 'teacher'){
+          var url = `/pages/teacherdetail/main?openid=${x.openid}`
+        }
         wx.navigateTo({
           url
         })
@@ -159,6 +394,19 @@ $maincolor: #377BF0;
   }
 
   .header {
+    .tip{
+      font-size: 32rpx;
+      color: red;
+    }
+    .tip::before{
+      content: '';
+      display: inline-block;
+      background-color: red;
+      width: 20rpx;
+      height: 20rpx;
+      border-radius: 10rpx;
+      margin-right: 5rpx;
+    }
     & > .m {
       display: flex;
       flex-direction: row;
@@ -215,6 +463,10 @@ $maincolor: #377BF0;
       .down{
         color: orange;
         border: 1rpx solid orange;
+      }
+      .release{
+        color: $maincolor;
+        border: 1rpx solid $maincolor;
       }
     }
   }

@@ -62,11 +62,11 @@ export default {
     return {
       imgUrls:[{
         id:0,
-        src:'https://guanli.jiajiao114.com/admin/img/banner.png',
+        src:'/static/image/swiper1.png',///static/image/swiper1.png
         url:"/pages/stu_detail/main"
       },{
         id:0,
-        src:'https://guanli.jiajiao114.com/admin/img/2.png',
+        src:'/static/image/swiper2.png',
         url:"/pages/tech_detail/main"
       }],
       types:[

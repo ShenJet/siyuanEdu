@@ -3,7 +3,11 @@ const qcloud = require('wafer-node-sdk')(configs)
 const { mysql } = qcloud
 
 module.exports = async (ctx, next) => {
-    let type = ctx.query.type
+    let params = ctx.query
+    console.log('params:');
+    console.log(params);
+    
+    
     let res = await mysql('user_teachers').select(
         'openid',
         'recieveorder',
@@ -24,7 +28,7 @@ module.exports = async (ctx, next) => {
         // 'latitude',
         // 'ordercount',
         // 'viewcount'
-    ).where({recieveorder: 1}).limit(8).orderBy('id', 'desc');
+    ).where({recieveorder: 1}).limit(8).orderBy('refreshtime', 'desc');
     // console.log('teacher list:');
     // console.log(res);
     res.map(function(v, i){

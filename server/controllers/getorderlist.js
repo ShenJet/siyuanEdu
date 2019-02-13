@@ -5,7 +5,7 @@ const { mysql } = qcloud
 module.exports = async (ctx, next) => {
     
     // STEP1 用户校验
-console.log(ctx.state.$wxInfo);
+    console.log(ctx.state.$wxInfo);
 
 
     if(!ctx.state.$wxInfo || ctx.state.$wxInfo.loginState !== 1 ){

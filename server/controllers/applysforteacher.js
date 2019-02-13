@@ -5,6 +5,7 @@ module.exports = async (ctx, next) => {
     let params = ctx.request.body;
     let openid = ctx.state.$wxInfo.userinfo.openId ;
     let avatarUrl = ctx.state.$wxInfo.userinfo.avatarUrl ;
+    let timestamp = new Date().getTime();
 
     console.log('@老师申请  params:',params);
     try{
@@ -16,7 +17,7 @@ module.exports = async (ctx, next) => {
         let search = await mysql('applysforteacher').first().where({openid})
         if(!search){
             // 直接插入
-            await mysql('applysforteacher').insert({...params, openid, avatar:avatarUrl})
+            await mysql('applysforteacher').insert({...params, openid, avatar:avatarUrl, refreshtime: timestamp})
             return ctx.body = {
                 code:"TEACHER_APPLY_SUCCESS",
                 data:{},

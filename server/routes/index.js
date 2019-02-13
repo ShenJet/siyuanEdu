@@ -81,8 +81,20 @@ router.get('/deleteorder', validationMiddleware, controllers.deleteorder)
 // GET !!! 小程序用户获取自己的已发布商品
 router.get('/myrelease', validationMiddleware, controllers.myrelease)
 
-// GET !!! 小程序用户删除自己的已发布商品
-router.get('/deletemyrelease', validationMiddleware, controllers.deletemyrelease)
+// GET !!! 小程序用户 删除 自己的已发布商品
+router.get('/deletemyrelease', validationMiddleware, controllers.myreleasedelete)
+
+// GET !!! 小程序用户 编辑 自己的已发布商品
+router.post('/myreleaseedit', validationMiddleware, controllers.myreleaseedit)
+
+// GET !!! 小程序用户 刷新 自己的已发布商品
+router.get('/myreleaserefresh', validationMiddleware, controllers.myreleaserefresh)
+
+// GET !!! 小程序用户 下架 自己的已发布商品
+router.get('/myreleaseobtain', validationMiddleware, controllers.myreleaseobtain)
+
+// GET !!! 小程序用户 重新上架 自己的已发布商品
+router.get('/myreleaserelease', validationMiddleware, controllers.myreleaserelease)
 
 
 

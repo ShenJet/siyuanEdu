@@ -179,9 +179,15 @@ export default {
 
   },
   onShow() {
-    let coursename = this.globalData.coursename
+    var coursename = this.globalData.coursename
     console.log(coursename);
-    
+    if(coursename == '艺术'){
+      coursename = ''
+      this.coursetype = '乐器'
+    }
+    if(coursename == '更多'){
+      coursename = ''
+    }
     if(coursename){
       this.coursename = coursename ;
       this.getteachers()

@@ -46,6 +46,22 @@ const post = async function (ctx, next) {
                 let transaction_id = data["transaction_id"][0]
 
                 let order = await mysql("orders").first().where({orderid, openid})
+                let goodsinfo = JSON.parse(order.goodsinfo)
+                let usertype = goodsinfo.usertype
+                let goods_openid = goodsinfo.openid
+                console.log('usertype: ');
+                console.log(usertype);
+                
+                if(usertype == 'student'){
+                    var randomstr = goodsinfo.randomstr
+                    await mysql("applysforstudent").update({beenordered:1, recieveorder:0,}).where({openid:goods_openid, randomstr}).limit(1)
+                    await mysql("applysforstudent").increment('ordercount', 1).where({openid:goods_openid, randomstr}).limit(1)
+                    
+                }
+                if(usertype == 'teacher'){
+                    await mysql("user_teachers").update({beenordered:1, recieveorder:0,}).where({openid:goods_openid}).limit(1)
+                    await mysql("user_teachers").increment('ordercount', 1).where({openid:goods_openid}).limit(1)
+                }
                 console.log('------------order------------');
                 console.log(order);
                 console.log('------------order end ------------ ');
@@ -57,7 +73,6 @@ const post = async function (ctx, next) {
                         if(total_fee == data['total_fee'][0]){
                             // 4.校验通过 金额正确 订单状态修改 
                             await mysql("orders").update({status:4, wxpayconfirmed:1,transaction_id}).where({orderid, openid})
-                            
                         }else{
                             // 金额不对
                             console.log('!!!warning!!!金额不对!!!');

@@ -65,7 +65,7 @@
               :range="coursese"
               value="[0,0]"
               @change="coursechange"
-            >{{course || '点击选择教授科目'}}</picker>
+            >{{course || '点击选择补课科目'}}</picker>
           </span>
         </div>
         <div class="item line buke">
@@ -104,7 +104,7 @@
             <div>
               <span @click="chooselocation">
                 <span class="iconfont icon-round"></span>
-                {{ citylabel || '点击选择你的位置' }}
+                {{ form.citylabel || '点击选择你的位置' }}
               </span>
               <input type="text" name="citylabel" disabled v-model="form.citylabel" hidden>
               <input type="text" name="code" disabled v-model="form.code" hidden>
@@ -586,8 +586,13 @@ export default {
       qc.request({
         // login:true,
         method: "POST",
-        data: { formId, ...value },
-        url: conf.service.myreleaseedit,
+        data: { 
+          formId,
+          usertype:'student',
+          randomstr: self.globalData.editdata.randomstr,
+         ...value 
+        },
+        url: conf.service.editmyreleaseUrl,
         success(res) {
           wx.hideLoading();
           wx.showToast({
@@ -737,7 +742,7 @@ $maincolor: #377bf0;
     border-radius: 40rpx;
   }
   .btn-hover {
-    background-color: rgb(172, 0, 0);
+    background-color: rgb(9, 71, 206);
     color: #ccc;
   }
 }

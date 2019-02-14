@@ -6,7 +6,7 @@
     </div>
     <div class="container">
       <form report-submit=true @submit="formSubmit">
-    <div class="item line">
+    <!-- <div class="item line">
       <span class="l">*</span>
       <span class="m">真实姓名：</span>
       <span class="r">
@@ -24,7 +24,6 @@
       <span class="l">*</span>
       <span class="m">性别：</span>
       <span class="r">
-        <!-- <input type="number" name='sex' v-model="form.sex" confirm-type='next' maxlength='11'> -->
         <radio-group name='sex' @click="sexchange">
           <radio value='男' color='#377BF0'>男老师</radio>
           <span style="display:inline-block;width:40rpx;"></span>
@@ -66,14 +65,14 @@
       <span class="r">
         <picker mode='date' name='graduateyear' value='2008' fields='year' start='1990' end='2030' @change='graduateyearchange'>{{graduateyear || '点击选择毕业年份'}}</picker>
       </span>
-    </div>
+    </div>-->
     <div class="item line">
       <span class="l">*</span>
       <span class="m">教授科目：</span>
       <span class="r">
         <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择教授科目'}}</picker>
       </span>
-    </div>
+    </div> 
     <div class="item line">
       <span class="l">*</span>
       <span class="m">教授费用：</span>
@@ -146,7 +145,7 @@
         <picker mode="time" name='teachendtime' value='20:00' @change='endtimechange'>{{teachendtime}}</picker>
       </span>
     </div>
-    <div class="item line">
+    <!-- <div class="item line">
       <span class="l">*</span>
       <span class="m">身份证号码：</span>
       <span class="r">
@@ -176,7 +175,7 @@
         <mp-uploader @upLoadSuccess="upLoadSuccess" @upLoadFail="upLoadFail2" @uploadDelete="uploadDelete" :showTip='showtip' :count='piccount' :maxLength='maxlength' which='3'></mp-uploader>
         <input type="text" name='idcard3' disabled v-model="imgurls['3']" hidden>
       </div>
-    </div>
+    </div> -->
     <div class="">
       <span class="">*</span>
       <span class="">学生印象：</span>
@@ -571,7 +570,7 @@ export default {
       })
       var self = this
       let {formId, value} = data.mp.detail
-      // console.log(value);
+      console.log(value);
       // 数据校验
       for (const key in value) {
         if (value.hasOwnProperty(key)) {
@@ -610,25 +609,19 @@ export default {
       qc.request({
         // login:true,
         method:"POST",
-        data:{formId , ...value},
-        url: conf.service.teacherapplyUrl,
+        data:{
+          usertype:'teacher',
+          formId , 
+          ...value
+        },
+        url: conf.service.editmyreleaseUrl,
         success(res){
-          // console.log(res);
-
-          // if(res.data.code == ){
-
-          // }
           wx.hideLoading()
           wx.showToast({
             title:res.data.msg,
             icon:'none',
             duration:1400
           })
-          // setTimeout(function(){
-          //   wx.switchTab({
-          //     url:'/pages/index/main'
-          //   })
-          // },1600)
         },
         fail(){
           wx.hideLoading()
@@ -780,7 +773,7 @@ $maincolor: #377BF0;
     border-radius: 40rpx;
   }
   .btn-hover{
-    background-color: rgb(172, 0, 0);
+    background-color: rgb(9, 71, 206);
     color: #ccc;
   }
 }

@@ -284,6 +284,25 @@ export default {
     })
   },
   onShow(){
+    // 判断登录
+    let loginstate = this.globalData.loginstate;
+    if(!loginstate){
+      return wx.showToast({
+        title:'用户尚未登录，请先登录',
+        duration: 1800,
+        icon:'none',
+        mask: true,
+        complete(){
+          setTimeout(function(){
+            let url = `/pages/my/main`
+            wx.switchTab({
+              url
+            })
+          },1900)
+        }
+      })
+    }
+
     let openid = this.$root.$mp.query.openid
     let randomstr = this.$root.$mp.query.randomstr
     
@@ -319,7 +338,7 @@ export default {
     // console.log('share');
     return {
       title: '急!这位同学想找个厉害的家教!',
-      path: `/pages/studentdetail/main?openid=${self.studentdetail.openid}`,
+      path: `/pages/studentdetail/main?openid=${self.studentdetail.openid}&randomstr=${self.studentdetail.randomstr}`,
       // imageUrl: `${self.studentdetail.urls[0]}`,
       success: (res) => {
         // console.log("转发成功", res);

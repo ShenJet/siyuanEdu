@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="i-card-header-extra" @click="teacherdetail">
-          <span>查看详情</span>
+          <span>详情</span>
         </div>
       </div>
       <!-- <div class="i-class i-card-body">
@@ -78,7 +78,7 @@ $maincolor: #377BF0;
 
 .i-card-header {
   display: flex;
-  padding: 6px 16px;
+  padding: 12rpx 8rpx 12rpx 16rpx;
   align-items: center;
 }
 
@@ -87,7 +87,7 @@ $maincolor: #377BF0;
   text-align: left;
 }
 .mid{
-  width: 350rpx;
+  width: 430rpx;
   min-height: 64px ;
   padding: 0 12rpx 0 30rpx;
   display: flex;

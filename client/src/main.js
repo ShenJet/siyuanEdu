@@ -4,8 +4,8 @@ import App from './App'
 // 全局样式
 import 'mpvue-weui/src/style/weui.css'
 
-import '../static/iconfont2.css'
-import '../static/iconfont.css'
+import '../static/icon2.css'
+import '../static/icon.css'
 
 
 Vue.config.productionTip = false

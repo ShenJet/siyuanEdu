@@ -304,6 +304,25 @@ export default {
     })
   },
   onShow(){
+    // 判断登录
+    let loginstate = this.globalData.loginstate;
+    if(!loginstate){
+      return wx.showToast({
+        title:'用户尚未登录，请先登录',
+        duration: 1800,
+        icon:'none',
+        mask: true,
+        complete(){
+          setTimeout(function(){
+            let url = `/pages/my/main`
+            wx.switchTab({
+              url
+            })
+          },1900)
+        }
+      })
+    }
+    
     let openid = this.$root.$mp.query.openid
     if(!openid){
       return wx.showToast({
@@ -336,7 +355,7 @@ export default {
     var self = this
     // console.log('share');
     return {
-      // title: `【找家教,就找思元家教】${self.teacherdetail.name}`,
+      // title: `【找家教,就找92家教】${self.teacherdetail.name}`,
       title: '快看这里有个厉害的家教!',
       path: `/pages/teacherdetail/main?openid=${self.teacherdetail.openid}`,
       // imageUrl: `${self.teacherdetail.urls[0]}`,

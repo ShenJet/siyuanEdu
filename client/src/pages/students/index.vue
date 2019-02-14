@@ -19,12 +19,12 @@
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
       </div>
-      <div>
+      <!-- <div>
         <picker mode='selector' :range='roles' value='0' @change='rolechange'>
           {{ role || '身份' }}
           <span class="iconfont icon-tubiao_xiala"></span>
         </picker>
-      </div>
+      </div> -->
       <div>
         <button class="reset" hover-class='reset-hover' @click='clear'>重置条件</button>
       </div>
@@ -47,11 +47,20 @@ export default {
 
   data () {
     return {
-      courses:[["小学","初中","高中","艺术","兴趣"], ["语文","数学","英语","物理","化学","钢琴","古筝","画画","舞蹈","棋类","其他"]],
+      courses:[
+        ['小学前','小学一年级','小学二年级','小学三年级','小学四年级','小学五年级','小学六年级',"初一","初二","初三","高一","高二","高三",
+        "乐器","美术","运动","其他"], 
+        ['幼教','陪读陪玩',"语文","数学","英语","物理","化学",
+        "钢琴","电子琴","古筝","吉他","尤克里里","小提琴","架子鼓","手风琴","葫芦丝","古筝","二胡","口琴","横笛","竖笛",
+        "卡通画","素描","水彩","油画","漫画","毛笔书法","硬笔书法",
+        "足球","篮球","羽毛球","乒乓球","游泳","网球",
+        "中国象棋","国际象棋","计算机","学习习惯","记忆力","注意力","机器人",
+        "其他"]
+      ],
       sexes:['男老师','女老师','都可以'],
       roles:['专职教师','大学生','都可以'],
       teachtype:'',
-      teachtypes:['学生上老师家','老师上学生家','远程视频教学'],
+      teachtypes:['学生上老师家','老师上学生家','远程视频教学','都可以'],
       sex:'',
       role:'',
       studentlist: [],
@@ -76,14 +85,12 @@ export default {
           coursename: self.coursename,
           province: self.province,
           city: self.city,
-          sex: self.sex,
           country: self.country,
-          role: self.role
+          teachtype: self.teachtype
         },
         url: conf.service.getstudentlistUrl,
         success(res){
           self.studentlist = res.data.data
-
           self.pageindex++
           wx.hideLoading()
           wx.showToast({
@@ -130,7 +137,7 @@ export default {
     teachtypechange(e){
       console.log(e.mp.detail.value);
       let index = e.mp.detail.value
-      this.sex = this.sexes[index]
+      this.teachtype = this.teachtypes[index]
       this.pageindex = 1
       this.getstudents()
     },

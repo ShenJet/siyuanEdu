@@ -43,7 +43,7 @@
       <span class="l">*</span>
       <span class="m">补课科目：</span>
       <span class="r">
-        <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择教授科目'}}</picker>
+        <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择补课科目'}}</picker>
       </span>
     </div>
     <div class="item line buke">

@@ -39,13 +39,15 @@ module.exports = async (ctx, next) => {
         }
 
         if(usertype == 'teacher'){
+            params.teacharea = JSON.stringify(params.teacharea)
+            params.comment = JSON.stringify(params.comment)
             await mysql('user_teachers').update({
                 ...params
             }).where({ openid }).limit(1)
         }
         if(usertype == 'student'){
             let randomstr = params.randomstr
-            await mysql('applysforstudent').update({
+            await mysql('user_students').update({
                 ...params
             }).where({ openid, randomstr }).limit(1)
         }

@@ -37,8 +37,11 @@ function authorization (req) {
             const skey = sha1(session_key)
 
             return AuthDbService.getUserInfoByOpenId(openid).then(userinfo => {
-                console.log('[@index.authorization] userinfo:',userinfo);
+                
                 // if(userinfo){
+                    console.log('[@index.authorization] userinfo:',userinfo);
+                    console.log('[@index.authorization] usertype:',userinfo.usertype);
+                    var usertype = userinfo.usertype
                     const wxUserInfo = JSON.parse(userinfo.user_info)
                     return AuthDbService.saveUserInfo(wxUserInfo, skey, session_key)
                     .then(userinfo => ({
@@ -46,7 +49,8 @@ function authorization (req) {
                         userinfo: {
                             userinfo: wxUserInfo,
                             skey: userinfo.skey,
-                            text:'123'
+                            text:'123',
+                            usertype: usertype
                         }
                     }))
                 // }else{

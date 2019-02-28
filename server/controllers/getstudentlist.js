@@ -31,7 +31,7 @@ module.exports = async (ctx, next) => {
     console.log('params final:');
     console.log(params);
     if(teachtype){
-        var res = await mysql('applysforstudent').select(
+        var res = await mysql('user_students').select(
             'openid',
             'recieveorder',
             'avatar',
@@ -54,7 +54,7 @@ module.exports = async (ctx, next) => {
             ...params
         }).andWhere('teachtype', 'like', teachtype).orderBy('refreshtime', 'desc');
     }else{
-        var res = await mysql('applysforstudent').select(
+        var res = await mysql('user_students').select(
             'openid',
             'recieveorder',
             'avatar',

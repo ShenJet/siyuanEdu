@@ -20,7 +20,7 @@ module.exports = async (ctx, next) => {
             await mysql('user_teachers').update({ refreshtime, recieveorder:0 }).where({openid})
         }
         if(usertype == 'student'){
-            await mysql('applysforstudent').update({ refreshtime, recieveorder:0 }).where({openid, randomstr})
+            await mysql('user_students').update({ refreshtime, recieveorder:0 }).where({openid, randomstr})
         }
         return ctx.body = {
             code:"RELEASED_GOODS_OBTAIN_SUCCESS",

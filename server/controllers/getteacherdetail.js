@@ -45,6 +45,7 @@ module.exports = async (ctx, next) => {
             'usertype'
         )
         .where({ openid });
+        console.log(res);
         
         if(res){
             res.name = res.name.substring(0,1)+'老师'
@@ -52,6 +53,8 @@ module.exports = async (ctx, next) => {
             res.teacharea = JSON.parse(res.teacharea)
             res.teachday = JSON.parse(res.teachday)
             res.comment = JSON.parse(res.comment)
+            console.log(res);
+            
             ctx.body = {
                 code:"TEACHER_DETAIL_GET_SUCCESS",
                 success:true,

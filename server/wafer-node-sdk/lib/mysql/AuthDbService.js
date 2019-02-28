@@ -16,13 +16,16 @@ function saveUserInfo (userInfo, skey, session_key) {
     const last_visit_time = create_time
     const open_id = userInfo.openId
     const user_info = JSON.stringify(userInfo)
-
+    var usertype = 'normal'
     // 查重并决定是插入还是更新数据
     return mysql('cSessionInfo').count('open_id as hasUser').where({
         open_id
     })
     .then(res => {
         // 如果存在用户则更新
+        console.log('resresresresresresresresresresresresres:');
+        console.log(res);
+        
         if (res[0].hasUser) {
             return mysql('cSessionInfo').update({
                 skey, last_visit_time, session_key, user_info
@@ -37,7 +40,8 @@ function saveUserInfo (userInfo, skey, session_key) {
     })
     .then(() => ({
         userinfo: userInfo,
-        skey: skey
+        skey: skey,
+        text: 'saveUserInfo'
     }))
     .catch(e => {
         debug('%s: %O', ERRORS.DBERR.ERR_WHEN_INSERT_TO_DB, e)

@@ -21,16 +21,16 @@ module.exports = async (ctx, next) => {
         .where({ openid, orderid });
         if(res){
             let formatted = JSON.parse(res.goodsinfo)
-            let query = await mysql('applysforstudent')
+            let query = await mysql('user_students')
             .first()
-            .where({ openid: formatted.openid });
+            .where({ openid: formatted.openid, randomstr: formatted.randomstr });
 
             console.log('query');
             console.log(query);
 
             query.teachtype = JSON.parse(query.teachtype)
             query.teachday = JSON.parse(query.teachday)
-            ctx.body = {
+            return ctx.body = {
                 code:"STUDENT_DETAIL_GET_SUCCESS",
                 success:true,
                 msg:"学员信息获取成功",

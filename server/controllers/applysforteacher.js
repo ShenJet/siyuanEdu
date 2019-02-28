@@ -14,10 +14,24 @@ module.exports = async (ctx, next) => {
         params.teachday = JSON.stringify(params.teachday)
         params.comment = JSON.stringify(params.comment)
         
+        let userinfo = await mysql('cSessionInfo').first().where({open_id: openid}) 
+        let usertype = userinfo.usertype
+        if(usertype == 'student'){
+            return ctx.body = {
+                code:"STUDENT_ROLE_ERROR",
+                data:null,
+                success:false,
+                msg:"您已发布过学生信息，不可再注册为老师"
+            }
+        }
+
         let search = await mysql('applysforteacher').first().where({openid})
         if(!search){
             // 直接插入
             await mysql('applysforteacher').insert({...params, openid, avatar:avatarUrl, refreshtime: timestamp})
+            if(usertype == 'normal'){
+                await mysql('cSessionInfo').update({usertype:'teacher'}).limit(1).where({ open_id: openid })
+            }
             return ctx.body = {
                 code:"TEACHER_APPLY_SUCCESS",
                 data:{},

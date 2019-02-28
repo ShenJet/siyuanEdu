@@ -13,7 +13,7 @@ module.exports = async (ctx, next) => {
         if(usertype === 'teacher'){
             var query = await mysql('user_teachers').select().where({openid}).limit(1)
         }else if(usertype === 'student'){
-            var query = await mysql('applysforstudent').select().where({openid})
+            var query = await mysql('user_students').select().where({openid})
         }else{
             return ctx.body = {
                 code:"RELEASED_GOODS_QUERY_SUCCESS",

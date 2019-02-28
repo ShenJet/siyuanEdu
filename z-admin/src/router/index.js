@@ -25,123 +25,147 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
-    }]
+    redirect: '/example',
+    name: 'example',
+    hidden: true
   },
-
   {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    meta: { title: '老师审核', icon: 'teacher' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: '老师待审核', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'teacheraudited',
+        name: 'Teacheraudited',
+        component: () => import('@/views/teacheraudited/index'),
+        meta: { title: '老师已通过', icon: 'table' }
+      },
+      {
+        path: 'teacherrejected',
+        name: 'Teacherrejected',
+        component: () => import('@/views/teacherrejected/index'),
+        meta: { title: '老师已驳回', icon: 'table' }
+      },
+      {
+        path: 'teacherdetail/:openid',
+        name: 'Teacherdetail',
+        hidden: true,
+        component: () => import('@/views/teacherdetail/index'),
+        meta: { title: '老师详情', icon: 'detail' }
       }
     ]
   },
-
   {
-    path: '/form',
+    path: '/student',
     component: Layout,
+    redirect: '/student/studentapply',
+    name: 'Student',
+    meta: { title: '学员审核', icon: 'student' },
+    children: [
+      {
+        path: 'studentapply',
+        name: 'Studentapply',
+        component: () => import('@/views/studentapply/index'),
+        meta: { title: '学员待审核', icon: 'tree' }
+      },
+      {
+        path: 'studentlist',
+        name: 'Studentlist',
+        component: () => import('@/views/studentlist/index'),
+        meta: { title: '学员已通过', icon: 'tree' }
+      },
+      {
+        path: 'deletedstudent',
+        name: 'Deletedstudent',
+        component: () => import('@/views/studentdeleted/index'),
+        meta: { title: '学员已驳回', icon: 'tree' }
+      },
+      {
+        path: 'studentdetail/:openid/:randomstr',
+        name: 'Studentdetail',
+        hidden: true,
+        component: () => import('@/views/studentdetail/index'),
+        meta: { title: '学员详情', icon: 'detail' }
+      },
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/summary',
+    name: 'Order',
+    meta: { title: '订单数据', icon: 'order' },
+    children: [
+      {
+        path: 'summary',
+        name: 'Summary',
+        component: () => import('@/views/ordersummary/index'),
+        meta: { title: '订单汇总', icon: 'tree' }
+      },
+      {
+        path: 'orderlist',
+        name: 'Orderlist',
+        component: () => import('@/views/orderlist/index'),
+        meta: { title: '订单列表', icon: 'tree' }
+      }
+    ]
+  },
+  {
+    path: '/price',
+    component: Layout,
+    redirect: '/price/index',
+    name: 'Price',
+    meta: { title: '产品定价', icon: 'price' },
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'Priceindex',
+        component: () => import('@/views/price/index'),
+        meta: { title: '产品定价', icon: 'price' }
       }
     ]
   },
-
   {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
+    path: 'minappdata',
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://mp.weixin.qq.com/',
+        meta: { title: '小程序运营数据', icon: 'link' }
       }
     ]
   },
-
+  {
+    path: 'mpkf',
+    component: Layout,
+    children: [
+      {
+        path: 'https://mpkf.weixin.qq.com/',
+        meta: { title: '微信客服系统', icon: 'link' }
+      }
+    ]
+  },
+  {
+    path: 'wxpay',
+    component: Layout,
+    children: [
+      {
+        path: 'https://pay.weixin.qq.com/index.php/core/home/login',
+        meta: { title: '微信商户支付系统', icon: 'link' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

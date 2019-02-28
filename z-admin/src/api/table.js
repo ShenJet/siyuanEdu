@@ -7,3 +7,11 @@ export function getList(params) {
     params
   })
 }
+
+export function getteacherdetail(params) {
+  return request({
+    url: '/getteacherdetail',
+    method: 'get',
+    params
+  })
+}

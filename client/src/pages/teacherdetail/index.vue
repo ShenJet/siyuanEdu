@@ -2,7 +2,9 @@
   <div class="container">
     <div class="head">
       <div class="avatar">
-        <img :src="teacherdetail.avatar" mode='aspectFill' alt="老师头像">
+        <!-- <img :src="teacherdetail.avatar" mode='aspectFill' alt="老师头像"> -->
+        <img src='/static/img/nan1.png' mode='aspectFill' v-if="teacherdetail.sex == '男'" />
+        <img src='/static/img/nv1.png' mode='aspectFill' v-if="teacherdetail.sex == '女'" />
       </div>
       <div class="title">{{teacherdetail.name}}
         <img src='/static/img/nan.png' mode='aspectFill' v-if="teacherdetail.sex == '男'" />
@@ -66,6 +68,22 @@
         </div>
         <div class="r">
           {{teacherdetail.xueli}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          毕业院校
+        </div>
+        <div class="r">
+          {{teacherdetail.school}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          所学专业
+        </div>
+        <div class="r">
+          {{teacherdetail.major}}
         </div>
       </div>
       <div class="line">

@@ -17,7 +17,8 @@
     "pages/stu_detail/main",
     "pages/tech_detail/main",
     "pages/qqmap/main",
-    "pages/orderlist/main"
+    "pages/orderlist/main",
+    "pages/law/main"
   ],
   "usingComponents": {
     "i-button":       "/static/iview/button/index",

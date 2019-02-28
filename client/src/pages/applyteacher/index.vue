@@ -229,8 +229,14 @@
       <span class="l">*</span>
       <span class="m">个人介绍：</span>
       <span class="r">
-        <textarea name='applydesc' type="text" v-model="form.desc" placeholder="突出优势、经验与强项..." />
+        <textarea name='applydesc' type="text" v-model="form.desc" style="" />
       </span>
+    </div>
+    <div style='font-size:30rpx;padding-top:20rpx;'>
+      <checkbox-group @change='lawchange'>
+        <checkbox color='#377BF0' value='1'></checkbox>
+        我已阅读92家教 <span @click="tolaw" style="color:#377BF0">《用户协议》、《隐私保护》、《免责声明》</span>
+      </checkbox-group>
     </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
     </form>
@@ -269,6 +275,7 @@ import slogan from "@/components/slogan";
 export default {
   data() {
     return {
+      lawread: 0,
       userInfo: {},
       xueliarr:['大专','本科','硕士','博士'],
       xueli:'',
@@ -300,7 +307,7 @@ export default {
         idcardurl1:'',
         idcardurl2:'',
         idcardurl3:'',
-        desc:'',
+        desc:'1、自我介绍、优势\n2、家教经验',
         phone:'',
         longitude:'',
         latitude:'',
@@ -367,6 +374,16 @@ export default {
     teachareachange(e){
       console.log(e.mp.detail.value);
       this.teacharea = e.mp.detail.value.join('-')
+    },
+    lawchange(e){
+      console.log(e.mp.detail.value);
+      this.lawread = e.mp.detail.value[0]
+    },
+    tolaw(){
+      let url = '/pages/law/main'
+      wx.navigateTo({
+        url
+      })
     },
     // 显示繁忙提示
     showBusy : text => wx.showToast({
@@ -565,6 +582,15 @@ export default {
       this.imgurls[which] = ''
     },
     formSubmit(data){
+      // law check
+      if(!this.lawread){
+        return wx.showToast({
+          title:'请勾选用户协议',
+          duration: 2000,
+          icon:'none'
+        })
+      }
+
       wx.showLoading({
         title: '提交中...',
         mask:true
@@ -771,7 +797,7 @@ $maincolor: #377BF0;
     border-radius: 40rpx;
   }
   .btn-hover{
-    background-color: rgb(172, 0, 0);
+    background-color: rgb(8, 24, 173);
     color: #ccc;
   }
 }

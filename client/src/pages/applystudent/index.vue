@@ -155,6 +155,12 @@
         <textarea name='applydesc' type="text" v-model="form.desc" placeholder="例:希望找一个怎样的老师..." />
       </span>
     </div>
+    <div style='font-size:30rpx;padding-top:20rpx;'>
+      <checkbox-group @change='lawchange'>
+        <checkbox color='#377BF0' value='1'></checkbox>
+        我已阅读92家教 <span @click="tolaw" style="color:#377BF0">《用户协议》、《隐私保护》、《免责声明》</span>
+      </checkbox-group>
+    </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
     </form>
     <mp-citypicker ref="mpCityPicker" 
@@ -248,6 +254,16 @@ export default {
     mpSwitch,mpUploader,mpCitypicker,slogan
   },
   methods: {
+    lawchange(e){
+      console.log(e.mp.detail.value);
+      this.lawread = e.mp.detail.value[0]
+    },
+    tolaw(){
+      let url = '/pages/law/main'
+      wx.navigateTo({
+        url
+      })
+    },
     starttimechange(e){
       console.log(e.mp.detail.value);
       this.teachstarttime = e.mp.detail.value
@@ -481,6 +497,13 @@ export default {
       this.imgurls[which] = ''
     },
     formSubmit(data){
+      if(!this.lawread){
+        return wx.showToast({
+          title:'请勾选用户协议',
+          duration: 2000,
+          icon:'none'
+        })
+      }
       wx.showLoading({
         title: '提交中...',
         mask:true
@@ -676,7 +699,7 @@ $maincolor: #377BF0;
     border-radius: 40rpx;
   }
   .btn-hover{
-    background-color: rgb(172, 0, 0);
+    background-color: rgb(8, 24, 173);;
     color: #ccc;
   }
 }

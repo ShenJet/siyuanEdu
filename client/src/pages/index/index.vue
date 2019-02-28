@@ -259,6 +259,10 @@ export default {
 
 <style lang='scss' scoped>
 $maincolor: #377BF0;
+.page{
+  width: 750rpx;
+  overflow: hidden;
+}
 swiper{
   width: 750rpx;
   height: 300rpx;

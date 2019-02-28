@@ -70,6 +70,22 @@
       </div>
       <div class="line">
         <div class="l">
+          毕业院校
+        </div>
+        <div class="r">
+          {{teacherdetail.school}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
+          所学专业
+        </div>
+        <div class="r">
+          {{teacherdetail.major}}
+        </div>
+      </div>
+      <div class="line">
+        <div class="l">
           教龄
         </div>
         <div class="r">

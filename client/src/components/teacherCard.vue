@@ -3,7 +3,9 @@
     <div class="i-class i-card" :class="full ? 'i-card-full' : ''">
       <div class="i-class i-card-header">
         <div class="i-card-header-content">
-          <img class="i-card-header-thumb" :src="info.avatar" mode="aspectFit" v-if="info.avatar" />
+          <!-- <img class="i-card-header-thumb" :src="info.avatar" mode="aspectFit" v-if="info.avatar" /> -->
+          <img src='/static/img/nan1.png' mode='aspectFit' v-if="info.sex == '男'" />
+          <img src='/static/img/nv1.png' mode='aspectFit' v-if="info.sex == '女'" />
         </div>
         <div class="mid">
           <div class="t">
@@ -85,7 +87,12 @@ $maincolor: #377BF0;
 .i-card-header-content {
   // flex: 1;
   text-align: left;
+  img{
+    width: 140rpx;
+    height: 140rpx;
+  }
 }
+
 .mid{
   width: 430rpx;
   min-height: 64px ;

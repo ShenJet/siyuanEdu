@@ -56,6 +56,9 @@
         <button class="contact" open-type='contact'>联系客服</button>
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div>
+      <div class="list" @click="topay">我要支付
+        <i class="iconfont icon-tubiao_xiangyou"></i>
+      </div>
       <!-- <div class="list">我的邀请
         <i class="iconfont icon-tubiao_xiangyou"></i>
       </div> -->
@@ -114,6 +117,12 @@ export default {
     }
   },
   methods: {
+    topay(){
+      let url = '/pages/pay/main'
+      wx.navigateTo({
+        url
+      })
+    },
     showrenyimen(){
       wx.showModal({
         title:"联系方式",

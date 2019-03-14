@@ -101,8 +101,8 @@ const post = async function (ctx, next) {
 
                             if(usertype == 'student'){
                                 var randomstr = goodsinfo.randomstr
-                                await mysql("applysforstudent").update({beenordered:1, recieveorder:0,}).where({openid:goods_openid, randomstr}).limit(1)
-                                await mysql("applysforstudent").increment('ordercount', 1).where({openid:goods_openid, randomstr}).limit(1)
+                                await mysql("user_teachers").update({beenordered:1, recieveorder:0,}).where({openid:goods_openid, randomstr}).limit(1)
+                                await mysql("user_teachers").increment('ordercount', 1).where({openid:goods_openid, randomstr}).limit(1)
                                 
                             }
                             if(usertype == 'teacher'){

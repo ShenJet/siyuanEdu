@@ -33,7 +33,9 @@
           补课方式
         </div>
         <div class="r">
-          {{teacherdetail.teachtype}}
+          <!-- {{teacherdetail.teachtype}} -->
+          <i-tag :checkable='false' checked='false' color='green' v-for="(x,i) in teacherdetail.teachtype" :key='x'>{{x}}</i-tag>
+
         </div>
       </div>
       <div class="line">
@@ -41,15 +43,17 @@
           教学年级
         </div>
         <div class="r">
-          {{teacherdetail.coursetype}}
+          <!-- {{teacherdetail.coursetype}} -->
+          <i-tag :checkable='false' checked='false' color='green' v-for="(x,i) in teacherdetail.coursetype" :key='x'>{{x}}</i-tag>
         </div>
       </div>
       <div class="line">
         <div class="l">
           教学科目
         </div>
-        <div class="r">
-          {{teacherdetail.coursename}}
+        <div class="r" style="display:block">
+          <!-- {{teacherdetail.coursename}} -->
+          <i-tag :checkable='false' checked='false' color='blue' v-for="(x,i) in teacherdetail.course" :key='x'>{{x}}</i-tag>
         </div>
       </div>
       <div class="line">
@@ -98,7 +102,9 @@
         </div>
         <div class="r">
           <span class="iconfont icon-rili"></span>
-          {{teacherdetail.teachday}}
+          <!-- {{teacherdetail.teachday}} -->
+          <i-tag :checkable='false' checked='false' color='blue' v-for="(x,i) in teacherdetail.teachday" :key='x'>{{x}}</i-tag>
+
         </div>
       </div>
       <div class="line">

@@ -8,16 +8,15 @@ module.exports = async (ctx, next) => {
     console.log(params);
     delete params.pageindex
     for (const key in params) {
-        // if (params.hasOwnProperty(key)) {
             const el = params[key];
-            if(!el){
-                delete params[key]
-            }
+            // if(!el){
+            //     delete params[key]
+            // }
             if(el == '都可以'){
                 delete params[key]
             }
-        // }
     }
+    
     if(params.sex){
         params.sex = params.sex.substring(0,1)
     }
@@ -33,6 +32,7 @@ module.exports = async (ctx, next) => {
             'sex',
             'role',
             // 'xueli',
+            'course',
             'coursetype',
             'coursename',
             'teachtype',
@@ -57,6 +57,7 @@ module.exports = async (ctx, next) => {
             'sex',
             'role',
             // 'xueli',
+            'course',
             'coursetype',
             'coursename',
             'teachtype',
@@ -70,15 +71,27 @@ module.exports = async (ctx, next) => {
             // 'ordercount',
             // 'viewcount'
         ).where({
-            recieveorder: 1,
-            ...params
-        }).orderBy('refreshtime', 'desc');
-    }
+            recieveorder: 1
+        })
+        .andWhere('course', 'like', `%${params.course || ''}%`)
+        .andWhere('province', 'like', `%${params.province || ''}%`)
+        .andWhere('city', 'like', `%${params.city || ''}%`)
+        .andWhere('country', 'like', `%${params.country || ''}%`)
+        .andWhere('sex', 'like', `%${params.sex || ''}%`)
+        .andWhere('role', 'like', `%${params.role || ''}%`)
+        .orderBy('refreshtime', 'desc');
+    }   
 
     // console.log('teacher list:');
     // console.log(res);
     res.map(function(v, i){
         v.name = v.name.substring(0,1)+'老师'
+        console.log('course:');
+        console.log(v.course);
+        
+        v.course =  JSON.parse(v.course)
+        v.coursetype =  JSON.parse(v.coursetype)
+        v.coursename =  JSON.parse(v.coursename)
         v.teachtype = JSON.parse(v.teachtype)
         v.teacharea = JSON.parse(v.teacharea)
         v.comment = JSON.parse(v.comment)

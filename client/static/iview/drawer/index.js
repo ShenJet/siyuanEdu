@@ -24,9 +24,11 @@ Component({
     data: {},
     methods: {
         handleMaskClick() {
-            if (!this.data.maskClosable) {
-                return;
-            }
+            console.log(this.data.maskClosable);
+            
+            // if (!this.data.maskClosable) {
+            //     return
+            // }
             this.triggerEvent('close', {});
         }
     }

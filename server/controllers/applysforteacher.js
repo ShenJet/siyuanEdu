@@ -14,31 +14,18 @@ module.exports = async (ctx, next) => {
         params.teachday = JSON.stringify(params.teachday)
         params.comment = JSON.stringify(params.comment)
         
-        let userinfo = await mysql('cSessionInfo').first().where({open_id: openid}) 
-        let usertype = userinfo.usertype
-        if(usertype == 'student'){
-            return ctx.body = {
-                code:"STUDENT_ROLE_ERROR",
-                data:null,
-                success:false,
-                msg:"您已发布过学生信息，不可再注册为老师"
-            }
-        }
-
         let search = await mysql('applysforteacher').first().where({openid})
-        if(!search){
+        let search1 = await mysql('user_teachers').first().where({openid})
+        if(!search && !search1 ){
             // 直接插入
             await mysql('applysforteacher').insert({...params, openid, avatar:avatarUrl, refreshtime: timestamp})
-            if(usertype == 'normal'){
-                await mysql('cSessionInfo').update({usertype:'teacher'}).limit(1).where({ open_id: openid })
-            }
             return ctx.body = {
                 code:"TEACHER_APPLY_SUCCESS",
                 data:{},
                 success:true,
                 msg:"申请成功,请等待审核"
             }
-        }else{
+        }else if( search && !search1 ){
             if(search.status == 1){
                 return ctx.body = {
                     code:"TEACHER_APPLY_CHECKING",
@@ -67,6 +54,13 @@ module.exports = async (ctx, next) => {
                     success:false,
                     msg:"系统错误，请联系管理员"
                 }
+            }
+        }else if( !search && search1 ){
+            return ctx.body = {
+                code:"TEACHER_ALREADY_PASSED",
+                data:null,
+                success:false,
+                msg:"您已发布过老师信息，无需重复申请"
             }
         }
     }catch(err){

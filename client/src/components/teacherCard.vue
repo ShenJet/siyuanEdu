@@ -14,8 +14,8 @@
               <img src='/static/img/nv.png' mode='aspectFill' v-if="info.sex == '女'" />
               {{ info.name }}
             </div>
-            <div class="coursetype">{{info.coursetype}}</div>
-            <div class="coursename">{{info.coursename}}</div>
+            <!-- <div class="coursetype">{{info.coursetype}}</div>
+            <div class="coursename">{{info.coursename}}</div> -->
           </div>
           <div class="m">
             {{info.role}} {{info.teachyear}}年教龄
@@ -33,7 +33,7 @@
         xxx
       </div> -->
       <div class="i-class i-card-footer" v-if="info.comment.length>0">
-        <span class="tag" v-for='(y,k) in info.comment' :key="k">{{y}}</span>
+        教学科目：<span class="tag" v-for='(y,k) in info.coursename' :key="k">{{y}}</span>
       </div>
     </div>
   </div>

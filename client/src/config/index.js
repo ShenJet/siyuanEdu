@@ -76,8 +76,16 @@ var config = {
         teacherapplyUrl: `${host}/weapp/teacherapply`,
 
         // 学生提交资料
-        studentapplyUrl: `${host}/weapp/studentapply`
+        studentapplyUrl: `${host}/weapp/studentapply`,
 
+        // decryptwxinfo
+        decryptwxinfo: `${host}/weapp/decryptwxinfo`,
+
+        // userphoneupload
+        userphoneupload: `${host}/weapp/userphoneupload`,
+
+        // confirmphone
+        confirmphone: `${host}/weapp/confirmphone`,
     },
     mapkey:'NNWBZ-OSLKD-ABD4N-POSXK-QFOAZ-GZBWR'
 };

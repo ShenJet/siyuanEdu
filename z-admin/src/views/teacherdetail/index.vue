@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h3>待审核老师详情：</h3>
+    <h3>老师详情：</h3>
     <hr>
     <el-form :model="info">
       <el-form-item label="微信头像" :label-width="formLabelWidth">
@@ -31,7 +31,8 @@
         <el-input v-model="info.graduateyear" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="教授科目" :label-width="formLabelWidth">
-        <el-input v-model="info.course" auto-complete="off"></el-input>
+        <!-- <el-input v-model="info.course" auto-complete="off"></el-input> -->
+        <el-tag class='eltag' style='margin-right:12px;' v-for="(x, k) in info.course" :key='k'>{{x}}</el-tag>
       </el-form-item>
       <el-form-item label="教授费用(元/时)" :label-width="formLabelWidth">
         <el-input v-model="info.price" auto-complete="off"></el-input>
@@ -95,8 +96,7 @@
       </el-form-item>
     </el-form>
     <hr>
-    <div class="footer">
-      <!-- <el-button type="primary" @click="dialogFormVisible = false">确认修改</el-button>  -->
+    <div class="footer" v-show="info.auditstate == 0">
       <el-button type="primary" @click="passmodal">通过申请</el-button>
       <el-button type="danger"  @click="rejectionmodal">驳回申请</el-button>
     </div>

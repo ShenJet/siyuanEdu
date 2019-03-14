@@ -8,7 +8,7 @@
       circular='true'>
       <block v-for="(x,i) in imgUrls" :key='i'>
         <swiper-item>
-          <a :href="x.url">
+          <a :href="x.url" open-type='switchTab'>
             <img  :src="x.src" class="slide-image"/>
           </a>
         </swiper-item>
@@ -63,11 +63,11 @@ export default {
       imgUrls:[{
         id:0,
         src:'/static/image/swiper1.png',///static/image/swiper1.png
-        url:"/pages/stu_detail/main"
+        url:"/pages/teachers/main"
       },{
         id:0,
         src:'/static/image/swiper2.png',
-        url:"/pages/tech_detail/main"
+        url:"/pages/students/main"
       }],
       types:[
         {
@@ -250,6 +250,9 @@ export default {
   },
   onLoad(){
     this.getteacherlist()
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
   onPullDownRefresh(){
     this.getteacherlist()

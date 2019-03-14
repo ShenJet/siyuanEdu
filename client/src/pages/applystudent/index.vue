@@ -158,7 +158,12 @@
     <div style='font-size:30rpx;padding-top:20rpx;'>
       <checkbox-group @change='lawchange'>
         <checkbox color='#377BF0' value='1'></checkbox>
-        我已阅读92家教 <span @click="tolaw" style="color:#377BF0">《用户协议》、《隐私保护》、《免责声明》</span>
+        我已阅读92家教 
+        <span style="color:#377BF0">
+          <span @click="tolaw1">《用户协议》、</span>
+          <span @click="tolaw2">《隐私保护》、</span>
+          <span @click="tolaw3">《免责声明》</span>
+        </span>
       </checkbox-group>
     </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
@@ -200,14 +205,13 @@ export default {
     return {
       userInfo: {},
       graduateyear:'',
-      gradearr:['小学前','小学一年级','小学二年级','小学三年级','小学四年级','小学五年级','小学六年级',"初一","初二","初三","高一","高二","高三",'其他'],
+      gradearr:['小学前','小学',"初一","初二","初三","高一","高二","高三",'其他'],
       grade:'',
       school:'',
       major:'',
       course:'',
       coursese:[
-        ['小学前','小学一年级','小学二年级','小学三年级','小学四年级','小学五年级','小学六年级',"初一","初二","初三","高一","高二","高三",
-        "乐器","美术","运动","其他"], 
+        ['小学前','小学',"初一","初二","初三","高一","高二","高三","乐器","美术","运动","其他"], 
         ['幼教','陪读陪玩',"语文","数学","英语","物理","化学",
         "钢琴","电子琴","古筝","吉他","尤克里里","小提琴","架子鼓","手风琴","葫芦丝","古筝","二胡","口琴","横笛","竖笛",
         "卡通画","素描","水彩","油画","漫画","毛笔书法","硬笔书法",
@@ -258,8 +262,20 @@ export default {
       console.log(e.mp.detail.value);
       this.lawread = e.mp.detail.value[0]
     },
-    tolaw(){
-      let url = '/pages/law/main'
+    tolaw1(){
+      let url = '/pages/law_yonghuxieyi/main'
+      wx.navigateTo({
+        url
+      })
+    },
+    tolaw2(){
+      let url = '/pages/law_yinsibaohu/main'
+      wx.navigateTo({
+        url
+      })
+    },
+    tolaw3(){
+      let url = '/pages/law_mianzeshengming/main'
       wx.navigateTo({
         url
       })

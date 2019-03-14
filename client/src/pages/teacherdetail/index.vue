@@ -35,7 +35,9 @@
           补课方式
         </div>
         <div class="r">
-          {{teacherdetail.teachtype}}
+          <!-- {{teacherdetail.teachtype}} -->
+          <i-tag :checkable='false' checked='false' color='green' v-for="(x,i) in teacherdetail.teachtype" :key='x'>{{x}}</i-tag>
+
         </div>
       </div>
       <div class="line">
@@ -43,15 +45,17 @@
           教学年级
         </div>
         <div class="r">
-          {{teacherdetail.coursetype}}
+          <!-- {{teacherdetail.coursetype}} -->
+          <i-tag :checkable='false' checked='false' color='green' v-for="(x,i) in teacherdetail.coursetype" :key='x'>{{x}}</i-tag>
         </div>
       </div>
       <div class="line">
         <div class="l">
           教学科目
         </div>
-        <div class="r">
-          {{teacherdetail.coursename}}
+        <div class="r" style="display:block">
+          <!-- {{teacherdetail.course}} -->
+          <i-tag :checkable='false' checked='false' color='blue' v-for="(x,i) in teacherdetail.course" :key='x'>{{x}}</i-tag>
         </div>
       </div>
       <div class="line">
@@ -100,16 +104,9 @@
         </div>
         <div class="r">
           <span class="iconfont icon-rili"></span>
-          {{teacherdetail.teachday}}
-        </div>
-      </div>
-      <div class="line">
-        <div class="l">
-          课时费
-        </div>
-        <div class="r">
-          <span class="iconfont icon-feiyongshenqing"></span>
-          {{teacherdetail.price}} 元/小时
+          <!-- {{teacherdetail.teachday}} -->
+          <i-tag :checkable='false' checked='false' color='blue' v-for="(x,i) in teacherdetail.teachday" :key='x'>{{x}}</i-tag>
+
         </div>
       </div>
       <div class="line">
@@ -121,6 +118,16 @@
           {{teacherdetail.teachstarttime}} 至 {{teacherdetail.teachendtime}} 
         </div>
       </div>
+      <div class="line">
+        <div class="l">
+          课时费
+        </div>
+        <div class="r">
+          <span class="iconfont icon-feiyongshenqing"></span>
+          {{teacherdetail.price}} 元/小时
+        </div>
+      </div>
+      
       <div class="line">
         <div class="l">
           信息核验
@@ -161,7 +168,7 @@
       <div class="item b part4" hover-class="hoverbtn1" @click="jointocollect">
         添加收藏
       </div>
-      <div class="item b part5" hover-class="hoverbtn" @click="paynow">立即预约</div>
+      <div class="item b part5" hover-class="hoverbtn" @click="confirmphone">立即预约</div>
     </div>
     <button class="share" open-type="share">
       <i class="iconfont icon-fenxiang-copy"></i>
@@ -187,7 +194,7 @@ export default {
       teacherdetail: {},
       count:1,
       goodsid:'',
-      origin:''
+      origin:'',
     };
   },
   components: {
@@ -232,6 +239,44 @@ export default {
         title:'添加成功',
         duration: 1800
       })
+    },
+    touserinfo(){
+      var url = '/pages/userinfo/main'
+      wx.navigateTo({
+        url
+      })
+    },
+    confirmphone(){
+      var self = this
+      wx.showLoading({
+        title: 'Loading...',
+      })
+      // 用户信息确认
+      qc.request({
+        url: conf.service.confirmphone,
+        data:{},
+        success:async function(res) {
+          wx.hideLoading();
+          if(res.data.success){
+            self.paynow()
+          }else{
+            self.touserinfo()
+          }
+        },
+        fail: function(err) {
+          wx.showToast({
+              title: '通信失败,请检查网络', 
+              duration: 2000,
+              icon:'none',
+              mask:true
+          })
+
+        },
+        complete:function(){
+          // wx.hideLoading();
+        }
+      });
+    
     },
     paynow(){
       var self = this

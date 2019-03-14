@@ -96,6 +96,14 @@ router.get('/myreleaseobtain', validationMiddleware, controllers.myreleaseobtain
 // GET !!! 小程序用户 重新上架 自己的已发布商品
 router.get('/myreleaserelease', validationMiddleware, controllers.myreleaserelease)
 
+// POST !!! 小程序解密手机号
+router.post( '/decryptwxinfo', validationMiddleware, controllers.decryptwxinfo )
+
+// POST !!! 小程序存储手机号(可能是解密的)
+router.post( '/userphoneupload', validationMiddleware, controllers.userphoneupload )
+
+// GET !!! 小程序用户查询是否填写了手机号
+router.get( '/confirmphone', validationMiddleware, controllers.confirmphone )
 
 
 

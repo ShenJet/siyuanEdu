@@ -39,8 +39,6 @@ module.exports = async (ctx, next) => {
         }
 
         if(usertype == 'teacher'){
-            params.teacharea = JSON.stringify(params.teacharea)
-            params.comment = JSON.stringify(params.comment)
             await mysql('user_teachers').update({
                 ...params
             }).where({ openid }).limit(1)

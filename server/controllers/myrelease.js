@@ -18,7 +18,7 @@ module.exports = async (ctx, next) => {
             return ctx.body = {
                 code:"RELEASED_GOODS_QUERY_SUCCESS",
                 success:true,
-                msg:"您尚未发布过任何信息",
+                msg:"您暂无已通过审核的信息",
                 data: []
             }
         }

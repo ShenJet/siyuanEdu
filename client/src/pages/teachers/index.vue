@@ -48,8 +48,7 @@ export default {
   data () {
     return {
       courses:[
-        ['小学前','小学一年级','小学二年级','小学三年级','小学四年级','小学五年级','小学六年级',"初一","初二","初三","高一","高二","高三",
-        "乐器","美术","运动","其他"], 
+        ['小学前','小学',"初一","初二","初三","高一","高二","高三","乐器","美术","运动","其他"], 
         ['幼教','陪读陪玩',"语文","数学","英语","物理","化学",
         "钢琴","电子琴","古筝","吉他","尤克里里","小提琴","架子鼓","手风琴","葫芦丝","古筝","二胡","口琴","横笛","竖笛",
         "卡通画","素描","水彩","油画","漫画","毛笔书法","硬笔书法",
@@ -58,7 +57,7 @@ export default {
         "其他"]
       ],
       sexes:['男老师','女老师','都可以'],
-      roles:['专职教师','大学生','都可以'],
+      roles:['专职教师','兼职大学生','都可以'],
       sex:'',
       role:'',
       teacherlist: [],
@@ -76,17 +75,31 @@ export default {
       wx.showLoading({
         title:"Loading..."
       })
-      qc.request({
-        data:{
+      // if(self.coursetype && self.coursename){
+      var course = self.coursetype+'-'+self.coursename
+      // }else{
+      //   var course = ''
+      // }
+      var data = {
           pageindex: self.pageindex,
-          coursetype: self.coursetype,
-          coursename: self.coursename,
+          course,
           province: self.province,
           city: self.city,
           sex: self.sex,
           country: self.country,
           role: self.role
-        },
+      }
+      if(self.role == '专职教师'){
+        data.role = '专职'
+      }
+      // for (const key in data) {
+      //   const element = data[key];
+      //   if(!element){
+      //     delete data[key]
+      //   }  
+      // }
+      qc.request({
+        data ,
         url: conf.service.getteacherlistUrl,
         success(res){
           self.teacherlist = res.data.data
@@ -193,18 +206,22 @@ export default {
     if(coursename == '艺术'){
       coursename = ''
       this.coursetype = '乐器'
-    }
-    if(coursename == '更多'){
+    }else if(coursename == '更多'){
+      this.coursetype = ''
       coursename = ''
+    }else{
+      this.coursetype = ''
     }
-    if(coursename){
-      this.coursename = coursename ;
-      this.getteachers()
-    }
+    this.coursename = coursename ;
+    this.getteachers()
+    
     
   },
   onLoad(){
     this.getteachers()
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   }
 }
 </script>
@@ -253,7 +270,7 @@ $maincolor: #377BF0;
       top: 0;
       right: 20rpx;
       color: rgb(173, 173, 173);
-      font-size: 30rpx;
+      font-size: 28rpx;
     }
   }
 }

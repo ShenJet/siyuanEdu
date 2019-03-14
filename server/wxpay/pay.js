@@ -79,7 +79,7 @@ const unifiedorder = async (ctx, next) => {
     if(type == 'teacher'){
         var table = 'user_teachers'
     }else if(type == 'student'){
-        var table = 'applysforstudent'
+        var table = 'user_students'
     }else{
         return ctx.body = {
             code:"ORDER_NO_PARAM_TYPE",

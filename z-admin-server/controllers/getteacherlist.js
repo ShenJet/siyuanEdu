@@ -38,6 +38,7 @@ module.exports = async (ctx, next) => {
     // console.log(res);
     res.map(function(v, i){
         v.teachtype = JSON.parse(v.teachtype)
+        v.course = JSON.parse(v.course)
         v.teacharea = JSON.parse(v.teacharea)
         v.teachday = JSON.parse(v.teachday)
         v.comment = JSON.parse(v.comment)

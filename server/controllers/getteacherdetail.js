@@ -26,6 +26,7 @@ module.exports = async (ctx, next) => {
             'school',
             'major',
             'graduateyear',
+            'course',
             'coursetype',
             'coursename',
             'price',
@@ -52,6 +53,9 @@ module.exports = async (ctx, next) => {
             res.teachtype = JSON.parse(res.teachtype)
             res.teacharea = JSON.parse(res.teacharea)
             res.teachday = JSON.parse(res.teachday)
+            res.course = JSON.parse(res.course)
+            res.coursetype = JSON.parse(res.coursetype)
+            res.coursename = JSON.parse(res.coursename)
             res.comment = JSON.parse(res.comment)
             console.log(res);
             

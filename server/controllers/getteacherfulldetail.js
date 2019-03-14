@@ -28,6 +28,9 @@ module.exports = async (ctx, next) => {
             console.log(query);
             
             query.teachtype = JSON.parse(query.teachtype)
+            query.course = JSON.parse(query.course)
+            query.coursename = JSON.parse(query.coursename)
+            query.coursetype = JSON.parse(query.coursetype)
             query.teacharea = JSON.parse(query.teacharea)
             query.teachday = JSON.parse(query.teachday)
             query.comment = JSON.parse(query.comment)

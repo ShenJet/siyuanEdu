@@ -33,10 +33,11 @@ module.exports = async (ctx, next) => {
 
             if(type === 'rejection'){
                 var table = 'applysteacherrejection'
+                res.auditstate = 2
             }else if(type === 'pass'){
                 var table = 'user_teachers'
+                res.auditstate = 1
             }
-            res.auditstate = 1
             delete res.id
 
             let insert = await mysql(table)

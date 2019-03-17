@@ -66,18 +66,29 @@
         <picker mode='date' name='graduateyear' value='2008' fields='year' start='1990' end='2030' @change='graduateyearchange'>{{graduateyear || '点击选择毕业年份'}}</picker>
       </span>
     </div>-->
-    <div class="item line">
+    <!-- <div class="item line">
       <span class="l">*</span>
       <span class="m">教授科目：</span>
       <span class="r">
         <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择教授科目'}}</picker>
       </span>
-    </div> 
+    </div>  -->
+    <div class="item line">
+      <span class="l">*</span>
+      <span class="m">教授科目：</span>
+      <span class="r">
+        <button class='teachtypebtn' size='mini' type="primary" @click="showdrawer">点击选择教授科目</button>
+        <div class='courseyulan'>
+          {{ selectedcourse }}
+        </div>
+        <!-- <picker mode='multiSelector' name='course' :range='coursese' value='[0,0]' @change='coursechange'>{{course || '点击选择教授科目'}}</picker> -->
+      </span>
+    </div>
     <div class="item line">
       <span class="l">*</span>
       <span class="m">教授费用：</span>
       <span class="r price">
-        <input type="number" name="price" placeholder="每课时费用">元/小时
+        <input type="number" name="price" v-model="form.price" placeholder="每课时费用">元/小时
       </span>
     </div>
     <div class="item line">
@@ -85,9 +96,9 @@
       <span class="m">教授方式：</span>
       <span class="r">
         <checkbox-group name='teachtype' @change='teachtypechange'>
-          <checkbox color='#377BF0' value='学生上老师家'>学生上老师家</checkbox>
-          <checkbox color='#377BF0' value='老师上学生家'>老师上学生家</checkbox>
-          <checkbox color='#377BF0' value='远程教学'>远程视频教学</checkbox>
+          <checkbox color='#377BF0' value='学生上老师家' :checked='teachtype1checked'>学生上老师家</checkbox>
+          <checkbox color='#377BF0' value='老师上学生家' :checked='teachtype2checked'>老师上学生家</checkbox>
+          <checkbox color='#377BF0' value='远程教学' :checked='teachtype3checked'>远程视频教学</checkbox>
         </checkbox-group>
       </span>
     </div>
@@ -126,13 +137,13 @@
       <span class="m">可教授日：</span>
       <span class="r">
         <checkbox-group name='teachday'>
-          <checkbox color='#377BF0' value='星期一'>星期一</checkbox>
-          <checkbox color='#377BF0' value='星期二'>星期二</checkbox>
-          <checkbox color='#377BF0' value='星期三'>星期三</checkbox>
-          <checkbox color='#377BF0' value='星期四'>星期四</checkbox>
-          <checkbox color='#377BF0' value='星期五'>星期五</checkbox>
-          <checkbox color='#377BF0' value='星期六'>星期六</checkbox>
-          <checkbox color='#377BF0' value='星期日'>星期日</checkbox>
+          <checkbox color='#377BF0' value='星期一' :checked='teachday1checked'>星期一</checkbox>
+          <checkbox color='#377BF0' value='星期二' :checked='teachday2checked'>星期二</checkbox>
+          <checkbox color='#377BF0' value='星期三' :checked='teachday3checked'>星期三</checkbox>
+          <checkbox color='#377BF0' value='星期四' :checked='teachday4checked'>星期四</checkbox>
+          <checkbox color='#377BF0' value='星期五' :checked='teachday5checked'>星期五</checkbox>
+          <checkbox color='#377BF0' value='星期六' :checked='teachday6checked'>星期六</checkbox>
+          <checkbox color='#377BF0' value='星期日' :checked='teachday7checked'>星期日</checkbox>
         </checkbox-group>
       </span>
     </div>
@@ -232,6 +243,19 @@
       </span>
     </div>
     <button class="submit" form-type='submit' hover-class='btn-hover'>提交申请</button>
+    <i-drawer :visible="drawervisible" @close="closedrawer">
+      <checkbox-group @change='coursenamechange' name='course'>
+        <div class="drawer">
+          <i-collapse name="name" v-for='(x,i) in coursese1' :key='i'>
+            <i-collapse-item :title="x.key" name="name1">
+              <view slot="content">
+                <checkbox v-for='(y,k) in x.value' :key='k'  :value="x.key+'-'+y">{{y}}</checkbox>
+              </view>
+            </i-collapse-item>
+          </i-collapse>
+        </div>
+      </checkbox-group>
+    </i-drawer>
     </form>
     <mp-citypicker ref="mpCityPicker" 
           :pickerValueDefault="pickerValueDefault" 
@@ -268,6 +292,9 @@ import slogan from "@/components/slogan";
 export default {
   data() {
     return {
+      selectedcourse: "尚未选择任何科目",
+      drawervisible: false,
+      // lawread: 0,
       userInfo: {},
       xueliarr:['大专','本科','硕士','博士'],
       xueli:'',
@@ -286,6 +313,46 @@ export default {
         "中国象棋","国际象棋","计算机","学习习惯","记忆力","注意力","机器人",
         "其他"]
       ],
+      coursese1:[{
+        key:'小学前',
+        value:["幼教","陪读陪玩"]
+      },{
+        key:'小学',
+        value:["语文","数学","英语"]
+      },{
+        key:'初一',
+        value:["语文","数学","英语","物理","化学"]
+      },{
+        key:'初二',
+        value:["语文","数学","英语","物理","化学"]
+      },{
+        key:'初三',
+        value:["语文","数学","英语","物理","化学"]
+      },{
+        key:'高一',
+        value:["语文","数学","英语","物理","化学"]
+      },{
+        key:'高二',
+        value:["语文","数学","英语","物理","化学"]
+      },{
+        key:'高三',
+        value:["语文","数学","英语","物理","化学"]
+      },{
+        key:'乐器',
+        value:["钢琴","电子琴","古筝","吉他","尤克里里","小提琴","架子鼓","手风琴","葫芦丝","古筝","二胡","口琴","横笛","竖笛"]
+      },{
+        key:'美术',
+        value:["毛笔书法","硬笔书法","卡通画","素描","水彩","油画","漫画"]
+      },{
+        key:'运动',
+        value:["足球","篮球","羽毛球","乒乓球","游泳","网球"]
+      },{
+        key:'外语',
+        value:["英语","雅思",'托福','四六级','日语','韩语','德语','西班牙语','俄语']
+      },{
+        key:'其他',
+        value:["中国象棋","国际象棋","计算机","学习习惯","记忆力","注意力","机器人","其他"]
+      },],
       teacharea:'',
       teachstarttime:"开始时间",
       teachendtime:"结束时间",
@@ -318,7 +385,17 @@ export default {
         1:'',
         2:'',
         3:''
-      }
+      },
+      teachtype1checked:false,
+      teachtype2checked:false,
+      teachtype3checked:false,
+      teachday1checked: false,
+      teachday2checked: false,
+      teachday3checked: false,
+      teachday4checked: false,
+      teachday5checked: false,
+      teachday6checked: false,
+      teachday7checked: false,
 
     };
   },
@@ -326,6 +403,14 @@ export default {
     mpSwitch,mpUploader,mpCitypicker,slogan
   },
   methods: {
+    showdrawer() {
+      this.drawervisible = true;
+      console.log('showdrawer:',this.drawervisible);
+    },
+    closedrawer() {
+      this.drawervisible = false
+      console.log('closedrawer:',this.drawervisible);
+    },
     starttimechange(e){
       console.log(e.mp.detail.value);
       this.teachstarttime = e.mp.detail.value
@@ -357,6 +442,13 @@ export default {
       this.coursename = name
       console.log(this.course);
       
+    },
+    coursenamechange(e) {
+      console.log(e.mp.detail);
+      if(e.mp.detail.value.length == 0){
+        return this.selectedcourse = '尚未选择任何科目'
+      }
+      this.selectedcourse = e.mp.detail.value.join('、')
     },
     teachtypechange(e){
       console.log(e.mp.detail.value);
@@ -639,6 +731,7 @@ export default {
   },
 
   async onShow() {
+    var self = this
     console.log(this.globalData.editdata);
     if(!this.globalData.editdata.openid){
       return wx.showToast({
@@ -648,7 +741,73 @@ export default {
       })
     }
     this.form = this.globalData.editdata
+    console.log(this.globalData.editdata.course);
+    if(this.globalData.editdata.usertype == "teacher"){
+      if(!this.globalData.editdata.course){
+        this.selectedcourse = '尚未选择任何科目'
+      }
+      if(this.globalData.editdata.course && typeof this.globalData.editdata.course == 'string'){
+        this.selectedcourse = JSON.parse(this.globalData.editdata.course).join('、')
+      }
+      if(this.globalData.editdata.course && typeof this.globalData.editdata.course == 'object'){
+        this.selectedcourse = this.globalData.editdata.course.join('、')
+      }
+    }
+    if(this.globalData.editdata.teachtype){
+      var arr= []
+      if(typeof this.globalData.editdata.teachtype == 'string'){
+        arr = JSON.parse(this.globalData.editdata.teachtype)
+      }else if(typeof this.globalData.editdata.teachtype == 'object'){
+        arr = this.globalData.editdata.teachtype
+      }
+      arr.map(function(v, i){
+        if(v == '学生上老师家'){
+          self.teachtype1checked = true
+        }
+        if(v == '老师上学生家'){
+          self.teachtype2checked = true
+        }
+        if(v == '远程教学' || v == '远程视频教学' ){
+          self.teachtype3checked = true
+        }
+      })
+    }
 
+    if(this.globalData.editdata.teachday){
+      var arr1= []
+      if(typeof this.globalData.editdata.teachday == 'string'){
+        arr1 = JSON.parse(this.globalData.editdata.teachday)
+      }else if(typeof this.globalData.editdata.teachday == 'object'){
+        arr1 = this.globalData.editdata.teachday
+      }
+      arr1.map(function(v, i){
+        switch (v) {
+          case '星期一':
+             slef.teachday1checked = true
+            break;
+          case '星期二':
+             slef.teachday2checked = true
+            break;
+          case '星期三':
+             slef.teachday3checked = true
+            break;
+          case '星期四':
+             slef.teachday4checked = true
+            break;
+          case '星期五':
+             slef.teachday5checked = true
+            break;
+          case '星期六':
+             slef.teachday6checked = true
+            break;
+          case '星期日':
+             slef.teachday7checked = true
+            break;
+          default:
+            break;
+        }
+      })
+    }
   }
 };
 </script>
@@ -691,6 +850,12 @@ $maincolor: #377BF0;
         padding: 0 12rpx;
         color: #377BF0;
       }
+    }
+    .courseyulan{
+      color: $maincolor;
+      font-size: 24rpx;
+      width: 450rpx;
+      // background-color: pink;
     }
   }
   .price{
@@ -789,5 +954,13 @@ $maincolor: #377BF0;
     font-size: 30rpx;
     margin-right: 8rpx;
   }
+}
+.drawer {
+  width: 620rpx;
+  background-color: #fff;
+  height: 1000rpx;
+  // height: 100%;
+  overflow-y: scroll;
+  font-size: 30rpx;
 }
 </style>

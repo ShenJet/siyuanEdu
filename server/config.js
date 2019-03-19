@@ -49,15 +49,7 @@ const CONF = {
         uploadFolder: 'upload'
     },
     // 支付配置项
-    // 御湖湾业主圈：
-    // payconf:{
-    //      appid :     'wxcad3341551190ad3',
-    //      appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
-    //      mchid :     '1515387251',  //商户号
-    //      mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
-    //      wxurl :     'http://www.tech997.cn:8898/weapp/getnotification', // 下单后的通知地址
-    // },
-    // 思元家教：
+    // 思元家教支付：
     payconf:{
          appid :     'wxcad3341551190ad3',
          appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
@@ -65,6 +57,16 @@ const CONF = {
          mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
          wxurl :     'https://www.siyuanwlkj.com/weapp/getnotification', // 下单后的通知地址
     },
+    // 腾讯短信服务
+    wxsmsconf:{
+        appid: 1400194579,
+        appkey: '3f4fbbf407ba482fa1dd6c810d9c5a2c',
+        appname: '92家教',
+        templateId: 295433,
+        // phoneNumbers:['13814878101','18112528156'], // 数据库获取
+        smsSign: '92家教'
+    },
+
     // 微信登录态有效期
     wxLoginExpires: 7200
     // wxLoginExpires: 15

@@ -1,0 +1,26 @@
+﻿appid: wxcad3341551190ad3
+secret: b366275aaec4372d61fdd7c20e0a8ed2
+
+小程序 767951616@qq.com
+密码 chukai19921007
+
+地图key 
+NNWBZ-OSLKD-ABD4N-POSXK-QFOAZ-GZBWR
+
+商户号 1525651531
+API调用key TVU1MO18PS9YQLW58P2SENSEW6O46JIY
+商户操作密码 siyuan@123
+
+服务器 212.64.64.99
+密码 siyuan@123
+
+阿里云账户
+chukaialy
+chukai1992
+
+腾讯云短信服务
+SDK AppID：1400194579
+
+App Key ：3f4fbbf407ba482fa1dd6c810d9c5a2
+应用名称 92家教
+短信模板ID 295433

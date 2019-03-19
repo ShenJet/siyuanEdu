@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+**/node_modules/
 z-admin/node_modules/
 z-admin-server/node_modules/
 dist/

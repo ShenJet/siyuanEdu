@@ -1,7 +1,7 @@
 
 // [rootPathname, useQcloudLogin, cos, serverHost, tunnelServerUrl, tunnelSignatureKey, qcloudAppId, qcloudSecretId, qcloudSecretKey, wxMessageToken].
 const CONF = {
-    serverHost: '212.64.64.99',
+    serverHost: 'localhost',//212.64.64.99
     port: '8898',
     rootPathname: '',
     // 思元微信小程序 App ID
@@ -30,7 +30,7 @@ const CONF = {
      * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
      */
     mysql: {
-        host: '212.64.64.99',
+        host: 'localhost',//212.64.64.99
         db: 'siyuan',
         port: 3306,
         user: 'root',
@@ -51,18 +51,23 @@ const CONF = {
     // 支付配置项
     // 思元家教支付：
     payconf:{
-         appid :     'wxcad3341551190ad3',
-         appsecret : 'b366275aaec4372d61fdd7c20e0a8ed2',
-         mchid :     '1525651531',  //商户号
-         mchkey :    'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
-         wxurl :     'https://www.siyuanwlkj.com/weapp/getnotification', // 下单后的通知地址
+         appid :         'wxcad3341551190ad3',
+         appsecret :     'b366275aaec4372d61fdd7c20e0a8ed2',
+         mchid :         '1525651531',  //商户号
+         mchkey :        'TVU1MO18PS9YQLW58P2SENSEW6O46JIY', // 商户API密码
+         wxurl :         'https://www.siyuanwlkj.com/weapp/getnotification', // 下单后的通知地址
+         wxurl_custompay:'https://www.siyuanwlkj.com/weapp/getnotification_custompay', // 下单后的通知地址
+
     },
     // 腾讯短信服务
     wxsmsconf:{
         appid: 1400194579,
         appkey: '3f4fbbf407ba482fa1dd6c810d9c5a2c',
         appname: '92家教',
-        templateId: 295433,
+        templateId: {
+            yuyue: 295433 ,
+            custompay: 297904
+        },
         // phoneNumbers:['13814878101','18112528156'], // 数据库获取
         smsSign: '92家教'
     },

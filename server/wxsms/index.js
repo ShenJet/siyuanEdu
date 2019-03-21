@@ -7,7 +7,7 @@ const configs = require('../config')
 const qcloud = require('wafer-node-sdk')(configs)
 const { mysql } = qcloud
 
-const sendmsg = async function (smsparams) {
+const sendmsg = async function (smsparams, type) {
     // 短信应用SDK AppID
     const appid = wxsmsconf.appid;  // SDK AppID是1400开头
 
@@ -35,7 +35,7 @@ const sendmsg = async function (smsparams) {
 
     // 短信模板ID，需要在短信应用中申请
     // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
-    const templateId = wxsmsconf.templateId;
+    const templateId = wxsmsconf.templateId[type];
 
     // 签名// NOTE: 这里的签名只是示例，请使用真实的已申请的签名, 签名参数使用的是`签名内容`，而不是`签名ID`
     const smsSign = wxsmsconf.smsSign;

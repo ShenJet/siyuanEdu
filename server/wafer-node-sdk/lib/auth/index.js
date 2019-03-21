@@ -40,7 +40,7 @@ function authorization (req) {
                 
                 // if(userinfo){
                     console.log('[@index.authorization] userinfo:',userinfo);
-                    console.log('[@index.authorization] usertype:',userinfo.usertype);
+                    // console.log('[@index.authorization] usertype:',userinfo.usertype);
                     var usertype = userinfo.usertype
                     const wxUserInfo = JSON.parse(userinfo.user_info)
                     return AuthDbService.saveUserInfo(wxUserInfo, skey, session_key)

@@ -129,7 +129,7 @@
       <span class="l">*</span>
       <span class="m">教授区域：</span>
       <span class="r">
-        <picker mode='region' name='teacharea' @change='teachareachange'>{{teacharea || '点击选择可教授区域'}}</picker>
+        <picker mode='region' name='teacharea' :value='form.teachareaarr' @change='teachareachange'>{{teacharea || '点击选择可教授区域'}}</picker>
       </span>
     </div>
     <div class="item line daypick">
@@ -193,44 +193,44 @@
       <div class="">
         <checkbox-group name='comment' @change='commentchange'>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='认真负责'>认真负责</checkbox>
+            <checkbox color='#377BF0' value='认真负责' :checked='commentchecked1'>认真负责</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='幽默风趣' >幽默风趣</checkbox>
+            <checkbox color='#377BF0' value='幽默风趣'  :checked='commentchecked2'>幽默风趣</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='低调内敛' >低调内敛</checkbox>
+            <checkbox color='#377BF0' value='低调内敛'  :checked='commentchecked3'>低调内敛</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='耐心指导'>耐心指导</checkbox>
+            <checkbox color='#377BF0' value='耐心指导' :checked='commentchecked4'>耐心指导</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='一丝不苟'>一丝不苟</checkbox>
+            <checkbox color='#377BF0' value='一丝不苟' :checked='commentchecked5'>一丝不苟</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='宽容大度'>宽容大度</checkbox>
+            <checkbox color='#377BF0' value='宽容大度' :checked='commentchecked6'>宽容大度</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='教学大咖'>教学大咖</checkbox>
+            <checkbox color='#377BF0' value='教学大咖' :checked='commentchecked7'>教学大咖</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='内容丰富'>内容丰富</checkbox>
+            <checkbox color='#377BF0' value='内容丰富' :checked='commentchecked8'>内容丰富</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='知识新颖'>知识新颖</checkbox>
+            <checkbox color='#377BF0' value='知识新颖' :checked='commentchecked9'>知识新颖</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='很有成效'>很有成效</checkbox>
+            <checkbox color='#377BF0' value='很有成效' :checked='commentchecked10'>很有成效</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='平易近人'>平易近人</checkbox>
+            <checkbox color='#377BF0' value='平易近人' :checked='commentchecked11'>平易近人</checkbox>
           </label>
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='和善可亲'>和善可亲</checkbox>
+            <checkbox color='#377BF0' value='和善可亲' :checked='commentchecked12'>和善可亲</checkbox>
           </label>
           
           <label class='commentlabel' >
-            <checkbox color='#377BF0' value='还想找Ta补课'>还想找他补课</checkbox>
+            <checkbox color='#377BF0' value='还想找Ta补课' :checked='commentchecked13'>还想找他补课</checkbox>
           </label>
         </checkbox-group>
       </div>
@@ -374,7 +374,8 @@ export default {
         community:'',
         province:'',
         city:'',
-        country:''
+        country:'',
+        teachareaarr:[]
       },
       // uploader配置项
       piccount:1,
@@ -396,7 +397,19 @@ export default {
       teachday5checked: false,
       teachday6checked: false,
       teachday7checked: false,
-
+      commentchecked1:false,
+      commentchecked2:false,
+      commentchecked3:false,
+      commentchecked4:false,
+      commentchecked5:false,
+      commentchecked6:false,
+      commentchecked7:false,
+      commentchecked8:false,
+      commentchecked9:false,
+      commentchecked10:false,
+      commentchecked11:false,
+      commentchecked12:false,
+      commentchecked13:false,
     };
   },
   components: {
@@ -691,11 +704,10 @@ export default {
       value.longitude = self.form.longitude
       value.latitude = self.form.latitude
 
-      value.course = this.course
-      value.coursetype = this.coursetype
-      value.coursename = this.coursename
-
-      value.course = this.course
+      // value.course = this.course
+      // value.coursetype = this.coursetype
+      // value.coursename = this.coursename
+      // value.course = this.course
 
       qc.request({
         // login:true,
@@ -742,6 +754,7 @@ export default {
     }
     this.form = this.globalData.editdata
     console.log(this.globalData.editdata.course);
+    // 填充教授科目
     if(this.globalData.editdata.usertype == "teacher"){
       if(!this.globalData.editdata.course){
         this.selectedcourse = '尚未选择任何科目'
@@ -753,6 +766,7 @@ export default {
         this.selectedcourse = this.globalData.editdata.course.join('、')
       }
     }
+    // 填充教授方式
     if(this.globalData.editdata.teachtype){
       var arr= []
       if(typeof this.globalData.editdata.teachtype == 'string'){
@@ -772,7 +786,7 @@ export default {
         }
       })
     }
-
+    // 填充教授星期
     if(this.globalData.editdata.teachday){
       var arr1= []
       if(typeof this.globalData.editdata.teachday == 'string'){
@@ -780,33 +794,115 @@ export default {
       }else if(typeof this.globalData.editdata.teachday == 'object'){
         arr1 = this.globalData.editdata.teachday
       }
+      console.log(arr1);
+      
       arr1.map(function(v, i){
         switch (v) {
           case '星期一':
-             slef.teachday1checked = true
+             self.teachday1checked = true
             break;
           case '星期二':
-             slef.teachday2checked = true
+             self.teachday2checked = true
             break;
           case '星期三':
-             slef.teachday3checked = true
+             self.teachday3checked = true
             break;
           case '星期四':
-             slef.teachday4checked = true
+             self.teachday4checked = true
             break;
           case '星期五':
-             slef.teachday5checked = true
+             self.teachday5checked = true
             break;
           case '星期六':
-             slef.teachday6checked = true
+             self.teachday6checked = true
             break;
           case '星期日':
-             slef.teachday7checked = true
+             self.teachday7checked = true
             break;
           default:
             break;
         }
       })
+    }
+    // 填充教授时间
+    if(this.globalData.editdata.teachstarttime){
+      self.teachstarttime = this.globalData.editdata.teachstarttime
+    }
+    if(this.globalData.editdata.teachendtime){
+      self.teachendtime = this.globalData.editdata.teachendtime
+    }
+    // 填充学生评价
+    if(this.globalData.editdata.comment){
+      var arr1= []
+      if(typeof this.globalData.editdata.comment == 'string'){
+        arr1 = JSON.parse(this.globalData.editdata.comment)
+      }else if(typeof this.globalData.editdata.comment == 'object'){
+        arr1 = this.globalData.editdata.comment
+      }
+      console.log(arr1);
+      
+      arr1.map(function(v, i){
+        switch (v) {
+          case '认真负责':
+             self.commentchecked1 = true
+            break;
+          case '幽默风趣':
+             self.commentchecked2 = true
+            break;
+          case '低调内敛':
+             self.commentchecked3 = true
+            break;
+          case '耐心指导':
+             self.commentchecked4 = true
+            break;
+          case '一丝不苟':
+             self.commentchecked5 = true
+            break;
+          case '宽容大度':
+             self.commentchecked6 = true
+            break;
+          case '教学大咖':
+             self.commentchecked7 = true
+            break;
+          case '内容丰富':
+             self.commentchecked8 = true
+            break;
+          case '知识新颖':
+             self.commentchecked9 = true
+            break;
+          case '很有成效':
+             self.commentchecked10 = true
+            break;
+          case '平易近人':
+             self.commentchecked11 = true
+            break;
+          case '和善可亲':
+             self.commentchecked12 = true
+            break;
+          case '还想找他补课':
+             self.commentchecked13 = true
+            break;
+          default:
+            break;
+        }
+      })
+    }
+
+    // 填充自我描述
+    if(this.globalData.editdata.applydesc){
+      self.form.desc = this.globalData.editdata.applydesc
+    }
+
+    // 填充教学区域
+    if(this.globalData.editdata.teacharea){
+      if(this.globalData.editdata.teacharea && typeof this.globalData.editdata.teacharea == 'string'){
+        this.form.teachareaarr = JSON.parse(this.globalData.editdata.teacharea)
+        this.teacharea = JSON.parse(this.globalData.editdata.teacharea).join('-')
+      }
+      if(this.globalData.editdata.teacharea && typeof this.globalData.editdata.teacharea == 'object'){
+        this.form.teachareaarr = this.globalData.editdata.teacharea
+        this.teacharea = this.globalData.editdata.teacharea.join('-')
+      }
     }
   }
 };

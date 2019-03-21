@@ -8,7 +8,10 @@ const router = require('koa-router')({
 
 const controllers = require('../controllers')
 const unifiedorder = require('../wxpay/pay.js')
+const custompay = require('../wxpay/custompay.js')
+
 const getnotification = require('../wxpay/getnotification.js')
+const getnotification_custompay = require('../wxpay/getnotification_custompay.js')
 
 
 // 从 sdk 中取出中间件
@@ -69,8 +72,14 @@ router.get('/studentfulldetail', validationMiddleware, controllers.getstudentful
 // router.get('/prepay', validationMiddleware, unifiedorder)
 router.post('/prepay', validationMiddleware, unifiedorder)
 
-// POST !!! 小程序支付后，微信服务器回调通知
+// GET !!! 小程序用户自定义输入支付
+router.post('/custompay', validationMiddleware, custompay)
+
+// POST !!! 小程序下单支付后，微信服务器回调通知
 router.post( '/getnotification',  getnotification.post )
+
+// POST !!! 小程序用户定义金额主动支付，微信服务器回调通知
+router.post( '/getnotification_custompay',  getnotification_custompay.post )
 
 // GET !!! 小程序获取订单列表
 router.get('/orderlist', validationMiddleware, controllers.getorderlist)

@@ -1,6 +1,6 @@
 {
-    "navigationBarBackgroundColor": "#377BF0",
-    "navigationBarTextStyle": "white",
+    "navigationBarBackgroundColor": "#ededed",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "商户支付",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false

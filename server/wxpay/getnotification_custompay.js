@@ -7,6 +7,7 @@ var crypto = require('crypto');
 // 短信模块
 const sendmsg = require('../wxsms/index.js')
 
+
 /* <xml>
 <appid><![CDATA[wxcad3341551190ad3]]></appid>
 <bank_type><![CDATA[CFT]]></bank_type>
@@ -70,7 +71,7 @@ const post = async function (ctx, next) {
             console.log(stringA);
             other = JSON.stringify(other)
 
-            var res = await mysql("wxnotification").insert( {...basic,other} )
+            var res = await mysql("wxnotification_custompay").insert( {...basic,other} )
             console.log(res);
 
             let _sign = crypto.createHash('md5').update(stringA, 'utf8').digest('hex').toUpperCase();
@@ -83,14 +84,7 @@ const post = async function (ctx, next) {
                 let openid = data["openid"][0]
                 let transaction_id = data["transaction_id"][0]
 
-                let order = await mysql("orders").first().where({orderid, openid})
-                let goodsinfo = JSON.parse(order.goodsinfo)
-                let usertype = goodsinfo.usertype
-                let phone = goodsinfo.phone
-                let goods_openid = goodsinfo.openid
-                console.log('usertype: ');
-                console.log(usertype);
-                
+                let order = await mysql("custompay").first().where({orderid, openid})
                 console.log('------------order------------');
                 console.log(order);
                 console.log('------------order end ------------ ');
@@ -98,53 +92,19 @@ const post = async function (ctx, next) {
                     let { total_fee, wxpayconfirmed, status } = order
                     if(wxpayconfirmed || parseInt(status) >= 4 ){
                         // 已收到过通知已确认过
+                        console.log('已收到过通知已确认过');
+                        
                     }else{
                         if(total_fee == data['total_fee'][0]){
                             // 4.校验通过 金额正确 订单状态修改 
-                            await mysql("orders").update({status:4, wxpayconfirmed:1,transaction_id}).where({orderid, openid})
+                            await mysql("custompay").update({status:4, wxpayconfirmed:1,transaction_id}).where({orderid, openid})
                             
                             // 短信通知
+                            // --92家教用户支付成功通知-- 用户{1}于{2}成功支付金额￥{3}元。用户支付备注：{4}
                             // ["学员,13814878111", "老师,13611127777", "初一-数学", "2019年3月19日10:58:16"]
-                            let buyerinfo = await mysql("cSessionInfo").first().where({open_id:openid})
-                            let buyerphone = buyerinfo.phone
-                            var buyerusertype = '普通用户'
-                            if(buyerinfo.usertype == 'normal'){
-                                buyerusertype = '普通用户'
-                            }else if(buyerinfo.usertype == 'student'){
-                                buyerusertype = '学员'
-                            }else if(buyerinfo.usertype == 'teacher'){
-                                buyerusertype = '老师'
-                            }else {
-                                buyerusertype = '普通用户'
-                            }
-                            var salerusertype = '普通用户'
-                            if(usertype == 'normal'){
-                                salerusertype = '普通用户'
-                            }else if(usertype == 'student'){
-                                salerusertype = '学员'
-                            }else if(usertype == 'teacher'){
-                                salerusertype = '老师'
-                            }else {
-                                salerusertype = '普通用户'
-                            }
-                            sendmsg([ 
-                                buyerusertype+' '+buyerphone, 
-                                salerusertype+' '+ phone,
-                                goodsinfo.course,
-                                order._createtime
-                            ],'yuyue')
+                            sendmsg([openid, order._createtime, parseFloat( total_fee/10/10 ), order.beizhu ]
+                            ,'custompay')
 
-                            if(usertype == 'student'){
-                                var randomstr = goodsinfo.randomstr
-                                await mysql("user_teachers").update({beenordered:1, recieveorder:0,}).where({openid:goods_openid, randomstr}).limit(1)
-                                await mysql("user_teachers").increment('ordercount', 1).where({openid:goods_openid, randomstr}).limit(1)
-                                
-                            }
-                            if(usertype == 'teacher'){
-                                await mysql("user_teachers").update({beenordered:1, recieveorder:0,}).where({openid:goods_openid}).limit(1)
-                                await mysql("user_teachers").increment('ordercount', 1).where({openid:goods_openid}).limit(1)
-                            }
-                            
                         }else{
                             // 金额不对
                             console.log('!!!warning!!!金额不对!!!');
@@ -164,7 +124,7 @@ const post = async function (ctx, next) {
                 return ctx.body = "fuck you son of bitch."
             }
         }else{
-            var res = await mysql("wxnotification").insert( {data: '微信通知结果解析失败' } )
+            var res = await mysql("wxnotification_custompay").insert( {data: '微信通知结果解析失败' } )
             console.log(res);
             return ctx.body = `<xml>
                 <return_code><![CDATA[FAIL]]></return_code>

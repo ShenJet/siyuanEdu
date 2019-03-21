@@ -19,7 +19,10 @@ module.exports = async (ctx, next) => {
                     data:null
                 }
             }
-            if( key == 'teachtype' || key == 'teachday' ){
+            // if( key == 'teachtype' || key == 'teachday' ){
+            //     params[key] = JSON.stringify(el)
+            // }
+            if( Array.isArray( el ) ){
                 params[key] = JSON.stringify(el)
             }
         }

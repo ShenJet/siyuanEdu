@@ -48,6 +48,9 @@ var config = {
         // 通过后端调统一下单接口
         prepayUrl: `${host}/weapp/prepay`,
 
+        // 通过后端调支付接口（用户自定义支付）
+        custompayUrl: `${host}/weapp/custompay`,
+
         // 获取订单列表
         getOrderList: `${host}/weapp/orderlist`,
 

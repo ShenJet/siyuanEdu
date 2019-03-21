@@ -1,12 +1,22 @@
 <template>
   <div class="container">
-    <div class="head">
-      <div class="avatar">
-        <!-- <img src="/static/code.jpg" @click='preview'  alt="二维码"> -->
-        <!-- mode='aspectFill' -->
-        
+    <div class="head">支付金额</div>
+    <div class="main">
+      <div class="l">￥</div>
+      <div class="r">
+        <input type="digit" v-model='fee' focus=true @input="inputing">
       </div>
-      
+    </div>
+    <div class="spacing"></div>
+    <div class="beizhu">
+      <div class="up" @click="togglebeizhu">添加支付备注</div>
+      <div class="down" v-show='showbeizhu'>
+        <textarea v-model="beizhu" placeholder="支付备注..." class="textarea" id=""></textarea>
+      </div>
+    </div>
+    <div class="btm">
+      <button class='paybtn' hover-class='paybtnhover' type="primary" :disabled="btndisable"
+      @click="paynow">确定支付</button>
     </div>
   </div>
 </template>
@@ -29,106 +39,55 @@ export default {
       studentdetail: {},
       count:1,
       goodsid:'',
-      origin:''
+      origin:'',
+      fee:'',
+      beizhu:'',
+      showbeizhu:false,
+      btndisable: true
     };
   },
   components: {
   },
   methods: {
-    
-    routeToHome() {
-      let url = "/pages/index/main";
-      wx.switchTab({ url });
-    },
-    toqqmap() {
-      if(!this.studentdetail.longitude || !this.studentdetail.latitude){
-        return wx.showToast({
-          title:'该商品未添加定位',
-          duration: 1500,
-          icon:'none'
-        })
-      }
-      wx.navigateTo({
-        url:`/pages/qqmap/main?longitude=${this.studentdetail.longitude}&latitude=${this.studentdetail.latitude}`
-      })
-    },
-    jointocollect(){
-      // console.log("studentdetail jointocollect");
-      var self = this;
-      // 做本地存储
-      let student_collect = wx.getStorageSync('student_collect') || []
-      for (let index = 0; index < student_collect.length; index++) {
-        const v = student_collect[index];
-        if(v.openid == self.studentdetail.openid && v.randomstr == self.studentdetail.randomstr){
-          return wx.showToast({
-            title:'添加成功',
-            duration: 1800
-          })
-        }
-      }
-      student_collect.unshift(self.studentdetail)
-      wx.setStorage({
-        key: 'student_collect',
-        data: student_collect
-      })
-      return wx.showToast({
-        title:'添加成功',
-        duration: 1800
-      })
-    },
-    touserinfo(){
-      var url = '/pages/userinfo/main'
-      wx.navigateTo({
-        url
-      })
-    },
-    confirmphone(){
-      var self = this
-      wx.showLoading({
-        title: 'Loading...',
-      })
-      // 用户信息确认
-      qc.request({
-        url: conf.service.confirmphone,
-        data:{},
-        success:async function(res) {
-          wx.hideLoading();
-          if(res.data.success){
-            self.paynow()
-          }else{
-            self.touserinfo()
-          }
-        },
-        fail: function(err) {
-          wx.showToast({
-              title: '通信失败,请检查网络', 
-              duration: 2000,
-              icon:'none',
-              mask:true
-          })
+    inputing(e){
+      console.log(e.mp.detail.value);
+      var fee = parseFloat(e.mp.detail.value)
+      console.log(fee);
 
-        },
-        complete:function(){
-          // wx.hideLoading();
-        }
-      });
-    
+      if(fee && fee > 0){
+        this.btndisable = false
+      }else{
+        this.btndisable = true
+      }
+    },
+    togglebeizhu(){
+      this.showbeizhu = !this.showbeizhu
     },
     paynow(){
+      this.btndisable = true
+      if(!this.fee || this.fee <= 0){
+        this.btndisable = false
+        return wx.showToast({
+                title: '请输入大于0的正确金额', 
+                duration: 1800,
+                icon:'none',
+                mask:true
+              })
+      }
       var self = this
       wx.showLoading({
         title: 'Loading...',
       })
       // 统一下单 生成订单号
       qc.request({
-        url: conf.service.prepayUrl,
+        url: conf.service.custompayUrl,
         method:"POST",
         data:{
-          id: self.studentdetail.openid,
-          type:'student',
-          randomstr: self.studentdetail.randomstr
+          fee: parseFloat(self.fee),
+          beizhu: self.beizhu
         },
         success:async function(res) {
+          self.btndisable = false
           wx.hideLoading();
           if(res.data.success){
             let payres = await wxpay( res.data.data );
@@ -136,54 +95,34 @@ export default {
             if(payres.errMsg == 'requestPayment:ok'){
               // 前端订单支付完成 等待商家核验（等待微信通知回调） 
               wx.showToast({
-                title: '支付成功', 
+                title: '支付成功，已通知管理员', 
                 duration: 1500,
                 icon:'success',
                 mask:true,
-                complete:function(){
-                  setTimeout(function(){
-                    wx.navigateTo({
-                      url:"/pages/orderlist/main?index=0"
-                    })
-                  },1500)
-                }
               })
             }else{
               wx.showToast({
-                title: '支付失败',
+                title: '支付失败，请重新操作',
                  duration: 1500,
                   icon:'none',
-                  mask:true ,
-                  complete:function(){
-                    setTimeout(function(){
-                      wx.navigateTo({
-                        url:"/pages/orderlist/main?index=0"
-                      })
-                    },1500)
-                  }
+                  mask:true
               })
             }
           }else{
             wx.showToast({
-              title: "系统错误，请重新下单",
+              title: "系统错误，请重新操作",
               icon: 'none',
-              duration: 2000,
-              complete:function(){
-                setTimeout(function(){
-                  // wx.navigateBack({
-                  //   delta: 1
-                  // })
-                },2000)
-              }
+              duration: 2000
             })
           }
         },
         fail: function(err) {
+          self.btndisable = false
           // console.log(err);
           // console.log('支付流程结束，支付失败~')
           // wx.hideLoading();
           wx.showToast({
-              title: '下单失败,请检查网络', 
+              title: '操作失败,请检查网络', 
               duration: 2000,
               icon:'none',
               mask:true
@@ -192,15 +131,16 @@ export default {
           
         },
         complete:function(){
+          self.btndisable = false
           // wx.hideLoading();
         }
       });
     }
   },
   onLoad(){
-    wx.showShareMenu({
-      withShareTicket: true
-    })
+    // wx.showShareMenu({
+    //   withShareTicket: true
+    // })
   },
   onShow(){
     // 判断登录
@@ -226,8 +166,75 @@ export default {
   }
 };
 </script>
+<style>
+page {
+    background-color: rgb(237,237,237);
+    padding: 30rpx;
+    box-sizing: border-box;
+}
+</style>
 
 <style scoped lang='scss'>
 $maincolor: #377BF0;
+page {
+    background-color: rgb(237,237,237);
+}
+.container{
+  background: rgb(255,255,255);
+  padding: 30rpx;
+  .main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    .l{
+      font-size: 80rpx;
+      height: 120rpx;
+      // background-color: pink;
+      
+    }
+    .r{
+      font-size: 80rpx;
+      height: 120rpx;
+      // background-color: yellowgreen;
+      input{
+        // background-color: blue;
+        font-size: 80rpx;
+        // display: block;
+        height: 120rpx;
+      }
+    }
+  }
+  .spacing{
+    height: 1rpx;
+    margin: 15rpx 0 30rpx;
+    background-color: rgb(237,237,237);
+  }
+  .beizhu{
+    .up{
+      color: rgb(69,76,89);
+      font-size: 30rpx;
+    }
+    .down{
+      padding-bottom: 20rpx;
+      border-bottom: 1rpx solid rgb(237,237,237);
+      margin-bottom: 30rpx;
+      textarea{
+        border: 1rpx solid rgb(237,237,237);
+        width: 100%;
+        border-radius: 20rpx;
+        height: 200rpx;
+        font-size: 34rpx;
+      }
+    }
+  }
+  .btm{
+    margin-top: 40rpx;
+    margin-bottom: 100rpx;
+    .paybtnhover{
 
+    }
+  }
+
+}
 </style>

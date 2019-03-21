@@ -137,6 +137,21 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/wxsms',
+    component: Layout,
+    redirect: '/wxsms/index',
+    name: 'Wxsms',
+    meta: { title: '通知设置', icon: 'wxsms' },
+    children: [
+      {
+        path: 'index',
+        name: 'Wxsmsindex',
+        component: () => import('@/views/wxsms/index'),
+        meta: { title: '短信通知设置', icon: 'wxsms' }
+      }
+    ]
+  },
+  {
     path: 'minappdata',
     component: Layout,
     children: [

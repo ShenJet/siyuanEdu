@@ -73,9 +73,9 @@
           <span class="m">补课方式：</span>
           <span class="r">
             <checkbox-group name="teachtype" @change="teachtypechange">
-              <checkbox color="#377BF0" value="学生上老师家">学生去老师家</checkbox>
-              <checkbox color="#377BF0" value="老师上学生家">老师来学生家</checkbox>
-              <checkbox color="#377BF0" value="远程教学">远程视频教学</checkbox>
+              <checkbox color="#377BF0" value="学生上老师家" :checked='teachtype1checked'>学生去老师家</checkbox>
+              <checkbox color="#377BF0" value="老师上学生家":checked='teachtype2checked'>老师来学生家</checkbox>
+              <checkbox color="#377BF0" value="远程教学" :checked='teachtype3checked'>远程视频教学</checkbox>
             </checkbox-group>
           </span>
         </div>
@@ -84,9 +84,9 @@
           <span class="m">老师要求：</span>
           <span class="r" style="display:flex;flex-direction:row;">
             <radio-group name="teachersex">
-              <radio color="#377BF0" value="男">只找男老师</radio>
-              <radio color="#377BF0" value="女">只找女老师</radio>
-              <radio color="#377BF0" value="男或女">都可以</radio>
+              <radio color="#377BF0" value="男" :checked='teachersex1checked'>只找男老师</radio>
+              <radio color="#377BF0" value="女" :checked='teachersex2checked'>只找女老师</radio>
+              <radio color="#377BF0" value="男或女" :checked='teachersex3checked'>都可以</radio>
             </radio-group>
           </span>
         </div>
@@ -94,7 +94,7 @@
           <span class="l"></span>
           <span class="m">教龄要求：</span>
           <span class="r" style="display:flex;flex-direction:row;">至少
-            <input type="number" value="1" name="teachyear" style="text-align:center;">年
+            <input type="number" :value="teachyear" name="teachyear" style="text-align:center;">年
           </span>
         </div>
         <div class="item block place">
@@ -116,13 +116,13 @@
           <span class="m">可补课日：</span>
           <span class="r">
             <checkbox-group name="teachday">
-              <checkbox color="#377BF0" value="星期一">星期一</checkbox>
-              <checkbox color="#377BF0" value="星期二">星期二</checkbox>
-              <checkbox color="#377BF0" value="星期三">星期三</checkbox>
-              <checkbox color="#377BF0" value="星期四">星期四</checkbox>
-              <checkbox color="#377BF0" value="星期五">星期五</checkbox>
-              <checkbox color="#377BF0" value="星期六">星期六</checkbox>
-              <checkbox color="#377BF0" value="星期日">星期日</checkbox>
+              <checkbox color="#377BF0" value="星期一" :checked='teachday1checked'>星期一</checkbox>
+              <checkbox color="#377BF0" value="星期二" :checked='teachday2checked'>星期二</checkbox>
+              <checkbox color="#377BF0" value="星期三" :checked='teachday3checked'>星期三</checkbox>
+              <checkbox color="#377BF0" value="星期四" :checked='teachday4checked'>星期四</checkbox>
+              <checkbox color="#377BF0" value="星期五" :checked='teachday5checked'>星期五</checkbox>
+              <checkbox color="#377BF0" value="星期六" :checked='teachday6checked'>星期六</checkbox>
+              <checkbox color="#377BF0" value="星期日" :checked='teachday7checked'>星期日</checkbox>
             </checkbox-group>
           </span>
         </div>
@@ -133,14 +133,14 @@
             <picker
               mode="time"
               name="teachstarttime"
-              value="19:00"
+              :value="teachstarttime"
               @change="starttimechange"
             >{{teachstarttime}}</picker>
             <span>至</span>
             <picker
               mode="time"
               name="teachendtime"
-              value="20:00"
+              :value="teachendtime"
               @change="endtimechange"
             >{{teachendtime}}</picker>
           </span>
@@ -199,7 +199,7 @@
             <textarea
               name="gaikuang"
               type="text"
-              v-model="gaikuang"
+              v-model="form.gaikuang"
               placeholder="学员本科目的目前学习状况..."
             />
           </span>
@@ -211,7 +211,7 @@
             <textarea
               name="applydesc"
               type="text"
-              v-model="desc"
+              v-model="form.desc"
               placeholder="例:希望找一个怎样的老师..."
             />
           </span>
@@ -301,7 +301,21 @@ export default {
       imgurls: {
         1: "",
         2: ""
-      }
+      },
+      teachtype1checked:false,
+      teachtype2checked:false,
+      teachtype3checked:false,
+      teachday1checked: false,
+      teachday2checked: false,
+      teachday3checked: false,
+      teachday4checked: false,
+      teachday5checked: false,
+      teachday6checked: false,
+      teachday7checked: false,
+      teachersex1checked:false,
+      teachersex2checked:false,
+      teachersex3checked:false,
+      teachyear: ''
     };
   },
   components: {
@@ -622,7 +636,148 @@ export default {
         duration: 1800
       });
     }
-    this.form = this.globalData.editdata;
+    // this.form = this.globalData.editdata;
+
+    // 填充年级
+    var self = this;
+
+    this.grade = this.globalData.editdata.grade
+    // 填充教授科目
+    this.course = this.globalData.editdata.course
+    // 填充教授方式
+    if(this.globalData.editdata.teachtype){
+      var arr= []
+      if(typeof this.globalData.editdata.teachtype == 'string'){
+        arr = JSON.parse(this.globalData.editdata.teachtype)
+      }else if(typeof this.globalData.editdata.teachtype == 'object'){
+        arr = this.globalData.editdata.teachtype
+      }
+      arr.map(function(v, i){
+        if(v == '学生上老师家'){
+          self.teachtype1checked = true
+        }
+        if(v == '老师上学生家'){
+          self.teachtype2checked = true
+        }
+        if(v == '远程教学' || v == '远程视频教学' ){
+          self.teachtype3checked = true
+        }
+      })
+    }
+    // 填充老师性别
+    if(this.globalData.editdata.sex){
+      // teachersex1checked
+      switch (this.globalData.editdata.sex) {
+          case '男':
+             self.teachersex1checked = true
+            break;
+          case '女':
+             self.teachersex2checked = true
+            break;
+          case '男或女':
+             self.teachersex3checked = true
+            break;
+          default:
+            break;
+        }
+    }
+    // 填充教龄 teachyear
+    this.teachyear = this.globalData.editdata.teachyear
+
+    this.form.citylabel = this.globalData.editdata.citylabel
+    this.citylabel = this.globalData.editdata.citylabel
+    this.code = this.globalData.editdata.code
+    this.form.code = this.globalData.editdata.code
+    this.province = this.globalData.editdata.province
+    this.form.province = this.globalData.editdata.province
+    this.provincecode = this.globalData.editdata.provincecode
+    this.city = this.globalData.editdata.city
+    this.form.city = this.globalData.editdata.city
+    this.citycode = this.globalData.editdata.citycode
+    this.country = this.globalData.editdata.country
+    this.form.country = this.globalData.editdata.country
+    this.countrycode = this.globalData.editdata.countrycode 
+
+    this.longitude = this.globalData.editdata.longitude
+    this.form.longitude = this.globalData.editdata.longitude
+
+    this.latitude = this.globalData.editdata.latitude
+    this.form.latitude = this.globalData.editdata.latitude 
+
+    // 填充教授星期
+    if(this.globalData.editdata.teachday){
+      var arr1= []
+      if(typeof this.globalData.editdata.teachday == 'string'){
+        arr1 = JSON.parse(this.globalData.editdata.teachday)
+      }else if(typeof this.globalData.editdata.teachday == 'object'){
+        arr1 = this.globalData.editdata.teachday
+      }
+      console.log(arr1);
+      
+      arr1.map(function(v, i){
+        switch (v) {
+          case '星期一':
+             self.teachday1checked = true
+            break;
+          case '星期二':
+             self.teachday2checked = true
+            break;
+          case '星期三':
+             self.teachday3checked = true
+            break;
+          case '星期四':
+             self.teachday4checked = true
+            break;
+          case '星期五':
+             self.teachday5checked = true
+            break;
+          case '星期六':
+             self.teachday6checked = true
+            break;
+          case '星期日':
+             self.teachday7checked = true
+            break;
+          default:
+            break;
+        }
+      })
+    }
+    // 填充教授时间
+    if(this.globalData.editdata.teachstarttime){
+      self.teachstarttime = this.globalData.editdata.teachstarttime
+    }
+    if(this.globalData.editdata.teachendtime){
+      self.teachendtime = this.globalData.editdata.teachendtime
+    }
+    
+
+    // 填充自我描述
+    if(this.globalData.editdata.applydesc){
+      self.form.desc = this.globalData.editdata.applydesc
+      console.log(self.form.desc);
+      
+    }
+    // 填充概况
+    if(this.globalData.editdata.gaikuang){
+      self.form.gaikuang = this.globalData.editdata.gaikuang
+      // self.gaikuang = this.globalData.editdata.gaikuang
+    }
+
+    // 填充教学区域
+    if(this.globalData.editdata.teacharea){
+      if(this.globalData.editdata.teacharea && typeof this.globalData.editdata.teacharea == 'string'){
+        this.form.teachareaarr = JSON.parse(this.globalData.editdata.teacharea)
+        this.teacharea = JSON.parse(this.globalData.editdata.teacharea).join('-')
+      }
+      if(this.globalData.editdata.teacharea && typeof this.globalData.editdata.teacharea == 'object'){
+        this.form.teachareaarr = this.globalData.editdata.teacharea
+        this.teacharea = this.globalData.editdata.teacharea.join('-')
+      }
+    }
+
+
+
+
   }
 };
 </script>

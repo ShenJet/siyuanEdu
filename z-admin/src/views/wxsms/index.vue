@@ -69,17 +69,19 @@ export default {
   },
   methods: {
     getlist(){
+      this.listLoading = true
       var self = this
       axios.get('http://212.64.64.99:8888/admin/wxsmsuser')
       .then(function(res){
         console.log(res);
+        self.listLoading = false
         if(res.data.success){
           self.list = res.data.data
         }
       })
       .catch(function(err){
         console.log(err);
-        
+        self.listLoading = false
       })
     },
     addmodal(){
@@ -108,11 +110,11 @@ export default {
           name:self.name,
           phone:self.phone,
           rolename:self.rolename,
-          beizhu:self.beizhu,
+          beizhu:self.beizhu
         }
       )
       .then(res => {
-        this.listLoading = false
+        self.listLoading = false
         console.log(res);
         if(res.data.success){
           this.$message({
@@ -125,10 +127,10 @@ export default {
             message: "操作失败!"
           });
         }
-        
+        this.getlist()
       })
       .catch( err =>{
-        this.listLoading = false
+        self.listLoading = false
         console.log(err);
         this.$message({
           type: "warning",
@@ -157,12 +159,15 @@ export default {
     },
     delete(x){
       this.listLoading = true
-      axios.get(
-        `http://212.64.64.99:8888/admin/`,
-        x
+      axios.post(
+        `http://212.64.64.99:8888/admin/wxsmsuserdelete`,
+        {
+          name:x.name,
+          phone:x.phone
+        }
       )
       .then(res => {
-        this.listLoading = false
+        self.listLoading = false
         console.log(res);
         if(res.data.success){
           this.$message({
@@ -175,10 +180,10 @@ export default {
             message: "操作失败!"
           });
         }
-        
+        this.getlist()
       })
       .catch( err =>{
-        this.listLoading = false
+        self.listLoading = false
         console.log(err);
         this.$message({
           type: "warning",

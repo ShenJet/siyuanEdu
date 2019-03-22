@@ -95,4 +95,13 @@ router.get('/price', controllers.price)
 
 //-------------------------------
 
+// GET!!! admin 查询短信通知成员wxsmsuser
+router.get('/wxsmsuser', controllers.wxsmsuser)
+
+// GET!!! admin 添加短信通知成员wxsmsuser
+router.post('/wxsmsuseradd', controllers.wxsmsuseradd)
+
+// GET!!! admin 删除短信通知成员wxsmsuser
+router.post('/wxsmsuserdelete', controllers.wxsmsuserdelete)
+
 module.exports = router

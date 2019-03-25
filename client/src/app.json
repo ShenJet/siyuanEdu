@@ -1,6 +1,6 @@
 {
   "pages": [
-    
+    "pages/newsdetail/main",
     "pages/index/main",
     "pages/applyteacher/main",
     "pages/my/main",
@@ -23,7 +23,8 @@
     "pages/law_yinsibaohu/main",
     "pages/law_mianzeshengming/main",
     "pages/userinfo/main",
-    "pages/pay/main"
+    "pages/pay/main",
+    "pages/newslist/main"
   ],
   "usingComponents": {
       "i-button":         "/static/iview/button/index",

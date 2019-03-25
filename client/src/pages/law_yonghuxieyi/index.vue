@@ -76,13 +76,11 @@
 除非另行通知，本协议自2019年03月01日起生效。
     </div>
     <div class=space></div>
-    
     <i-load-more tip="已经到底了" :loading="false" />
 
   </div>
 </template>
 <script>
-
 
 export default {
   data() {

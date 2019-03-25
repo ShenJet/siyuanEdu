@@ -152,6 +152,21 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/newsrelease',
+    component: Layout,
+    redirect: '/newsrelease/index',
+    name: 'Newsrelease',
+    meta: { title: '新闻发布', icon: 'wxsms' },
+    children: [
+      {
+        path: 'index',
+        name: 'Newsrelease',
+        component: () => import('@/views/newsrelease/index'),
+        meta: { title: '新闻发布', icon: 'wxsms' }
+      }
+    ]
+  },
+  {
     path: 'minappdata',
     component: Layout,
     children: [

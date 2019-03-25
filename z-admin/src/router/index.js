@@ -62,7 +62,13 @@ export const constantRouterMap = [
         name: 'Teacherdetail',
         hidden: true,
         component: () => import('@/views/teacherdetail/index'),
-        meta: { title: '老师详情', icon: 'detail' }
+        meta: { title: '老师详情', icon: 'table' }
+      },
+      {
+        path: 'teachercreate',
+        name: 'Teachercreate',
+        component: () => import('@/views/teachercreate/index'),
+        meta: { title: '创建老师', icon: 'table' }
       }
     ]
   },
@@ -96,7 +102,13 @@ export const constantRouterMap = [
         name: 'Studentdetail',
         hidden: true,
         component: () => import('@/views/studentdetail/index'),
-        meta: { title: '学员详情', icon: 'detail' }
+        meta: { title: '学员详情', icon: 'tree' }
+      },
+      {
+        path: 'studentcreate',
+        name: 'Studentcreate',
+        component: () => import('@/views/studentcreate/index'),
+        meta: { title: '创建学员', icon: 'tree' }
       },
     ]
   },

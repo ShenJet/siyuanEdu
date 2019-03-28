@@ -13,7 +13,7 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-const HOST = process.env.HOST
+const HOST = process.env.HOST || 'localhost'
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {

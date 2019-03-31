@@ -10,8 +10,6 @@ const controllers = require('../controllers')
 
 const fs = require('fs')
 
-
-
 // 从 sdk 中取出中间件
 // 这里展示如何使用 Koa 中间件完成登录态的颁发与验证
 const { auth: { authorizationMiddleware, validationMiddleware } } = require('../qcloud')
@@ -19,7 +17,7 @@ const { auth: { authorizationMiddleware, validationMiddleware } } = require('../
 
 // --- 图片上传 Demo --- //
 // 图片上传接口，端可以直接将 url 填入 wx.uploadFile 中 /weapp/upload
-// router.post('/upload', validationMiddleware, controllers.upload)
+router.post('/upload', controllers.upload)
 
 // GET !!! 打开后台
 // router.get('/', controllers.home)

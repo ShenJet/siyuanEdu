@@ -1,9 +1,16 @@
 <template>
   <div class="page">
     <div class="main">
-      <div class="ordercon" v-for='(x,i) in newslist' :key="i" >
+      <!-- <div class="ordercon" v-for='(x,i) in newslist' :key="i" >
         <div>{{x.title}}</div>
-        <div>{{x.time}}</div>
+        <div>{{x.author}} {{x.time}}</div>
+      </div> -->
+      <div>
+        <i-newscard v-for='(x,i) in newslist' :key="i" @click="todetail(x.id)" :title="x.title" extra="查看详情" thumb="" >
+          <text slot="content">作者：{{x.author}}</text>
+          
+          <text slot="footer" style="padding-left:26rpx;">发布时间：{{x.time}}</text>
+        </i-newscard>
       </div>
       <div class="nothing" v-if='!newslist.length'>
         <i class="iconfont icon-quanbudingdan01"></i>
@@ -58,24 +65,28 @@ export default {
         }
       })
     },
-    todetail(x){
-      let url = `/pages/my/main?newsid=${x.id}`
+    todetail(id){
+      console.log('todetail');
+      
+      let url = `/pages/newsdetail/main?id=${id}`
       wx.navigateTo({
         url
       })
     },
-    created () {
+    
+    
+  },
+  created () {
 
-    },
-    onShow() {
-      
-    },
-    onLoad(){
+  },
+  async onShow() {
       this.getnewslist()
-    },
-    onPullDownRefresh(){
-      this.getnewslist()
-    }
+  },
+  onLoad(){
+    // this.getnewslist()
+  },
+  onPullDownRefresh(){
+    this.getnewslist()
   }
 }
 </script>

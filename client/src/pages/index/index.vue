@@ -8,7 +8,8 @@
       circular='true'>
       <block v-for="(x,i) in imgUrls" :key='i'>
         <swiper-item>
-          <a :href="x.url" open-type='switchTab'>
+          <!-- <a :href="x.url" open-type='switchTab'> -->
+          <a :href="x.url" @click="tonews">          
             <img  :src="x.src" class="slide-image"/>
           </a>
         </swiper-item>
@@ -128,6 +129,10 @@ export default {
   },
 
   methods: {
+    tonews(){
+      let url = '/pages/newslist/main'
+      wx.navigateTo({ url })
+    },
     toteachers(x){
       var url =`/pages/teachers/main`;
       this.globalData.coursename = x

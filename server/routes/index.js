@@ -114,6 +114,14 @@ router.post( '/userphoneupload', validationMiddleware, controllers.userphoneuplo
 // GET !!! 小程序用户查询是否填写了手机号
 router.get( '/confirmphone', validationMiddleware, controllers.confirmphone )
 
+// -------------
+
+// GET!!! 小程序 获取新闻列表
+router.get('/newslist', validationMiddleware, controllers.newslist)
+
+// GET!!! 小程序 获取新闻列表
+router.get('/newsdetail', validationMiddleware, controllers.newsdetail)
+
 
 
 module.exports = router

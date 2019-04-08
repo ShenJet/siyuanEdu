@@ -89,6 +89,12 @@ var config = {
 
         // confirmphone
         confirmphone: `${host}/weapp/confirmphone`,
+
+        // 获取新闻列表
+        newslistUrl: `${host}/weapp/newslist`,
+
+        // 获取新闻详情
+        newsdetailUrl: `${host}/weapp/newsdetail`,
     },
     mapkey:'NNWBZ-OSLKD-ABD4N-POSXK-QFOAZ-GZBWR'
 };

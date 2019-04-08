@@ -314,7 +314,7 @@
               </label>
               
               <label class="commentlabel">
-                <checkbox color="#377BF0" value="还想找Ta补课">还想找他补课</checkbox>
+                <checkbox color="#377BF0" value="还想找Ta补课">还想找Ta补课</checkbox>
               </label>
             </checkbox-group>
           </div>

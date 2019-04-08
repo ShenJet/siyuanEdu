@@ -6,16 +6,16 @@
       </div>
       <div class="view">
         <div class="r">
-          发布时间 {{newsdetail.time}} 次
+          作者:{{newsdetail.author}} 发布时间:{{newsdetail.time}} 
         </div>
       </div>
       <!-- <rich-text class="brdesc"> -->
         <!-- <p>请输入    内容...</p><p><strong>asdasd   asdasd</strong></p><p><strong style="color: rgb(250, 204, 204);">asdasdasdasd</strong></p><ol><li><strong style="color: rgb(250, 204, 204);">11123432sf</strong></li><li><strong style="color: rgb(250, 204, 204);">fsdfsdfsd</strong><img src="data:image/png;base64,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"></li><li><strong style="color: rgb(250, 204, 204);">dfgsdfgsdfg</strong></li></ol><p><strong style="color: rgb(0, 102, 204);"><u>asdasdasda</u></strong></p>
       -->
-        <div v-html="newsdetail.content"></div>
+      <div class="vhtml" v-html="newsdetail.content"></div>
       <!-- </rich-text> -->
     </div>
-    
+    <i-load-more tip="文章到底啦" :loading="false" />
   </div>
 </template>
 <script>
@@ -39,10 +39,9 @@ export default {
     getnewsdetail(){
       var self = this;
       qc.request({
-        url: conf.service.studentdetailUrl,
-        // method:"POST",
+        url: conf.service.newsdetailUrl,
         data:{
-          newsid: self.newsid
+          id: self.newsid
         },
         success:function(res) {
           wx.hideLoading()
@@ -63,7 +62,8 @@ export default {
     })
   },
   onShow(){
-    let newsid = this.$root.$mp.query.newsid
+    let newsid = this.$root.$mp.query.id
+    console.log(newsid);
     
     if( !newsid ){
       return wx.showToast({
@@ -164,12 +164,18 @@ swiper {
     justify-content: space-around;
     font-size: 32rpx;
     color: #c0c0c0;
+    margin-bottom: 20rpx;
     .l{
 
     }
     .r{
 
     }
+  }
+  .vhtml{
+    text-align: left;
+    text-indent: 2em;
+    font-size: 32rpx;
   }
   .title {
     font-size: 40rpx;

@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/newsdetail/main",
+    
     "pages/index/main",
+    "pages/newsdetail/main",
     "pages/applyteacher/main",
     "pages/my/main",
     "pages/myrelease/main",
@@ -29,6 +30,7 @@
   "usingComponents": {
       "i-button":         "/static/iview/button/index",
       "i-card":           "/static/iview/card/index",
+      "i-newscard":       "/static/iview/cardnews/index",
       "i-cardstudent":    "/static/iview/cardstudent/index",
       "i-cardteacher":    "/static/iview/cardteacher/index",
       "i-modal":          "/static/iview/modal/index",

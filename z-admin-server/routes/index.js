@@ -54,6 +54,8 @@ router.get('/teacherdetail', controllers.getteacherdetail)
 // GET !!! 恢复已删老师
 router.get('/teacherrecovery',  controllers.teacherrecovery)
 
+// POST !!! 管理员添加老师
+router.post('/adminaddteacher',  controllers.adminaddteacher)
 //-------------------------------
 // GET !!! 查询学员申请列表
 router.get('/studentapplylist', controllers.getstudentapply)
@@ -76,6 +78,8 @@ router.get('/studentdelete',  controllers.studentdelete)
 // GET !!! 恢复已删学员
 router.get('/studentrecovery',  controllers.studentrecovery)
 
+// POST !!! 管理员添加学员
+router.post('/adminaddstudent',  controllers.adminaddstudent)
 //-------------------------------
 // GET !!! 获取订单列表
 router.get('/ordersummary',  controllers.getordersummary)
@@ -96,10 +100,20 @@ router.get('/price', controllers.price)
 // GET!!! admin 查询短信通知成员wxsmsuser
 router.get('/wxsmsuser', controllers.wxsmsuser)
 
-// GET!!! admin 添加短信通知成员wxsmsuser
+// POST!!! admin 添加短信通知成员wxsmsuser
 router.post('/wxsmsuseradd', controllers.wxsmsuseradd)
 
 // GET!!! admin 删除短信通知成员wxsmsuser
 router.post('/wxsmsuserdelete', controllers.wxsmsuserdelete)
+
+//-------------------------------
+// POST!!! admin 发布新闻
+router.post('/newsrelease', controllers.newsrelease)
+
+// GET!!! 小程序 获取新闻列表
+router.post('/newslist', controllers.newslist)
+
+// GET!!! 小程序 获取新闻列表
+router.post('/newsdetail', controllers.newsdetail)
 
 module.exports = router

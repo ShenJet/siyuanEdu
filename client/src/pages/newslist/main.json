@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "我的发布"
+  "navigationBarTitleText": "新闻中心",
+  "enablePullDownRefresh": true
 }

@@ -2,43 +2,49 @@
   <div class="app-container">
     <h3>老师录入：</h3>
     <hr>
-    <el-form :model="info">
-      <!-- <el-form-item label="微信头像" :label-width="formLabelWidth">
+    <el-form :model="info" ref="info" :rules='rules'>
+      <!-- <el-form-item label="微信头像" :label-width="formLabelWidth" prop="name">
         <img :src="info.avatar" alt="" width='70'>
       </el-form-item> -->
-      <el-form-item label="姓名" :label-width="formLabelWidth">
+      <el-form-item label="虚构openId" :label-width="formLabelWidth" prop="openid">
+        <el-input v-model="info.openid" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
         <el-input v-model="info.name" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="手机号" :label-width="formLabelWidth">
+      <el-form-item label="手机号" :label-width="formLabelWidth" prop="phone">
         <el-input v-model="info.phone" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="性别" :label-width="formLabelWidth">
-        <el-input v-model="info.sex" auto-complete="off"></el-input>
+      <el-form-item label="性别" :label-width="formLabelWidth" prop="sex">
+        <el-radio-group v-model="info.sex" size="medium" @change='sexchange'>
+          <el-radio-button label="男"></el-radio-button>
+          <el-radio-button label="女"></el-radio-button>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item label="目前身份" :label-width="formLabelWidth">
-        <el-radio-group v-model="xueli" size="medium" @change='rolechange'>
+      <el-form-item label="目前身份" :label-width="formLabelWidth" prop="role">
+        <el-radio-group v-model="info.role" size="medium" @change='rolechange'>
           <el-radio-button v-for="(x,i) in rolearr" :key='i' :label="x"></el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="最高学历" :label-width="formLabelWidth">
-        <el-radio-group v-model="xueli" size="medium" @change='xuelichange'>
+      <el-form-item label="最高学历" :label-width="formLabelWidth" prop="xueli">
+        <el-radio-group v-model="info.xueli" size="medium" @change='xuelichange'>
           <el-radio-button label="大专"></el-radio-button>
           <el-radio-button label="本科"></el-radio-button>
           <el-radio-button label="硕士"></el-radio-button>
           <el-radio-button label="博士"></el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="毕业院校" :label-width="formLabelWidth">
+      <el-form-item label="毕业院校" :label-width="formLabelWidth" prop="school">
         <el-input v-model="info.school" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="所学专业" :label-width="formLabelWidth">
+      <el-form-item label="所学专业" :label-width="formLabelWidth" prop="major">
         <el-input v-model="info.major" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="毕业年份" :label-width="formLabelWidth">
+      <el-form-item label="毕业年份" :label-width="formLabelWidth" prop="graduateyear">
         <el-input v-model="info.graduateyear" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="教授科目" :label-width="formLabelWidth">
-        <el-checkbox-group v-model="course" size="small">
+      <el-form-item label="教授科目" :label-width="formLabelWidth" prop="course">
+        <el-checkbox-group v-model="info.course" size="small" @change='coursechange'>
           <div v-for="(x,i) in coursese" :key="i">
             <div><span style="font-size:20px;background:#000;color:#fff;">{{x.key}}</span></div>
             <div style="padding-left:20px;">
@@ -49,30 +55,37 @@
           </div>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="教授费用(元/时)" :label-width="formLabelWidth">
-        <el-input v-model="info.price" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="教授方式" :label-width="formLabelWidth">
-        <el-checkbox-group v-model="teachtype" size="small">
+      <el-form-item label="教授方式" :label-width="formLabelWidth" prop="teachtype">
+        <el-checkbox-group v-model="info.teachtype" size="small" @change='teachtypechange'>
           <el-checkbox-button label="学生上老师家">学生上老师家</el-checkbox-button>
           <el-checkbox-button label="老师上学生家">老师上学生家</el-checkbox-button>
           <el-checkbox-button label="远程视频教学">远程视频教学</el-checkbox-button>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="教学经验(年)" :label-width="formLabelWidth">
+      <el-form-item label="教学经验(年)" :label-width="formLabelWidth" prop="teachyear">
         <el-input v-model="info.teachyear" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="常住地点" :label-width="formLabelWidth">
+      <el-form-item label="常住地点" :label-width="formLabelWidth" prop="citylabel">
         <el-input v-model="info.citylabel" auto-complete="off"></el-input>
+        <a style="color:#409EFF" href="http://api.map.baidu.com/lbsapi/getpoint/index.html" target="_blank">>点击前往百度地图坐标拾取系统<</a>
       </el-form-item>
-      <el-form-item label="常住小区" :label-width="formLabelWidth">
+      <el-form-item label="常住地点经度" :label-width="formLabelWidth" prop="longitude">
+        <el-input v-model="info.longitude" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="常住地点纬度" :label-width="formLabelWidth" prop="latitude">
+        <el-input v-model="info.latitude" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="常住小区" :label-width="formLabelWidth" prop="community">
         <el-input v-model="info.community" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="教授区域" :label-width="formLabelWidth">
-        <el-tag class='eltag' style='margin-right:12px;' v-for="(x, k) in info.teacharea" :key='k'>{{x}}</el-tag>
+      <el-form-item label="教授区域" :label-width="formLabelWidth" prop="province">
+        <!-- <el-tag class='eltag' style='margin-right:12px;' v-for="(x, k) in info.teacharea" :key='k'>{{x}}</el-tag> -->
+        <el-input v-model="info.province" auto-complete="off" style="width:100px" prop="province" placeholder="江苏省"></el-input> , 
+        <el-input v-model="info.city" auto-complete="off" style="width:100px" prop="city" placeholder="苏州市"></el-input>  , 
+        <el-input v-model="info.country" auto-complete="off" style="width:100px" prop="country" placeholder="工业园区"></el-input> 
       </el-form-item>
-      <el-form-item label="可教授日" :label-width="formLabelWidth">
-        <el-checkbox-group v-model="teachday" size="small">
+      <el-form-item label="可教授日" :label-width="formLabelWidth" prop="teachday">
+        <el-checkbox-group v-model="info.teachday" size="small" @change='teachdaychange'>
           <el-checkbox-button label="星期一">星期一</el-checkbox-button>
           <el-checkbox-button label="星期二">星期二</el-checkbox-button>
           <el-checkbox-button label="星期三">星期三</el-checkbox-button>
@@ -82,14 +95,36 @@
           <el-checkbox-button label="星期日">星期日</el-checkbox-button>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="教学时间段" :label-width="formLabelWidth">
-        <el-input style="width:200px;" v-model="info.teachstarttime" auto-complete="off"></el-input>
-        至 <el-input style="width:200px;" v-model="info.teachendtime" auto-complete="off"></el-input>
+      <el-form-item label="教学时间段" :label-width="formLabelWidth" prop="teachstarttime">
+        <!-- <el-input style="width:200px;" v-model="info.teachstarttime" auto-complete="off" prop="teachstarttime"></el-input>
+        至 
+        <el-input style="width:200px;" v-model="info.teachendtime" auto-complete="off" prop="teachendtime"></el-input> -->
+        <el-time-select
+          placeholder="起始时间"
+          v-model="teachstarttime"
+          :picker-options="{
+            start: '01:00',
+            step: '01:00',
+            end: '24:00'
+          }">
+        </el-time-select>
+        至
+        <el-time-select
+          placeholder="结束时间"
+          v-model="teachendtime"
+          :picker-options="{
+            start: '01:00',
+            step: '01:00',
+            end: '24:00',
+            minTime: teachstarttime
+          }">
+        </el-time-select>
+
       </el-form-item>
-      <el-form-item label="课时费" :label-width="formLabelWidth">
+      <el-form-item label="课时费" :label-width="formLabelWidth" prop="price">
         <el-input v-model="info.price" auto-complete="off" style='width:200px'></el-input> (元/小时)
       </el-form-item>
-      <el-form-item label="身份证号码" :label-width="formLabelWidth">
+      <el-form-item label="身份证号码" :label-width="formLabelWidth" prop="idno">
         <el-input v-model="info.idno" style="width:300px;" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="身份证正面" :label-width="formLabelWidth">
@@ -97,13 +132,14 @@
           <el-upload
             class="upload-demo"
             :action="uploadurl"
-            :on-preview="handlePreview(1)"
-            :on-remove="handleRemove(1)"
+            :on-preview="handlePreview1"
+            :on-remove="handleRemove1"
             :on-success="handlesuccess1"
             :on-exceed="handleexceed"
             :on-error="handleerr"
             :file-list="fileList1"
             :limit="imglimit"
+            accept='image/*'
             list-type="picture">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -115,13 +151,14 @@
           <el-upload
             class="upload-demo"
             :action="uploadurl"
-            :on-preview="handlePreview(2)"
-            :on-remove="handleRemove(2)"
+            :on-preview="handlePreview2"
+            :on-remove="handleRemove2"
             :on-success="handlesuccess2"
             :on-exceed="handleexceed"
             :on-error="handleerr"
             :file-list="fileList2"
             :limit="imglimit"
+            accept='image/*'
             list-type="picture">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -133,31 +170,40 @@
           <el-upload
             class="upload-demo"
             :action="uploadurl"
-            :on-preview="handlePreview(3)"
-            :on-remove="handleRemove(3)"
+            :on-preview="handlePreview3"
+            :on-remove="handleRemove3"
             :on-success="handlesuccess3"
             :on-exceed="handleexceed"
             :on-error="handleerr"
             :file-list="fileList3"
             :limit="imglimit"
+            accept='image/*'
             list-type="picture">
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="学员评价" :label-width="formLabelWidth">
-        <el-tag class='eltag' style='margin-right:12px;' v-for="(x, k) in info.comment" :key='k'>{{x}}</el-tag>
-        <!-- <div>{{info.comment}}</div> -->
+      <el-form-item label="学员评价" :label-width="formLabelWidth" prop="comment">
+        <el-checkbox-group v-model="info.comment" size="small" @change='commentchange'>
+          <div style="padding-left:20px;">
+            <el-checkbox-button v-for="(x,k) in comment" :key="k" :label="x">
+              {{x}}
+            </el-checkbox-button>
+          </div>
+        </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="个人介绍" :label-width="formLabelWidth">
+      <el-form-item label="个人介绍" :label-width="formLabelWidth" prop="applydesc">
         <textarea name="" id="" cols="100" rows="10" v-model='info.applydesc'></textarea>
       </el-form-item>
+      <div class="footer">
+        <el-form-item prop="name">
+        <el-button type="primary" @click="addconfirmmodal('info')">确定录入</el-button>
+        </el-form-item>
+      </div>
     </el-form>
     <hr>
-    <div class="footer" v-show="info.auditstate == 0">
-      <el-button type="primary" @click="passmodal">确定录入</el-button>
-    </div>
+    
   </div>
 </template>
 
@@ -167,7 +213,114 @@ import axios from "axios";
 export default {
   data() {
     return {
-      info: {},
+      info: {
+        openid:'以xuni开头',
+        name:"",
+        phone:"",
+        sex:"",
+        role:"",
+        xueli:"",
+        school:"",
+        major:"",
+        graduateyear:"",
+        course: [],
+        price:'',
+        teachtype:[],
+        teachyear:'',
+        citylabel:'', // 地址
+        longitude:'',
+        latitude:'',
+        community:'', // 小区
+        province:'',
+        city:'',
+        country:'',
+
+        teachday:[],
+        teachstarttime:'01:00',
+        teachendtime:'02:00', 
+
+        idno:'',
+
+        comment:[],
+
+        applydesc:''
+      },
+      rules:{
+        name: [
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { min: 11, max: 11, message: '长度为11个字符', trigger: 'blur' }
+        ],
+        sex: [
+          { required: true, message: '请选择性别', trigger: 'change' }
+        ],
+        role: [
+          { required: true, message: '请选择角色', trigger: 'change' }
+        ],
+        xueli: [
+          { required: true, message: '请选择学历', trigger: 'change' }
+        ],
+        school: [
+          { required: true, message: '请填写毕业院校', trigger: 'blur' }
+        ],
+        major: [
+          { required: true, message: '请填写所学专业', trigger: 'blur' }
+        ],
+        graduateyear: [
+          { required: true, message: '请填写毕业年份', trigger: 'blur' }
+        ],
+        course: [
+          { required: true, message: '请选择教授课程', trigger: 'change' }
+        ],
+        price: [
+          { required: true, message: '请填写课时费', trigger: 'blur' }
+        ],
+        teachtype: [
+          { required: true, message: '请选择教授方式', trigger: 'blur' }
+        ],
+        teachyear: [
+          { required: true, message: '请填写教龄', trigger: 'blur' }
+        ],
+        citylabel: [
+          { required: true, message: '请填写常住地点', trigger: 'blur' }
+        ],
+        longitude: [
+          { required: true, message: '请填写地点经度', trigger: 'blur' }
+        ],
+        latitude: [
+          { required: true, message: '请填写地点纬度', trigger: 'blur' }
+        ],
+        community: [
+          { required: true, message: '请填写常住小区', trigger: 'blur' }
+        ],
+        province: [
+          { required: true, message: '请填写省份', trigger: 'blur' }
+        ],
+        city: [
+          { required: true, message: '请填写城市', trigger: 'blur' }
+        ],
+        country: [
+          { required: true, message: '请填写区县', trigger: 'blur' }
+        ],
+        teachday: [
+          { required: true, message: '请选择教学时间', trigger: 'change' }
+        ],
+        teachstarttime :[
+          { required: true, message: '请填写开始时间', trigger: 'blur' }
+        ],
+        teachendtime :[
+          { required: true, message: '请填写结束时间', trigger: 'blur' }
+        ],
+        idno: [
+          { required: true, message: '请填写身份证号码', trigger: 'blur' }
+        ],
+        comment: [
+          { required: true, message: '请选择学员评价', trigger: 'change' }
+        ],
+      },
       formLabelWidth: '120px',
       deg1: 0,
       deg2: 0,
@@ -180,7 +333,7 @@ export default {
       idcard2:'',
       idcard3:'',
       imglimit: 1,
-      
+      sex:'',
       xueliarr: ["大专", "本科", "硕士", "博士"],
       xueli: "",
       graduateyear: "",
@@ -190,8 +343,7 @@ export default {
         "专职初中老师",
         "专职高中老师",
         "专职艺术老师",
-        "兼职大学生",
-        "其他"
+        "兼职大学生"
       ],
       role: "",
       school: "",
@@ -242,12 +394,35 @@ export default {
       teacharea: "",
       teachstarttime: "开始时间",
       teachendtime: "结束时间",
+      comment:['认真负责','幽默风趣','低调内敛','耐心指导','一丝不苟','宽容大度','教学大咖','内容丰富',
+      '知识新颖','很有成效','平易近人','和善可亲','还想找Ta补课'],
+      
     };
   },
   created() {
     
   },
   methods: {
+    commentchange(x){
+      console.log(x);
+      
+    },
+    coursechange(x){
+      console.log(x);
+      
+    },
+    teachtypechange(x){
+      console.log(x);
+      
+    },
+    teachdaychange(x){
+      console.log(x);
+      
+    },
+    sexchange(x){
+      console.log(x);
+      this.sex = x
+    },
     rolechange(x){
       console.log(x);
       this.role = x
@@ -271,6 +446,7 @@ export default {
     handlesuccess1(x,fileList){
       console.log(x,fileList);
       this.idcard1 = x.data.imgUrl
+      this.info.idcard1 = x.data.imgUrl
       this.$message({
         type:'success',
         message:"上传成功！"
@@ -278,7 +454,9 @@ export default {
     },
     handlesuccess2(x,fileList){
       console.log(x,fileList);
-      this.idcard1 = x.data.imgUrl
+      this.idcard2 = x.data.imgUrl
+      this.info.idcard2 = x.data.imgUrl
+
       this.$message({
         type:'success',
         message:"上传成功！"
@@ -286,26 +464,39 @@ export default {
     },
     handlesuccess3(x,fileList){
       console.log(x,fileList);
-      this.idcard1 = x.data.imgUrl
+      this.idcard3 = x.data.imgUrl
+      this.info.idcard3 = x.data.imgUrl
       this.$message({
         type:'success',
         message:"上传成功！"
       })
     },
-    handlePreview(file, fileList, x){
+    handlePreview1(file, fileList, x){
       console.log(file, fileList, x);          
     },
-    handleRemove(file, x){
+    handlePreview2(file, fileList, x){
+      console.log(file, fileList, x);          
+    },
+    handlePreview3(file, fileList, x){
+      console.log(file, fileList, x);          
+    },
+    handleRemove1(file, x){
       console.log(file, x);
     },
-    passmodal(x) {
-      this.$confirm("此操作将通过该老师的申请, 是否继续?", "提示", {
-        confirmButtonText: "确定通过",
+    handleRemove2(file, x){
+      console.log(file, x);
+    },
+    handleRemove3(file, x){
+      console.log(file, x);
+    },
+    addconfirmmodal(x) {
+      this.$confirm("确定添加该老师?", "提示", {
+        confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.pass()
+          this.formvalidate(x)
         })
         .catch(() => {
           this.$message({
@@ -314,9 +505,26 @@ export default {
           });
         });
     },
-    pass(){
-      axios.get(
-        `http://212.64.64.99:8888/admin/teacherapplyaudit?openid=${this.info.openid}&type=pass`
+    formvalidate(x){
+      console.log(x);
+      
+      // 校验数据
+      this.$refs[x].validate((valid) => {
+        if (valid) {
+          this.add()
+        } else {
+          console.log('error submit!!');
+          return this.$message({
+            type: "info",
+            message: "表单不完整，请检查"
+          }); 
+        }
+      })
+    },
+    add(){
+      axios.post(
+        `http://212.64.64.99:8888/admin/adminaddteacher`,
+        {...this.info}
       )
       .then(res => {
         console.log(res);
@@ -340,7 +548,7 @@ export default {
           message: "操作失败!请检查网络"
         });
       })
-    },
+    }
   }
 };
 </script>

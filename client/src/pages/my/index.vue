@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <!-- <open-data type="userAvatarUrl"></open-data>
-    <open-data type="userNickName"></open-data>-->
     <div class="mainpart top">
       <div class="l">
         <img :src="userInfo.avatarUrl" alt="原始头像" mode="widthFix">
@@ -160,7 +158,11 @@ export default {
       // console.log('session：',session);
 
       let checkscoperes = await checkscope('scope.userInfo')
-      // console.log( 'my checkscoperes' ,checkscoperes);
+      console.log( 'my checkscoperes' ,checkscoperes);
+      
+      if(!checkscoperes){
+        return this.showModel("授权提示", '您拒绝了授权');
+      }
       
       if ( session ){
         // console.log('二次登录');

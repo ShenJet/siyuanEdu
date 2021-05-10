@@ -21,7 +21,7 @@
     "koa-session": "^5.10.1",
     "koa-static": "^5.0.0",
     "koa-xml-body": "^2.1.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.21",
     "mkdir-p": "0.0.7",
     "mysql": "^2.14.1",
     "pify": "^2.3.0",
